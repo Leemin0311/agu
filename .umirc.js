@@ -1,4 +1,6 @@
 // ref: https://umijs.org/config/
+import path from 'path';
+
 export default {
     treeShaking: true,
     plugins: [
@@ -27,4 +29,9 @@ export default {
             },
         ],
     ],
+    alias: {
+        '@utils': path.resolve(__dirname, 'src/utils/'),
+        '@components': path.resolve(__dirname, 'src/components/'),
+        '@assets': path.resolve(__dirname, 'src/assets'),
+    },
 };

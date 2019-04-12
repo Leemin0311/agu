@@ -1,45 +1,47 @@
 {
   "private": true,
   "scripts": {
-    "start": "umi dev",
+    "start": "cross-env API_HOST=/ umi dev",
     "build": "umi build",
     "test": "umi test",
-    
     "lint": "eslint --ext .js src mock tests",
-    
-    
     "precommit": "lint-staged"
   },
   "dependencies": {
-    
+    "antd-mobile": "^2.2.11",
     "dva": "^2.5.0-beta.2",
-    
-    
-    "antd": "^3.15.0",
-    
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "umi-request": "^1.0.6"
   },
   "devDependencies": {
-    
+    "axios": "^0.18.0",
     "babel-eslint": "^9.0.0",
+    "cross-env": "^5.2.0",
     "eslint": "^5.4.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-prettier": "^3.0.1",
     "eslint-config-umi": "^1.4.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-compat": "^2.6.2",
     "eslint-plugin-flowtype": "^2.50.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-markdown": "^1.0.0-beta.6",
     "eslint-plugin-react": "^7.11.1",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.2",
+    "mockjs": "^1.0.1-beta3",
     "react-test-renderer": "^16.7.0",
-    
+    "roadhog-api-doc": "^1.1.2",
     "umi": "^2.6.3",
     "umi-plugin-react": "^1.6.0"
-    
-    },
+  },
   "lint-staged": {
-    
-    "*.{js,jsx}": ["eslint --fix", "git add"]
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "engines": {
     "node": ">=8.0.0"
