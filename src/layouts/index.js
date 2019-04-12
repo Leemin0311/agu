@@ -7,6 +7,7 @@ import styles from './index.less';
 
 @connect(({ global, loading }) => ({
     user: global.user,
+    loading: loading.effects['global/getUser'] || loading.effects['global/auth']
 }))
 class BasicLayout extends React.PureComponent {
     constructor(props) {
@@ -22,12 +23,13 @@ class BasicLayout extends React.PureComponent {
         const {
             children,
             location: { pathname },
+            loading,
         } = this.props;
 
         return (
             <DocumentTitle title={this.getPageTitle(pathname)}>
                 <>
-                    <div className={styles.content}>{children}</div>
+                    {loading ? null : <div className={styles.content}>{children}</div>}
                     <Footer className={styles.footer} pathname={pathname} />
                 </>
             </DocumentTitle>
