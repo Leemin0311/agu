@@ -12,52 +12,51 @@ export default {
     },
     effects: {
         *auth({ payload }, { call, put }) {
-
             const rst = yield call(auth);
 
             const { authUrl, categories, tips } = rst.data;
 
-            if(authUrl && !sessionStorage.authed) {
-                // window.location.href = rst.data.authUrl;
+            if (authUrl && !sessionStorage.authed) {
+                if (/wechat/.test(navigator.userAgent)) window.location.href = rst.data.authUrl;
                 sessionStorage.authed = true;
             } else {
                 yield put({
-                    type: 'getUser'
+                    type: 'getUser',
                 });
                 yield put({
                     type: 'classcenter/setData',
                     payload: {
                         categories,
                         tips,
-                        selectedCate: (categories[0] || {}).id
-                    }
+                        selectedCate: (categories[0] || {}).id,
+                    },
                 });
             }
         },
         *getUser(action, { put, call, select }) {
             const { user } = yield select(state => state.global);
 
-            if(user) {
-                return ;
+            if (user) {
+                return;
             }
 
             const rst = yield call(getUser);
 
-            if(!rst.error) {
+            if (!rst.error) {
                 yield put({
                     type: 'setData',
                     payload: {
-                        user: rst.data
-                    }
+                        user: rst.data,
+                    },
                 });
             }
-        }
+        },
     },
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
                 dispatch({
-                    type: 'auth'
+                    type: 'auth',
                 });
             });
         },
