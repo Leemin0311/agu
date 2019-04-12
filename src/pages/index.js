@@ -1,5 +1,5 @@
-import styles from './index.css';
-import { formatMessage } from 'umi-plugin-locale';
+import React from 'react';
+import styles from './index.less';
 
 export default function() {
     return (
@@ -11,7 +11,7 @@ export default function() {
                 </li>
                 <li>
                     <a href="https://umijs.org/guide/getting-started.html">
-                        {formatMessage({ id: 'index.start' })}
+                        start
                     </a>
                 </li>
             </ul>
