@@ -1,10 +1,3 @@
-/*
- * @author songchengen
- * @date   2018/9/21
- *
- * @description 全局model，保存系统级数据，如当前用户信息
- */
-
 import { auth, getUser } from '../services/global';
 
 export default {
@@ -19,20 +12,35 @@ export default {
     },
     effects: {
         *auth({ payload }, { call, put }) {
-            if(!sessionStorage.authed) {
-                const rst = yield call(auth);
 
-                if(rst.data.authUrl && !sessionStorage.authed) {
-                    window.location.href = rst.data.authUrl;
-                    sessionStorage.authed = true;
-                } else {
-                    yield put({
-                        type: 'getUser'
-                    });
-                }
+            const rst = yield call(auth);
+
+            const { authUrl, categories, tips } = rst.data;
+
+            if(authUrl && !sessionStorage.authed) {
+                // window.location.href = rst.data.authUrl;
+                sessionStorage.authed = true;
+            } else {
+                yield put({
+                    type: 'getUser'
+                });
+                yield put({
+                    type: 'classcenter/setData',
+                    payload: {
+                        categories,
+                        tips,
+                        selectedCate: (categories[0] || {}).id
+                    }
+                });
             }
         },
-        *getUser(action, { put, call }) {
+        *getUser(action, { put, call, select }) {
+            const { user } = yield select(state => state.global);
+
+            if(user) {
+                return ;
+            }
+
             const rst = yield call(getUser);
 
             if(!rst.error) {
