@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="34px" viewBox="0 0 48 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Tab Bar/Icons/Active/个人中心</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Tab-Bar/Icons/Active/个人中心" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Item-2" transform="translate(13.000000, 6.000000)">
+            <g id="Icon">
+                <circle id="Oval" stroke="#343A3E" stroke-width="1.5" fill="#FFDD56" cx="11" cy="11" r="11.75"></circle>
+                <g id="Group" transform="translate(10.333413, 9.504743) rotate(-15.000000) translate(-10.333413, -9.504743) translate(3.833413, 8.004743)" fill="#343A3E">
+                    <circle id="Oval" cx="1.375" cy="1.375" r="1.375"></circle>
+                    <circle id="Oval-Copy" cx="11.4583333" cy="1.375" r="1.375"></circle>
+                </g>
+                <path d="M10.1160634,15.4352343 C10.7799031,15.9161924 11.6316522,16.2052106 12.5604728,16.2052106 C13.5622259,16.2052106 14.4743287,15.869022 15.1577301,15.3184341" id="Oval-2" stroke="#343A3E" stroke-linecap="round" stroke-linejoin="round" transform="translate(12.636897, 15.761822) rotate(-15.000000) translate(-12.636897, -15.761822) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

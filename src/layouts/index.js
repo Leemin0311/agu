@@ -1,26 +1,38 @@
 import React from 'react';
-import { configWxJs } from '@utils/wx';
-import { jsConfig } from '../services/global';
+import DocumentTitle from 'react-document-title';
+import memoizeOne from 'memoize-one';
+import { connect } from 'dva';
+import Footer from './Footer';
 import styles from './index.less';
 
-export default class BasicLayout extends React.Component {
-    async componentWillMount() {
-        const rst = await jsConfig();
-
-        configWxJs(rst.data, () => {
-            console.info('success');
-        });
+@connect(({ global, loading }) => ({
+    user: global.user,
+}))
+class BasicLayout extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.getPageTitle = memoizeOne(this.getPageTitle);
     }
 
+    getPageTitle = pathname => {
+        return `${pathname} - 阿古早教`;
+    };
+
     render() {
-        const { children } = this.props;
+        const {
+            children,
+            location: { pathname },
+        } = this.props;
 
         return (
-            <div className={styles.normal}>
-                <h1 className={styles.title}>Yay! Welcome to umi!</h1>
-                {children}
-            </div>
+            <DocumentTitle title={this.getPageTitle(pathname)}>
+                <>
+                    <div className={styles.content}>{children}</div>
+                    <Footer className={styles.footer} pathname={pathname} />
+                </>
+            </DocumentTitle>
         );
     }
 }
 
+export default BasicLayout;

@@ -1,5 +1,13 @@
-html {
-    font-size: 100px;
+*,
+*::before,
+*::after {
+    box-sizing: border-box; // 1
+    outline: none;
+}
+
+:focus {
+    outline: none !important;
+    outline-offset: unset !important;
 }
 
 html,
