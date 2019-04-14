@@ -3,10 +3,11 @@ import { getCourseList } from './service';
 export default {
     namespace: 'classcenter',
     state: {
-        categoried: [],
+        categories: [],
         tips: [],
         selectedCate: null,
-        currentPage: 1
+        currentPage: 1,
+        courses: []
     },
     reducers: {
         setData(state, { payload }) {
@@ -15,24 +16,31 @@ export default {
     },
     effects: {
         *getCourseList({ payload }, { select, call, put, take }) {
-            yield take('global/auth/@@end');
             const { selectedCate, currentPage } = yield select(state => state.classcenter);
 
             const rst = yield call(getCourseList, selectedCate, currentPage);
 
             if(!rst.error) {
-                const { total, page ,size, content } = rst.data;
+                const { content } = rst.data;
 
-                console.info(total, page, size, content);
+                yield put({
+                    type: 'setData',
+                    payload: {
+                        courses: content
+                    }
+                });
             }
         },
+        *initialize(action, { put, take }) {
+            yield put('getCourseList');
+        }
     },
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
                 if(pathname==='/classcenter') {
                     dispatch({
-                        type: 'getCourseList'
+                        type: 'initialize',
                     });
                 }
             });

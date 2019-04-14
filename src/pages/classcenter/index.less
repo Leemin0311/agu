@@ -1,0 +1,38 @@
+.container{
+    height: 100%;
+
+    .tabBar {
+        height: 0.8rem;
+
+        .tabTitle {
+            font-size:0.3rem;
+            font-family:PingFangSC-Regular;
+            font-weight:400;
+            color:rgba(106,106,106,1);
+        }
+    
+        .tabSelected {
+            font-size:0.36rem;
+            font-family:PingFangSC-Medium;
+            font-weight:500;
+            color:rgba(52,58,62,1);
+    
+            .underline {
+                height: 0.06rem;
+                background: linear-gradient(90deg,rgba(254,227,0,1) 0%,rgba(253,199,13,1) 100%);
+    
+            }
+        }
+    
+        :global{
+            .am-tabs-default-bar-underline {
+                border: none;
+            }
+        }
+    }
+
+    .content {
+        height: calc(~"100%" - 0.8rem);
+        overflow: auto;
+    }
+}
