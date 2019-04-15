@@ -5,6 +5,7 @@ import Media from '@components/Media';
 import Countdown from '@components/Countdown';
 import { formatPrice } from '@utils/tools';
 import moment from 'moment';
+import classNames from 'classnames';
 import styles from './index.less';
 
 @connect(({ coursedetail, loading }) => ({
@@ -12,6 +13,10 @@ import styles from './index.less';
     loading: loading.effects['coursedetail/getDetail'],
 }))
 class CourseDetail extends React.Component {
+    state = {
+        activeTab: 'detail'
+    }
+
     componentWillMount() {
         const {
             dispatch,
@@ -26,6 +31,12 @@ class CourseDetail extends React.Component {
                 id,
             },
         });
+    }
+
+    componentDidUpdate() {
+        this.detailTop = (this.detail || {}).offsetTop;
+        this.outlineTop = (this.outline || {}).offsetTop;
+        this.noteTop = (this.note || {}).offsetTop;
     }
 
     renderHead = () => {
@@ -149,9 +160,27 @@ class CourseDetail extends React.Component {
 
         return <>{price}</>;
     };
+    
+    renderTab = ({ title, key }) => {
+        const { activeTab } = this.state;
+        const selected = key === activeTab;
+
+        return (
+            <div
+                className={classNames({
+                    [styles.tabTitle]: true,
+                    [styles.tabSelected]: selected,
+                })}
+            >
+                {<span className={styles.text}>{title}</span>}
+                {selected && <div className={styles.underline} />}
+            </div>
+        );
+    };
 
     renderContent = () => {
         const { detailMedia = [], outlineMedia = [], noteMedia = [] } = this.props;
+        const { activeTab } = this.state;
 
         return (
             <div className={styles.content}>
@@ -164,11 +193,14 @@ class CourseDetail extends React.Component {
                         ]}
                         initialPage={0}
                         animated={false}
-                        useOnPan={false}
+                        useOnPan
                         onTabClick={this.changeTab}
+                        swipeable
+                        page={activeTab}
+                        renderTab={this.renderTab}
                     />
                 </div>
-                <div className={styles.detail} ref={detail => this.detail = detail}>
+                <div className={styles.detail} ref={detail => (this.detail = detail)}>
                     {detailMedia.map(({ type, url, thumbnail }, index) => (
                         <Media
                             type={type}
@@ -179,7 +211,7 @@ class CourseDetail extends React.Component {
                         />
                     ))}
                 </div>
-                <div className={styles.outline} ref={outline => this.outline = outline}>
+                <div className={styles.outline} ref={outline => (this.outline = outline)}>
                     {outlineMedia.map(({ type, url, thumbnail }, index) => (
                         <Media
                             type={type}
@@ -190,7 +222,7 @@ class CourseDetail extends React.Component {
                         />
                     ))}
                 </div>
-                <div className={styles.note} ref={note => this.note = note}>
+                <div className={styles.note} ref={note => (this.note = note)}>
                     {noteMedia.map(({ type, url, thumbnail }, index) => (
                         <Media
                             type={type}
@@ -205,19 +237,65 @@ class CourseDetail extends React.Component {
         );
     };
 
+    renderFooter = () => {
+        const { price, groupPrice } = this.props;
+
+        return (
+            <div className={styles.footer}>
+                <span className={styles.vip}>会员免费</span>
+                <span className={styles.single}>
+                    <div className={styles.priceNum}>¥{formatPrice(price)}</div>
+                    <div className={styles.priceType}>单独购买价</div>
+                </span>
+                <span className={styles.group}>
+                    <div className={styles.priceNum}>¥{formatPrice(groupPrice)}</div>
+                    <div className={styles.priceType}>三人团</div>
+                </span>
+            </div>
+        );
+    };
+
     changeTab = ({ key }) => {
+        this.setState({
+            activeTab: key
+        });
         const ele = this[key];
         this.content.scrollTo(0, ele.offsetTop);
     };
+
+    scroll = e => {
+        const top = e.target.scrollTop;
+
+        if(this.noteTop - top < 200) {
+            this.setState({
+                activeTab: 'note'
+            });
+        } else if(this.outlineTop - top < 200) {
+            this.setState({
+                activeTab: 'outline'
+            });
+        } else {
+            this.setState({
+                activeTab: 'detail'
+            });
+        }
+    }
 
     render() {
         const { loading, id } = this.props;
         if (loading || !id) return null;
 
         return (
-            <div className={styles.container} ref={content => this.content = content}>
-                {this.renderHead()}
-                {this.renderContent()}
+            <div className={styles.container}>
+                <div
+                    className={styles.scrollContent}
+                    ref={content => (this.content = content)}
+                    onScroll={this.scroll}
+                >
+                    {this.renderHead()}
+                    {this.renderContent()}
+                </div>
+                {this.renderFooter()}
             </div>
         );
     }

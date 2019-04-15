@@ -25,14 +25,7 @@ export default class Media extends React.Component {
                 <track kind="captions" />
             </video>
         ) : (
-            <div
-                className={className}
-                style={{
-                    background: `url(${url})`,
-                    backgroundSize: 'cover',
-                }}
-                onClick={this.showVideo}
-            />
+            <img className={className} src={url} alt="" onClick={this.showVideo} />
         );
     }
 }
