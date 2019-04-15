@@ -43,16 +43,17 @@ export default class Footer extends React.Component {
     };
 
     getSelected = pathname => {
-        switch (pathname) {
-            case '/classcenter':
-                return 'classcenter';
-            case '/classroom':
-                return 'classroom';
-            case '/person':
-                return 'person';
-            default:
-                return '';
+        if(pathname.startsWith('/classcenter')) {
+            return 'classcenter';
         }
+        if(pathname.startsWith('/classroom')) {
+            return 'classroom';
+        }
+        if(pathname.startsWith('/person')) {
+            return 'person';
+        }
+
+        return '';
     };
 
     render() {

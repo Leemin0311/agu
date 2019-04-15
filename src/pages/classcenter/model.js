@@ -15,8 +15,8 @@ export default {
         },
     },
     effects: {
-        *getCourseList({ payload }, { select, call, put, take }) {
-            const { selectedCate, currentPage } = yield select(state => state.classcenter);
+        *getCourseList({ payload = {append : false} }, { select, call, put, take }) {
+            const { selectedCate, currentPage, courses } = yield select(state => state.classcenter);
 
             const rst = yield call(getCourseList, selectedCate, currentPage);
 
@@ -26,7 +26,8 @@ export default {
                 yield put({
                     type: 'setData',
                     payload: {
-                        courses: content
+                        courses: payload.append ? [...courses, ...content] : content,
+                        currentPage: currentPage + 1
                     }
                 });
             }

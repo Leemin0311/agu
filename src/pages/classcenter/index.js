@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs } from 'antd-mobile';
+import { Tabs, PullToRefresh } from 'antd-mobile';
 import classNames from 'classnames';
 import Course from './components/Course';
 import styles from './index.less';
@@ -33,6 +33,7 @@ class ClassCenter extends React.Component {
             type: 'classcenter/setData',
             payload: {
                 selectedCate: key,
+                currentPage: 1
             },
         });
 
@@ -40,6 +41,17 @@ class ClassCenter extends React.Component {
             type: 'classcenter/getCourseList',
         });
     };
+
+    fetchNewPage = () => {
+        const { dispatch } = this.props;
+
+        dispatch({
+            type: 'classcenter/getCourseList',
+            payload: {
+                append: true,
+            },
+        });
+    }
 
     render() {
         const { categories, courses } = this.props;
@@ -52,18 +64,20 @@ class ClassCenter extends React.Component {
                         renderTab={this.renderTab}
                         onTabClick={this.changeTab}
                     >
-                        <div className={styles.content}>
-                            {courses.map(item => (
-                                <Course {...item} key={item.id} />
-                            ))}
-                        </div>
+                        <PullToRefresh
+                            onRefresh={this.fetchNewPage}
+                            direction="up"
+                            indicator={{}}
+                            distanceToRefresh={window.devicePixelRatio * 25}
+                        >
+                            <div className={styles.content}>
+                                {courses.map(item => (
+                                    <Course {...item} key={item.id} />
+                                ))}
+                            </div>
+                        </PullToRefresh>
                     </Tabs>
                 </div>
-                {/* <PullToRefresh
-                    onRefresh={() => console.info('a')}
-                > */}
-
-                {/* </PullToRefresh> */}
             </div>
         );
     }

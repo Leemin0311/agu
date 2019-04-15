@@ -50,4 +50,23 @@ export default delay({
             coupons: true,
         },
     },
+    'POST /api/user/coupon/match': {
+        data: [
+            {
+                id: '5caf627dc796e928b0548d78',
+                userId: '5caf4383c796e922962f226f',
+                coupon: {
+                    id: '5caf6264c796e928ab07d039',
+                    name: '全场通用， 立减0.01元',
+                    image: 'https://v.aguzaojiao.com/test/coupon1.png',
+                    type: 'Any',
+                    intro: '新用户购买， 立减0.01',
+                    value: 1,
+                },
+                status: 'Valid',
+                createTime: 1554997885189,
+                expireTime: 1557676285187,
+            },
+        ],
+    },
 });

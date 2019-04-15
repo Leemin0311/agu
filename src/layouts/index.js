@@ -25,7 +25,11 @@ class BasicLayout extends React.PureComponent {
     }
 
     getPageTitle = pathname => {
-        return `${pathname} - 阿古早教`;
+        if(pathname.startsWith('/classcenter/coursedetail')) {
+            return '课程详情';
+        }
+
+        return '阿古早教';
     };
 
     render() {

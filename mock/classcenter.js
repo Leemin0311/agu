@@ -50,7 +50,8 @@ export default delay({
                 '(1)让孩子有滋有味听三国演义， 激发孩子学习和探索传统文化的兴趣，提高语言水平和花纹底蕴',
             badge: 'https://v.aguzaojiao.com/test/badge1.png',
             theme: {
-                color: '#FBDA54',
+                bgColor: '#FBDA54',
+                fontColor: '#FFFFFF',
                 bgImage: 'https://v.aguzaojiao.com/test/theme1.png',
             },
             headMedia: [
@@ -116,7 +117,7 @@ export default delay({
                 'https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJfhXgAf1ib0c7UHKaqDWicnTK5AQOKLTuzFQeozmuk03PuyibayH5icV6XK7UhyFcvR00NkHNVw7FA3Q/132',
                 'https://thirdwx.qlogo.cn/mmopen/vi_32/V88ayRzQjW3fuEfVrhdT4YriaaFicPjt5RhAGP6vnTxLshIrclZQo8rP3hDc7llIy9G8VGJsZwf0IehAyeNcnKSA/132',
             ],
-            userCount: 61271,
+            userCount: 61273,
             seq: 1,
             shareH5: {
                 shareTitle: '18个朋友正在拼->收发，孩子的第一部《三国演义》动画， 一看...',
