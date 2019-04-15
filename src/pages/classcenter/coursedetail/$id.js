@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Carousel, Icon } from 'antd-mobile';
+import { Carousel, Icon, Tabs } from 'antd-mobile';
 import Media from '@components/Media';
 import Countdown from '@components/Countdown';
 import { formatPrice } from '@utils/tools';
@@ -44,10 +44,7 @@ class CourseDetail extends React.Component {
                         />
                     ))}
                 </Carousel>
-                <div
-                    className={styles.brief}
-                    style={{ background: theme.bgColor }}
-                >
+                <div className={styles.brief} style={{ background: theme.bgColor }}>
                     <div className={styles.name} style={{ color: theme.fontColor }}>
                         {name}
                     </div>
@@ -153,11 +150,76 @@ class CourseDetail extends React.Component {
         return <>{price}</>;
     };
 
+    renderContent = () => {
+        const { detailMedia = [], outlineMedia = [], noteMedia = [] } = this.props;
+
+        return (
+            <div className={styles.content}>
+                <div className={styles.tabs}>
+                    <Tabs
+                        tabs={[
+                            { title: '课程详情', key: 'detail' },
+                            { title: '课程目录', key: 'outline' },
+                            { title: '购买须知', key: 'note' },
+                        ]}
+                        initialPage={0}
+                        animated={false}
+                        useOnPan={false}
+                        onTabClick={this.changeTab}
+                    />
+                </div>
+                <div className={styles.detail} ref={detail => this.detail = detail}>
+                    {detailMedia.map(({ type, url, thumbnail }, index) => (
+                        <Media
+                            type={type}
+                            url={thumbnail || url}
+                            videoUrl={url}
+                            className={styles.img}
+                            key={index}
+                        />
+                    ))}
+                </div>
+                <div className={styles.outline} ref={outline => this.outline = outline}>
+                    {outlineMedia.map(({ type, url, thumbnail }, index) => (
+                        <Media
+                            type={type}
+                            url={thumbnail || url}
+                            videoUrl={url}
+                            className={styles.img}
+                            key={index}
+                        />
+                    ))}
+                </div>
+                <div className={styles.note} ref={note => this.note = note}>
+                    {noteMedia.map(({ type, url, thumbnail }, index) => (
+                        <Media
+                            type={type}
+                            url={thumbnail || url}
+                            videoUrl={url}
+                            className={styles.img}
+                            key={index}
+                        />
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+    changeTab = ({ key }) => {
+        const ele = this[key];
+        this.content.scrollTo(0, ele.offsetTop);
+    };
+
     render() {
         const { loading, id } = this.props;
         if (loading || !id) return null;
 
-        return <div className={styles.container}>{this.renderHead()}</div>;
+        return (
+            <div className={styles.container} ref={content => this.content = content}>
+                {this.renderHead()}
+                {this.renderContent()}
+            </div>
+        );
     }
 }
 
