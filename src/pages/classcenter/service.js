@@ -1,7 +1,7 @@
 import request from "@utils/request";
 
 /**
- * 查询当前登录用户信息
+ * 获取课程列表
  *
  * @return {Promise<Response>}
  */
@@ -12,5 +12,16 @@ export function getCourseList(cate, page) {
             cate,
             page
         })
+    });
+}
+
+/**
+ * 获取课程分类信息
+ *
+ * @return {Promise<Response>}
+ */
+export function getCategories() {
+    return request('/api/config/h5', {
+        method: 'post',
     });
 }

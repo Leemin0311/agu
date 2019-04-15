@@ -12,24 +12,16 @@ export default {
     },
     effects: {
         *auth({ payload }, { call, put }) {
-            const rst = yield call(auth);
 
-            const { authUrl, categories, tips } = rst.data;
+            if (!sessionStorage.authed) {
+                const rst = yield call(auth);
+                const { authUrl } = rst.data;
 
-            if (authUrl && !sessionStorage.authed) {
-                if (/wechat/.test(navigator.userAgent)) window.location.href = rst.data.authUrl;
+                if (/wechat/.test(navigator.userAgent)) window.location.href = authUrl;
                 sessionStorage.authed = true;
             } else {
                 yield put({
                     type: 'getUser',
-                });
-                yield put({
-                    type: 'classcenter/setData',
-                    payload: {
-                        categories,
-                        tips,
-                        selectedCate: (categories[0] || {}).id,
-                    },
                 });
             }
         },

@@ -1,4 +1,4 @@
-import { getCourseList } from './service';
+import { getCourseList, getCategories } from './service';
 
 export default {
     namespace: 'classcenter',
@@ -31,8 +31,31 @@ export default {
                 });
             }
         },
+        *getCategories(action, { put, call }) {
+            const rst = yield call(getCategories);
+            if(!rst.error) {
+                const { categories, tips } = rst.data;
+
+                yield put({
+                    type: 'setData',
+                    payload: {
+                        categories,
+                        tips,
+                        selectedCate: categories[0].id
+                    }
+                });
+            }
+        },
         *initialize(action, { put, take }) {
-            yield put('getCourseList');
+            yield put({
+                type: 'getCategories'
+            });
+
+            yield take('classcenter/getCategories/@@end');
+
+            yield put({
+                type: 'getCourseList'
+            });
         }
     },
     subscriptions: {
@@ -40,7 +63,7 @@ export default {
             return history.listen(({ pathname, search, query }) => {
                 if(pathname==='/classcenter') {
                     dispatch({
-                        type: 'initialize',
+                        type: 'initialize'
                     });
                 }
             });
