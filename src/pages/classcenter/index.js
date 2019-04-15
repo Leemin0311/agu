@@ -2,29 +2,29 @@ import React from 'react';
 import { connect } from 'dva';
 import { Tabs } from 'antd-mobile';
 import classNames from 'classnames';
+import Course from './components/Course';
 import styles from './index.less';
 
-@connect(({classcenter})=>({
-    ...classcenter
+@connect(({ classcenter }) => ({
+    ...classcenter,
 }))
 class ClassCenter extends React.Component {
-    renderTab = ({title, key}) => {
+    renderTab = ({ title, key }) => {
         const { selectedCate } = this.props;
         const selected = key === selectedCate;
 
         return (
-            <div className={classNames({
-                [styles.tabTitle]: true,
-                [styles.tabSelected]: selected
-            })}
+            <div
+                className={classNames({
+                    [styles.tabTitle]: true,
+                    [styles.tabSelected]: selected,
+                })}
             >
-                {title}
-                {
-                    selected && <div className={styles.underline} />
-                }
+                {<span className={styles.text}>{title}</span>}
+                {selected && <div className={styles.underline} />}
             </div>
         );
-    }
+    };
 
     changeTab = ({ key }) => {
         const { dispatch } = this.props;
@@ -32,14 +32,14 @@ class ClassCenter extends React.Component {
         dispatch({
             type: 'classcenter/setData',
             payload: {
-                selectedCate: key
-            }
+                selectedCate: key,
+            },
         });
 
         dispatch({
-            type: 'classcenter/getCourseList'
+            type: 'classcenter/getCourseList',
         });
-    }
+    };
 
     render() {
         const { categories, courses } = this.props;
@@ -48,20 +48,22 @@ class ClassCenter extends React.Component {
             <div className={styles.container}>
                 <div className={styles.tabBar}>
                     <Tabs
-                        tabs={categories.map(({id, name}) => ({title: name, key: id}))}
+                        tabs={categories.map(({ id, name }) => ({ title: name, key: id }))}
                         renderTab={this.renderTab}
                         onTabClick={this.changeTab}
-                    />
+                    >
+                        <div className={styles.content}>
+                            {courses.map(item => (
+                                <Course {...item} key={item.id} />
+                            ))}
+                        </div>
+                    </Tabs>
                 </div>
-                <div className={styles.content}>
-                    {
-                        courses.map((item) => (
-                            <div>
-                                {JSON.stringify(item)}
-                            </div>)
-                        )
-                    }
-                </div>
+                {/* <PullToRefresh
+                    onRefresh={() => console.info('a')}
+                > */}
+
+                {/* </PullToRefresh> */}
             </div>
         );
     }

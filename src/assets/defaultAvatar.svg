@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>头像-默认@3x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="40" cy="40" r="40"></circle>
+    </defs>
+    <g id="个人中心" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="个人中心-宝宝信息" transform="translate(-147.000000, -88.000000)">
+            <g id="头像-默认" transform="translate(147.000000, 88.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#E6E6E6" xlink:href="#path-1"></use>
+                <g id="头像-(1)" mask="url(#mask-2)" fill="#D3D3D3" fill-rule="nonzero">
+                    <g transform="translate(11.000000, 16.000000)" id="Path">
+                        <path d="M28.8,0 C41.28,0 50.88,10.226087 50.88,22.4 C50.88,30.1913043 47.04,36.5217391 41.76,40.9043478 C50.88,45.773913 57.6,55.5130435 57.6,66.7130435 L57.6,67.2 L0,67.2 L0,66.7130435 C0,55.5130435 6.24,45.773913 15.84,40.9043478 C10.08,36.5217391 6.72,30.1913043 6.72,22.4 C6.72,9.73913043 16.32,2.16252137e-15 28.8,0 Z"></path>
+                    </g>
+                </g>
+                <path d="M34,45 C34.6759183,47.7816479 37.1105057,49.8 40.0102985,49.8 L40.0102985,49.8 C42.8813746,49.8 45.2964136,47.7398114 46,45" id="Path" stroke="#E6E6E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" mask="url(#mask-2)"></path>
+            </g>
+        </g>
+    </g>
+</svg>
