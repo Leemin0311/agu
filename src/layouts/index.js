@@ -23,7 +23,7 @@ class BasicLayout extends React.PureComponent {
         const {
             children,
             location: { pathname },
-            loading,
+            loading
         } = this.props;
 
         return (

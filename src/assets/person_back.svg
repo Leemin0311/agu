@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375px" height="146px" viewBox="0 0 375 146" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Combined Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="51.5170307%" y1="8.07027101%" x2="51.5170307%" y2="86.3219447%" id="linearGradient-1">
+            <stop stop-color="#FFD631" offset="0%"></stop>
+            <stop stop-color="#FDC70D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="个人中心" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(0.000000, -64.000000)" fill="url(#linearGradient-1)" id="Combined-Shape">
+            <path d="M0,176.939468 L0,64 L375,64 L375,169.737092 C327.867415,194.387342 257.990671,210 180,210 C109.905468,210 46.3650509,197.388701 -1.77635684e-14,176.939468 Z"></path>
+        </g>
+    </g>
+</svg>
