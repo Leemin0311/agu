@@ -33,6 +33,14 @@ export default delay({
     'POST /api/user/detail': {
         data: {
             id: '5caf4383c796e922962f226f',
+            babies: [
+                {
+                    birthday: "2019-04-15T07:33:06.780Z",
+                    male: true,
+                    name: "熊孩子",
+                    photo: "string"
+                }
+            ],
             wechatUser: {
                 unionId: 'ocxGV0vgaDhcPjRw7yVW5No4oNXA',
                 nickName: 'KFX',
