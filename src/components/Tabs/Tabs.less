@@ -1,0 +1,32 @@
+.tabs {
+    .tabTitle {
+        line-height: 0.7rem;
+        font-size: 0.34rem;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        color: rgba(106, 106, 106, 1);
+    }
+
+    .tabSelected {
+        font-family: PingFangSC-Medium;
+        font-weight: 500;
+        color: rgba(52, 58, 62, 1);
+
+        .underline {
+            width: 0.6rem;
+            height: 0.06rem;
+            background: #343a3e;
+            margin: 0 auto;
+        }
+    }
+
+    :global {
+        .am-tabs-default-bar-underline {
+            border: none;
+        }
+
+        .am-pull-to-refresh-indicator {
+            display: none;
+        }
+    }
+}

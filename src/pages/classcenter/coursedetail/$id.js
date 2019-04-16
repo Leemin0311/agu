@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Carousel, Icon, Tabs } from 'antd-mobile';
+import { Carousel, Icon } from 'antd-mobile';
 import Media from '@components/Media';
 import Countdown from '@components/Countdown';
+import Tabs from '@components/Tabs';
 import { formatPrice } from '@utils/tools';
 import moment from 'moment';
-import classNames from 'classnames';
 import styles from './index.less';
 
 @connect(({ coursedetail, loading }) => ({
@@ -160,23 +160,6 @@ class CourseDetail extends React.Component {
 
         return <>{price}</>;
     };
-    
-    renderTab = ({ title, key }) => {
-        const { activeTab } = this.state;
-        const selected = key === activeTab;
-
-        return (
-            <div
-                className={classNames({
-                    [styles.tabTitle]: true,
-                    [styles.tabSelected]: selected,
-                })}
-            >
-                {<span className={styles.text}>{title}</span>}
-                {selected && <div className={styles.underline} />}
-            </div>
-        );
-    };
 
     renderContent = () => {
         const { detailMedia = [], outlineMedia = [], noteMedia = [] } = this.props;
@@ -197,7 +180,6 @@ class CourseDetail extends React.Component {
                         onTabClick={this.changeTab}
                         swipeable
                         page={activeTab}
-                        renderTab={this.renderTab}
                     />
                 </div>
                 <div className={styles.detail} ref={detail => (this.detail = detail)}>
