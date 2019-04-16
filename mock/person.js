@@ -51,6 +51,14 @@ export default delay({
         res.send(
             Mock.mock({
                 data: {
+                    babies: [
+                        {
+                            "birthday": "2019-04-16T05:07:53.143Z",
+                            "male": true,
+                            "name": "@cname",
+                            "photo": "string"
+                        }
+                    ],
                 },
             }),
         );

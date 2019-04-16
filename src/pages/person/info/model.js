@@ -1,4 +1,4 @@
-import { upDateBabuInfo } from './service';
+import { upDateBabyInfo } from './service';
 
 export default {
     namespace: 'person_info',
@@ -15,16 +15,20 @@ export default {
         },
     },
     effects: {
-        *getOrderList({ payload = {append : false} }, { select, call, put, take }) {
-            // const { selectedCate, currentPage, courses } = yield select(state => state.classcenter);
+        *upDateBabyInfo({ payload = {append : false} }, { select, call, put, take }) {
+            const { user } = yield select(state => state.global);
 
-            const rst = yield call(upDateBabuInfo, payload);
+            const rst = yield call(upDateBabyInfo, payload);
+            const newUser = {...user};
 
             if(!rst.error) {
                 yield put({
-                    type: 'global/getUser',
+                    type: 'global/setData',
                     payload: {
-                        needUpdate: true
+                        user: {
+                            ...newUser,
+                            babies: rst.data.babies,
+                        }
                     }
                 });
             }

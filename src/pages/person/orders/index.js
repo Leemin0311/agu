@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button } from 'antd-mobile';
+import { Button, PullToRefresh } from 'antd-mobile';
 import { connect } from 'dva';
 import Countdown from '@components/Countdown';
 
@@ -39,47 +39,64 @@ class Orders extends Component{
         });
     }
 
+    fetchNewPage = () => {
+        const { dispatch } = this.props;
+
+        dispatch({
+            type: 'person_order/getOrderList',
+            payload: {
+                append: true,
+            },
+        });
+    };
 
     render() {
         const {orders} = this.props;
 
         return (
             <div className={styles.orderContent}>
-                {
-                    (orders || []).map(item => (
-                        <div className={styles.order}>
-                            <div className={styles.snapshot}>
-                                <img src={item.snapshot && item.snapshot.icon} className={styles.orderIcon} />
-                                <div className={styles.orderInfo}>
-                                    <div className={styles.orderName}>{item.snapshot && item.snapshot.name}</div>
-                                    <div className={styles.ortherInfo}>
-                                        <span className={styles.status} style={{color: this.colors[item.status][0]}}>
-                                            {this.status[item.status][0] || ''}
-                                        </span>
-                                        <span className={styles.money}>
+                <PullToRefresh
+                    onRefresh={this.fetchNewPage}
+                    direction="up"
+                    indicator={{}}
+                    distanceToRefresh={window.devicePixelRatio * 25}
+                >
+                    {
+                        (orders || []).map(item => (
+                            <div className={styles.order}>
+                                <div className={styles.snapshot}>
+                                    <img src={item.snapshot && item.snapshot.icon} className={styles.orderIcon} />
+                                    <div className={styles.orderInfo}>
+                                        <div className={styles.orderName}>{item.snapshot && item.snapshot.name}</div>
+                                        <div className={styles.ortherInfo}>
+                                            <span className={styles.status} style={{color: this.colors[item.status][0]}}>
+                                                {this.status[item.status][0] || ''}
+                                            </span>
+                                            <span className={styles.money}>
                                             实付金额：<span style={{color: '#FF5038'}}>¥{Number(item.fee) / 100}</span>
-                                        </span>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className={styles.action}>
-                                {
-                                    item.status === 'Grouping' && item.group && new Date(item.group.expireTime) - moment() >= 0 && (
-                                        <div className={styles.time}>
+                                <div className={styles.action}>
+                                    {
+                                        item.status === 'Grouping' && item.group && new Date(item.group.expireTime) - moment() >= 0 && (
+                                            <div className={styles.time}>
                                             拼团剩余时间: {<Countdown timeCount={(new Date(item.group.expireTime) - moment()) % 86400000} />}
-                                        </div>
-                                    )
-                                }
-                                {
-                                    this.status[item.status][1] &&
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        this.status[item.status][1] &&
                                         <Button type='primary' className={styles.buttonPri} style={{background: this.colors[item.status] && this.colors[item.status][1], color: this.colors[item.status] && this.colors[item.status][2]}}>
                                             {this.status[item.status][1]}
                                         </Button>
-                                }
+                                    }
+                                </div>
                             </div>
-                        </div>
-                    ))
-                }
+                        ))
+                    }
+                </PullToRefresh>
             </div>
         );
     }

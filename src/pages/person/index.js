@@ -62,7 +62,7 @@ class Mine extends Component{
                     <div className={styles.babyInfo}>
                         <img src={defaultAvatar} className={styles.avatar} />
                         <div className={styles.info}>
-                            <div className={styles.babyNik}>{!babyInfo ? babyInfo.name : '宝宝昵称宝宝昵称宝宝昵称宝宝昵称宝宝昵称宝宝昵称宝宝昵称宝宝昵称宝宝昵称宝宝昵称'}</div>
+                            <div className={styles.babyNik}>{babyInfo ? babyInfo.name : '宝宝昵称'}</div>
                             <div className={styles.parameter}>
                                 <span className={styles.sex}>性别:  {babyInfo ? babyInfo.male ? '男' : '女' : ''}</span>
                                 <span className={styles.birth}>生日: {babyInfo ? this.getBirth(babyInfo.birthday) : ''}</span>

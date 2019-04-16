@@ -84,7 +84,7 @@ class Info extends Component{
         const {dispatch} = this.props;
         const {birth, sexValue, name} = this.state;
         await dispatch({
-            type: 'person_info/getOrderList' ,
+            type: 'person_info/upDateBabyInfo' ,
             payload: {
                 birthday: moment(birth).format(),
                 male: sexValue === 'male' ? '男' : sexValue === 'female' ? '女' : '',

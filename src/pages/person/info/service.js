@@ -5,7 +5,7 @@ import request from "@utils/request";
  *
  * @return {Promise<Response>}
  */
-export function upDateBabuInfo({birthday, male, name, photo}) {
+export function upDateBabyInfo({birthday, male, name, photo}) {
     return request('/api/user/update', {
         method: 'post',
         body: JSON.stringify({
