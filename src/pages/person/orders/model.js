@@ -13,15 +13,10 @@ export default {
     },
     effects: {
         *getOrderList({ payload = {append : false} }, { select, call, put }) {
-            const { page, orders } = yield select(state => state.person_order);
+            const { orders } = yield select(state => state.person_order);
 
+            const rst = yield call(getOrdersList, payload.status, payload.page);
 
-            let rst = {};
-            if(payload.append) {
-                rst = yield call(getOrdersList, payload.status, page);
-            } else  {
-                rst = yield call(getOrdersList, payload.status, payload.page);
-            }
 
             if(!rst.error) {
                 const { content } = rst.data;

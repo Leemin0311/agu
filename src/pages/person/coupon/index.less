@@ -1,8 +1,80 @@
 .couponContent{
     width: 100%;
+    height: 100%;
     .contentItem{
+        padding: 0.32rem 0.28rem;
         width: 100%;
-        height: 5rem;
-        background-color: #ff891d;
+        height: calc(100% - 0.9rem);
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        .coupon{
+            position: relative;
+            width: 100%;
+            box-shadow:0 .16rem .36rem 0 rgba(0,0,0,0.02),0 .13rem .28rem 0 rgba(0,0,0,0.05),0 0.02rem 0.12rem 0 rgba(61,79,102,0.15);
+            border-radius: .12rem;
+            margin-bottom: 0.32rem;
+            font-size: 0;
+            .couponImg{
+                width: 100%;
+                height: 1.64rem;
+                border-radius: .12rem .12rem 0 0;
+            }
+            .gray{
+                -webkit-filter: grayscale(100%);
+                -moz-filter: grayscale(100%);
+                -ms-filter: grayscale(100%);
+                -o-filter: grayscale(100%);
+
+                filter: grayscale(100%);
+
+                filter: gray;
+            }
+            .expired{
+                position: absolute;
+                z-index: 1;
+                right: 0.2rem;
+                bottom: 0.18rem;
+                height: 1.2rem;
+                width: 1.2rem;
+            }
+            .others{
+                position: relative;
+                width: 100%;
+                height: .92rem;
+                line-height: .92rem;
+                background:rgba(255,255,255,1);
+                border-radius:0 0 .12rem .12rem;
+                font-size: 0.24rem;
+                font-family:PingFangSC-Medium;
+                font-weight:500;
+                .time{
+                    margin-left: 0.28rem;
+                    color:rgba(106,106,106,1);
+                }
+                .info{
+                    text-decoration : underline;
+                    margin-left: 0.28rem;
+                    color:rgba(40,160,255,1);
+                }
+                .buttonPri{
+                    position: absolute;
+                    display: inline-block;
+                    border-radius: 0.27rem;
+                    font-size: 0.28rem;
+                    height: 0.48rem;
+                    line-height: 0.48rem;
+                    padding-right: 0.24rem;
+                    padding-left: 0.24rem;
+                    right: 0.28rem;
+                    top: 0.22rem;
+                    background:linear-gradient(90deg,rgba(255,138,28,1) 0%,rgba(247,77,57,1) 100%);
+                    font-family:PingFangSC-Medium;
+                    font-weight:500;
+                }
+                .buttonPri::before{
+                    border: none;
+                }
+            }
+        }
     }
 }

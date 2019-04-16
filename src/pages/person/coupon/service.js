@@ -5,7 +5,7 @@ import request from "@utils/request";
  *
  * @return {Promise<Response>}
  */
-export function getCouponList({status, page}) {
+export function getCouponList(status, page) {
     return request('/api/user/coupon/list', {
         method: 'post',
         body: JSON.stringify({

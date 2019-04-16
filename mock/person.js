@@ -68,36 +68,21 @@ export default delay({
         res.send(
             Mock.mock({
                 data: {
-                    'conten|10': [
+                    'content|10' : [
                         {
-                            courseId: "@guid",
-                            createTime: '2019-04-16T05:50:57.585Z',
-                            expireTime: '2019-04-16T05:50:57.585Z',
-                            fee: 0,
-                            group: {
-                                courseId: "@guid",
-                                createTime: '2019-04-16T05:50:57.585Z',
-                                expireTime: '2019-04-16T05:50:57.585Z',
-                                id: "string",
-                                members: [
-                                    {
-                                        avatar: "string",
-                                        name: "@cname",
-                                        userId: "@guid"
-                                    }
-                                ]
+                            id : "@guid" ,
+                            userId :  "@guid" ,
+                            coupon : {
+                                id : "@guid" ,
+                                name :  "购买会员专享优惠券" ,
+                                image :  "https://v.aguzaojiao.com/test/coupon1.png",
+                                type :  "Member" ,
+                                intro :  "新用户购买， 立减3元" ,
+                                value : 1
                             },
-                            id: "@guid",
-                            payTime: '2019-04-16T05:50:57.585Z',
-                            refundTime: '2019-04-16T05:50:57.585Z',
-                            snapshot: {
-                                courseId: "string",
-                                icon: "string",
-                                name: "string"
-                            },
-                            status: status,
-                            type: "Member",
-                            userId: "string"
+                            status :  status ,
+                            createTime : 1554997885112,
+                            expireTime : 1554994285078
                         }
                     ],
                     page: 0,

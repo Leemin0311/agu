@@ -3,8 +3,12 @@ import { getCouponList } from './service';
 export default {
     namespace: 'person_coupon',
     state: {
-        page: 0,
-        coupons: [],
+        coupons_Valid: [],
+        coupons_Used: [],
+        coupons_Expired: [],
+        page_Valid: 0,
+        page_Used: 0,
+        page_Expired: 0,
     },
     reducers: {
         setData(state, { payload }) {
@@ -13,16 +17,21 @@ export default {
     },
     effects: {
         *getCouponList({ payload = {append : false} }, { select, call, put }) {
-            const { page } = yield select(state => state.person_coupon);
+            const state = yield select(state => state.person_coupon);
+            const coupons = [...state[`coupons_${payload.status}`]];
 
+            const rst = yield call(getCouponList, payload.status, payload.page);
 
-            let rst = {};
-            if(payload.append) {
-                rst = yield call(getCouponList, payload.status, page);
-            } else  {
-                rst = yield call(getCouponList, payload.status, payload.page);
+            if(!rst.error) {
+                const {content} = rst.data;
+                yield put({
+                    type: 'setData',
+                    payload: {
+                        [`coupons_${payload.status}`]: payload.append ? [...coupons, ...content] : content,
+                        [`page_${payload.status}`]:  payload.page + 1
+                    }
+                });
             }
-            console.info(rst);
         },
     },
 };
