@@ -28,7 +28,7 @@ export default {
         *getUser(action, { put, call, select }) {
             const { user } = yield select(state => state.global);
 
-            if (user) {
+            if (user && !action.payload.needUpdate) {
                 return;
             }
 

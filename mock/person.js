@@ -47,4 +47,12 @@ export default delay({
             }),
         );
     },
+    'POST /api/user/update': (req, res) => {
+        res.send(
+            Mock.mock({
+                data: {
+                },
+            }),
+        );
+    },
 });

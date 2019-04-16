@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import { List, InputItem, Picker, DatePicker } from 'antd-mobile';
-
+import moment from 'moment';
+import router from 'umi/router';
 import defaultAvatar from '@assets/defaultAvatar.svg';
 import camera from '@assets/camera.svg';
 
@@ -78,6 +79,23 @@ class Info extends Component{
             birth: data
         });
     };
+
+    handleSubmit = async () => {
+        const {dispatch} = this.props;
+        const {birth, sexValue, name} = this.state;
+        await dispatch({
+            type: 'person_info/getOrderList' ,
+            payload: {
+                birthday: moment(birth).format(),
+                male: sexValue === 'male' ? '男' : sexValue === 'female' ? '女' : '',
+                name
+            }
+        });
+
+        router.push('/person');
+
+    };
+
     render(){
         const {sexValue, birth, name} = this.state;
 
@@ -122,6 +140,13 @@ class Info extends Component{
                             <List.Item>宝宝生日</List.Item>
                         </DatePicker>
                     </List>
+                </div>
+
+                <div
+                    className={styles.save}
+                    onClick={this.handleSubmit}
+                >
+                    保存
                 </div>
             </div>
         );
