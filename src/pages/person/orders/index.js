@@ -9,6 +9,7 @@ import styles from './index.less';
 
 @connect(({person_order}) => ({
     orders: person_order.orders,
+    page: person_order.page,
 }))
 class Orders extends Component{
 
@@ -40,12 +41,13 @@ class Orders extends Component{
     }
 
     fetchNewPage = () => {
-        const { dispatch } = this.props;
+        const { dispatch, page } = this.props;
 
         dispatch({
             type: 'person_order/getOrderList',
             payload: {
                 append: true,
+                page
             },
         });
     };
@@ -63,7 +65,7 @@ class Orders extends Component{
                 >
                     {
                         (orders || []).map(item => (
-                            <div className={styles.order}>
+                            <div className={styles.order} key={item.id}>
                                 <div className={styles.snapshot}>
                                     <img src={item.snapshot && item.snapshot.icon} className={styles.orderIcon} />
                                     <div className={styles.orderInfo}>

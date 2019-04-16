@@ -3,11 +3,8 @@ import { getOrdersList } from './service';
 export default {
     namespace: 'person_order',
     state: {
-        categories: [],
-        tips: [],
-        selectedCate: null,
-        currentPage: 1,
-        courses: []
+        page: 0,
+        orders: []
     },
     reducers: {
         setData(state, { payload }) {
@@ -16,9 +13,15 @@ export default {
     },
     effects: {
         *getOrderList({ payload = {append : false} }, { select, call, put, take }) {
-            // const { selectedCate, currentPage, courses } = yield select(state => state.classcenter);
+            const { page, orders } = yield select(state => state.person_order);
 
-            const rst = yield call(getOrdersList, payload.status, payload.page);
+
+            let rst = {};
+            if(payload.append) {
+                rst = yield call(getOrdersList, payload.status, page);
+            } else  {
+                rst = yield call(getOrdersList, payload.status, payload.page);
+            }
 
             if(!rst.error) {
                 const { content } = rst.data;
@@ -26,8 +29,8 @@ export default {
                 yield put({
                     type: 'setData',
                     payload: {
-                        orders: content,
-                        currentPage: 1
+                        orders: payload.append ? [...orders, ...content] : content,
+                        page: payload.page + 1
                     }
                 });
             }
