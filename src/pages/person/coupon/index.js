@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import moment from 'moment';
-import { Button, PullToRefresh } from 'antd-mobile';
+import { Button, PullToRefresh, Modal } from 'antd-mobile';
 import classNames from 'classnames';
 
 import Tabs from '@components/Tabs';
@@ -21,7 +21,9 @@ import styles from './index.less';
 class Coupon extends Component{
 
     state = {
-        activeTab: 'Valid'
+        activeTab: 'Valid',
+        showModal: false,
+        courseList: []
     };
 
     async componentDidMount() {
@@ -78,8 +80,21 @@ class Coupon extends Component{
         </div>
     );
 
+    handelShowModal = (courseList) => {
+        this.setState({
+            showModal: true,
+            courseList
+        });
+    };
+
+    handelCloseModal = () => {
+        this.setState({
+            showModal: false
+        });
+    };
+
     render() {
-        const {activeTab} = this.state;
+        const {activeTab, showModal, courseList} = this.state;
         const { coupons_Valid, coupons_Used, coupons_Expired,} = this.props;
 
         return (
@@ -120,9 +135,13 @@ class Coupon extends Component{
                                                 <span className={styles.time}>
                                         有效期：{moment(item.expireTime).format('YYYY/MM/DD HH:MM')}
                                                 </span>
-                                                <span className={styles.info}>
-                                        使用范围
-                                                </span>
+                                                {
+                                                    item.coupon.courses && item.coupon.courses.length > 0 && (
+                                                        <span className={styles.info} onClick={() => this.handelShowModal(item.coupon.courses)}>
+                                                            使用范围
+                                                        </span>
+                                                    )
+                                                }
                                                 <Button type='primary' className={styles.buttonPri}>
                                                     去使用
                                                 </Button>
@@ -193,6 +212,30 @@ class Coupon extends Component{
                             this.emptyPage()
                     }
                 </div>
+
+                <Modal
+                    visible={showModal}
+                    onClose={this.handelCloseModal}
+                    transparent
+                    maskClosable={false}
+                    closable
+                    className={styles.couponModal}
+                >
+                    <div className={styles.title}>新课限时立减券</div>
+                    <div className={styles.disc}>本券适用如下课程</div>
+                    <div className={styles.courseList}>
+                        {
+                            courseList.map((item, index) => (
+                                <div className={styles.courseName}>
+                                    <div className={styles.index}>{index+1}</div>{item.name}
+                                </div>
+                            ))
+                        }
+                    </div>
+                    <div className={styles.footerText}>
+                        点击相应课程名，即可去使用优惠
+                    </div>
+                </Modal>
             </div>
         );
     }
