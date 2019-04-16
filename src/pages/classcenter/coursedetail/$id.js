@@ -6,6 +6,7 @@ import Countdown from '@components/Countdown';
 import Tabs from '@components/Tabs';
 import { formatPrice } from '@utils/tools';
 import moment from 'moment';
+import defaultAvatar from '@assets/defaultAvatar.svg';
 import ServiceIntro from './components/ServiceIntro';
 import styles from './index.less';
 
@@ -66,6 +67,59 @@ class CourseDetail extends React.Component {
                 </div>
                 {this.renderPrice()}
             </>
+        );
+    };
+
+    renderGroup = () => {
+        const { order } = this.props;
+
+        if (!order) return null;
+
+        const {
+            refundTime,
+            group: { members },
+        } = order;
+
+        const memberToRender = [...members];
+        for (let i = 0; i + members.length < 3; i++) {
+            memberToRender.push({
+                avatar: defaultAvatar,
+            });
+        }
+
+        return (
+            <div className={styles.group}>
+                <div className={styles.groupTip}>
+                    仅差<span style={{ color: '#FF4E00' }}>{3 - members.length}</span>人，拼团成功
+                </div>
+                <div className={styles.lessTime}>
+                    剩余
+                    <span className={styles.countdownArea}>
+                        <Countdown timeCount={+moment(refundTime) - +moment()} />
+                    </span>
+                </div>
+                <div className={styles.avatars}>
+                    {memberToRender.map(({ avatar, name }, index) => (
+                        <div className={styles.member}>
+                            <img
+                                className={styles.memberAvatar}
+                                style={{
+                                    borderColor: name ? '#429EFD' : '#D3D3D3',
+                                }}
+                                alt=""
+                                src={avatar || defaultAvatar}
+                            />
+                            {(index === 0) && (
+                                <div className={styles.memberName}>
+                                    团长
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+                <div className={styles.inviteBtn}>邀请好友</div>
+                <div className={styles.sharelink}>领加速海报</div>
+            </div>
         );
     };
 
@@ -178,9 +232,9 @@ class CourseDetail extends React.Component {
                 <div className={styles.tabs}>
                     <Tabs
                         tabs={[
-                            { title: '课程详情', key: 'detail' },
-                            { title: '课程目录', key: 'outline' },
-                            { title: '购买须知', key: 'note' },
+                            { title: '课程详情', tabKey: 'detail' },
+                            { title: '课程目录', tabKey: 'outline' },
+                            { title: '购买须知', tabKey: 'note' },
                         ]}
                         initialPage={0}
                         animated={false}
@@ -232,12 +286,12 @@ class CourseDetail extends React.Component {
 
         return (
             <div className={styles.footer}>
-                <span className={styles.vip}>会员免费</span>
-                <span className={styles.single}>
+                <span className={styles.vipBtn}>会员免费</span>
+                <span className={styles.singleBtn}>
                     <div className={styles.priceNum}>¥{formatPrice(price)}</div>
                     <div className={styles.priceType}>单独购买价</div>
                 </span>
-                <span className={styles.group}>
+                <span className={styles.groupBtn}>
                     <div className={styles.priceNum}>¥{formatPrice(groupPrice)}</div>
                     <div className={styles.priceType}>三人团</div>
                 </span>
@@ -245,11 +299,11 @@ class CourseDetail extends React.Component {
         );
     };
 
-    changeTab = ({ key }) => {
+    changeTab = ({ tabKey }) => {
         this.setState({
-            activeTab: key,
+            activeTab: tabKey,
         });
-        const ele = this[key];
+        const ele = this[tabKey];
         this.content.scrollTo(0, ele.offsetTop);
     };
 
@@ -282,6 +336,7 @@ class CourseDetail extends React.Component {
                     ref={content => (this.content = content)}
                     onScroll={this.scroll}
                 >
+                    {this.renderGroup()}
                     {this.renderHead()}
                     {this.renderContent()}
                 </div>

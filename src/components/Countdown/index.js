@@ -3,7 +3,7 @@ import React from 'react';
 const HOUR = 60 * 60 * 1000;
 const MIN = 60 * 1000;
 
-export default class Media extends React.Component {
+export default class countdown extends React.Component {
     constructor(props) {
         super(props);
 

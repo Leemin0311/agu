@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>视频icon@2x</title>
+    <desc>Created with Sketch.</desc>
+    <g id="课程中心" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="课程详情/默认" transform="translate(-158.000000, -140.000000)">
+            <g id="视频" transform="translate(0.000000, 64.000000)">
+                <g id="视频icon" transform="translate(159.000000, 77.000000)">
+                    <g>
+                        <circle id="Oval" fill-opacity="0.5" fill="#000000" cx="29" cy="29" r="29"></circle>
+                        <polygon id="Rectangle" fill="#FFFFFF" points="22 18 22 41 42 29.5"></polygon>
+                        <path d="M29,59 C12.4314575,59 -1,45.5685425 -1,29 C-1,12.4314575 12.4314575,-1 29,-1 C45.5685425,-1 59,12.4314575 59,29 C59,45.5685425 45.5685425,59 29,59 Z M29,57 C44.463973,57 57,44.463973 57,29 C57,13.536027 44.463973,1 29,1 C13.536027,1 1,13.536027 1,29 C1,44.463973 13.536027,57 29,57 Z" id="Oval" fill="#FFFFFF" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

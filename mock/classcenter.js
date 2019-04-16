@@ -1,5 +1,6 @@
 import { delay } from 'roadhog-api-doc';
 import Mock from 'mockjs';
+import moment from 'moment';
 
 export default delay({
     'POST /api/course/list': (req, res) => {
@@ -127,6 +128,41 @@ export default delay({
             },
             purchased: true,
             progress: 50,
+            order: {
+                courseId: 'string',
+                createTime: moment().toDate(),
+                expireTime: moment().add(2, 'days').add(4, 'hours').toDate(),
+                fee: 0,
+                group: {
+                    courseId: 'string',
+                    createTime: moment().toDate(),
+                    expireTime: moment().add(2, 'days').add(4, 'hours').toDate(),
+                    id: 'string',
+                    members: [
+                        {
+                            avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/oDdHb56h1q1CJZmUQH3HEuFmrgMme5ibH4mVA2CVNqicJhibvk1sMapicoDzsgxBibYVvkg7WhOKrZ7AeoDr1LX25AA/132',
+                            name: 'string',
+                            userId: 'string',
+                        },
+                        {
+                            avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/oDdHb56h1q1CJZmUQH3HEuFmrgMme5ibH4mVA2CVNqicJhibvk1sMapicoDzsgxBibYVvkg7WhOKrZ7AeoDr1LX25AA/132',
+                            name: 'askdfja',
+                            userId: 'string',
+                        },
+                    ],
+                },
+                id: 'string',
+                payTime: moment().add(2, 'days').add(4, 'hours').toDate(),
+                refundTime: moment().add(2, 'days').add(4, 'hours').toDate(),
+                snapshot: {
+                    courseId: 'string',
+                    icon: 'string',
+                    name: 'string',
+                },
+                status: 'Created',
+                type: 'Member',
+                userId: 'string',
+            },
         },
     },
 });

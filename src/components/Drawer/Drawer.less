@@ -1,11 +1,22 @@
 .container {
-    :global{
-        .am-drawer {
-            position: unset;
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    left: 0;
 
-            .am-drawer-sidebar {
-                box-shadow: none;
-            }
-        }
+    .mask {
+        position: absolute;
+        top: 0;
+        width: 100vw;
+        background: #000000;
+        opacity: 0;
+        transition: opacity .3s cubic-bezier(.7, .3, .1, 1);
+    }
+
+    .content {
+        position: absolute;
+        bottom: 0;
+        width: 100vw;
+        transition: bottom .3s cubic-bezier(.7, .3, .1, 1);
     }
 }

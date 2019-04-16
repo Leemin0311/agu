@@ -9,13 +9,13 @@ import styles from './index.less';
     ...classcenter,
 }))
 class ClassCenter extends React.Component {
-    changeTab = ({ key }) => {
+    changeTab = ({ tabKey }) => {
         const { dispatch } = this.props;
 
         dispatch({
             type: 'classcenter/setData',
             payload: {
-                selectedCate: key,
+                selectedCate: tabKey,
                 currentPage: 1,
             },
         });
@@ -43,7 +43,7 @@ class ClassCenter extends React.Component {
             <div className={styles.container}>
                 <div className={styles.tabBar}>
                     <Tabs
-                        tabs={categories.map(({ id, name }) => ({ title: name, key: id }))}
+                        tabs={categories.map(({ id, name }) => ({ title: name, tabKey: id }))}
                         onTabClick={this.changeTab}
                         page={selectedCate}
                         style={{

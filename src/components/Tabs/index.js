@@ -5,7 +5,7 @@ import styles from './Tabs.less';
 
 /**
  *  重置antd-mobile tabs样式
- *  @reactProps  {array}   [tabs]                  - 必须包含title和key
+ *  @reactProps  {array}   [tabs]                  - 必须包含title和id
  *  @reactProps  {string}  [color]                 - 普通文字颜色
  *  @reactProps  {string}  [selectedColor]         - 选中文字颜色
  *  @reactProps  {string}  [underlineColor]        - 下划线颜色
@@ -16,7 +16,7 @@ import styles from './Tabs.less';
  *  @reactProps  {object}  [wrapperClassName]      - 容器class
  */
 export default class Tabs extends React.Component {
-    renderTab = ({ title, key }) => {
+    renderTab = ({ title, tabKey }) => {
         const {
             page,
             color,
@@ -26,7 +26,7 @@ export default class Tabs extends React.Component {
             selectedStyle,
             underlineStyle,
         } = this.props;
-        const selected = key === page;
+        const selected = tabKey === page;
 
         return (
             <div

@@ -22,7 +22,7 @@ export default class ServiceIntro extends React.Component {
 
     renderContent = () => {
         return (
-            <div className={styles.container} id="aaaa">
+            <div className={styles.container}>
                 <div className={styles.content}>
                     <div className={styles.title}>服务说明</div>
                     <div className={styles.item}>
@@ -73,6 +73,15 @@ export default class ServiceIntro extends React.Component {
         );
     };
 
+    visibleChange = open => {
+        const { visible } = this.state;
+        if(visible !== open) {
+            this.setState({
+                visible: open
+            });
+        }
+    }
+
     render() {
         const { children } = this.props;
         const { visible } = this.state;
@@ -80,7 +89,9 @@ export default class ServiceIntro extends React.Component {
         return (
             <>
                 <div onClick={this.showDrawer}>{children}</div>
-                <Drawer position="bottom" open={visible} sidebar={this.renderContent()} contentStyle={{display: 'none'}} />
+                <Drawer visible={visible} onOpenChange={this.visibleChange} maskCloseable>
+                    {this.renderContent()}
+                </Drawer>
             </>
         );
     }
