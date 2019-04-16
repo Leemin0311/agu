@@ -6,6 +6,7 @@ import Countdown from '@components/Countdown';
 import Tabs from '@components/Tabs';
 import { formatPrice } from '@utils/tools';
 import moment from 'moment';
+import ServiceIntro from './components/ServiceIntro';
 import styles from './index.less';
 
 @connect(({ coursedetail, loading }) => ({
@@ -14,8 +15,8 @@ import styles from './index.less';
 }))
 class CourseDetail extends React.Component {
     state = {
-        activeTab: 'detail'
-    }
+        activeTab: 'detail',
+    };
 
     componentWillMount() {
         const {
@@ -85,24 +86,31 @@ class CourseDetail extends React.Component {
         );
 
         const tag = (
-            <div className={styles.tags}>
-                <div className={styles.tagsInner}>
-                    <div className={styles.tagContent}>
-                        {tags.map((tagName, index) => (
-                            <span className={styles.tagItem} key={index}>
-                                <Icon
-                                    type="check-circle"
-                                    color="#FFD631"
-                                    className={styles.tagIcon}
-                                    size="xxs"
-                                />
-                                <span className={styles.tagName}>{tagName}</span>
-                            </span>
-                        ))}
+            <ServiceIntro>
+                <div className={styles.tags}>
+                    <div className={styles.tagsInner}>
+                        <div className={styles.tagContent}>
+                            {tags.map((tagName, index) => (
+                                <span className={styles.tagItem} key={index}>
+                                    <Icon
+                                        type="check-circle"
+                                        color="#FFD631"
+                                        className={styles.tagIcon}
+                                        size="xxs"
+                                    />
+                                    <span className={styles.tagName}>{tagName}</span>
+                                </span>
+                            ))}
+                        </div>
+                        <Icon
+                            type="right"
+                            color="#6A6A6A"
+                            size="xxs"
+                            className={styles.rightIcon}
+                        />
                     </div>
-                    <Icon type="right" color="#6A6A6A" size="xxs" className={styles.rightIcon} />
                 </div>
-            </div>
+            </ServiceIntro>
         );
 
         const price = coupon ? (
@@ -182,35 +190,35 @@ class CourseDetail extends React.Component {
                         page={activeTab}
                     />
                 </div>
-                <div className={styles.detail} ref={detail => (this.detail = detail)}>
+                <div className={styles.contentItem} ref={detail => (this.detail = detail)}>
                     {detailMedia.map(({ type, url, thumbnail }, index) => (
                         <Media
                             type={type}
                             url={thumbnail || url}
                             videoUrl={url}
-                            className={styles.img}
+                            className={styles.media}
                             key={index}
                         />
                     ))}
                 </div>
-                <div className={styles.outline} ref={outline => (this.outline = outline)}>
+                <div className={styles.contentItem} ref={outline => (this.outline = outline)}>
                     {outlineMedia.map(({ type, url, thumbnail }, index) => (
                         <Media
                             type={type}
                             url={thumbnail || url}
                             videoUrl={url}
-                            className={styles.img}
+                            className={styles.media}
                             key={index}
                         />
                     ))}
                 </div>
-                <div className={styles.note} ref={note => (this.note = note)}>
+                <div className={styles.contentItem} ref={note => (this.note = note)}>
                     {noteMedia.map(({ type, url, thumbnail }, index) => (
                         <Media
                             type={type}
                             url={thumbnail || url}
                             videoUrl={url}
-                            className={styles.img}
+                            className={styles.media}
                             key={index}
                         />
                     ))}
@@ -239,7 +247,7 @@ class CourseDetail extends React.Component {
 
     changeTab = ({ key }) => {
         this.setState({
-            activeTab: key
+            activeTab: key,
         });
         const ele = this[key];
         this.content.scrollTo(0, ele.offsetTop);
@@ -248,20 +256,20 @@ class CourseDetail extends React.Component {
     scroll = e => {
         const top = e.target.scrollTop;
 
-        if(this.noteTop - top < 200) {
+        if (this.noteTop - top < 200) {
             this.setState({
-                activeTab: 'note'
+                activeTab: 'note',
             });
-        } else if(this.outlineTop - top < 200) {
+        } else if (this.outlineTop - top < 200) {
             this.setState({
-                activeTab: 'outline'
+                activeTab: 'outline',
             });
         } else {
             this.setState({
-                activeTab: 'detail'
+                activeTab: 'detail',
             });
         }
-    }
+    };
 
     render() {
         const { loading, id } = this.props;
