@@ -21,13 +21,14 @@ export default {
             const rst = yield call(getCourseList, selectedCate, currentPage);
 
             if(!rst.error) {
-                const { content } = rst.data;
+                const { content, total } = rst.data;
 
                 yield put({
                     type: 'setData',
                     payload: {
                         courses: payload.append ? [...courses, ...content] : content,
-                        currentPage: currentPage + 1
+                        currentPage: currentPage + 1,
+                        total
                     }
                 });
             }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>回到顶部@3x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0.145164696%" y1="49.8548353%" x2="99.8548353%" y2="49.8548353%" id="linearGradient-1">
+            <stop stop-color="#FEE300" offset="0%"></stop>
+            <stop stop-color="#FDC70D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="课程中心" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="课程详情/优惠/拼团/拼团提示-滑动" transform="translate(-321.000000, -508.000000)">
+            <g id="回到顶部" transform="translate(321.000000, 508.000000)">
+                <circle id="Oval-3" fill="url(#linearGradient-1)" cx="22" cy="22" r="22"></circle>
+                <path d="M21.5968529,26.229292 C21.8113901,26.4442405 22.1592937,26.4442806 22.3738711,26.229292 L27.8080258,20.7850387 C28.2374812,20.3547608 28.0929057,20.0062688 27.485468,20.0062688 L24.1853161,20.0062688 L24.1853161,14.2998998 C24.1853161,13.692339 23.6929974,13.2 23.0857,13.2 L20.8850039,13.2 C20.2777867,13.2 19.7853477,13.6924191 19.7853477,14.2998597 L19.7853477,20.0062688 L16.485276,20.0062688 C15.8777581,20.0062688 15.7333831,20.3549613 16.1626982,20.7850387 L21.5968729,26.2293121 L21.5968529,26.229292 Z M28.6002034,28.6 L15.3997966,28.6 C14.7927599,28.6 14.3,29.0924993 14.3,29.7 C14.3,30.307641 14.7923789,30.8 15.3997966,30.8 L28.6002034,30.8 C29.2072,30.8 29.7,30.3075007 29.7,29.7 C29.7,29.092359 29.2076211,28.6 28.6002034,28.6 Z" id="Shape-Copy-2" fill="#FFFFFF" fill-rule="nonzero" transform="translate(22.000000, 22.000000) scale(1, -1) translate(-22.000000, -22.000000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -4,7 +4,17 @@
 
     .scrollContent {
         overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
         height: calc(~'100%' - 0.98rem);
+
+        .backTop {
+            position: fixed;
+            display: none;
+            bottom: 2.3rem;
+            right: 0.2rem;
+            width:0.88rem;
+            height:0.88rem;
+        }
 
         .group {
             background: rgba(255, 255, 255, 1);
@@ -48,6 +58,7 @@
                     }
 
                     .memberAvatar {
+                        position: relative;
                         width: 1.08rem;
                         height: 1.08rem;
                         border: 0.03rem solid rgba(66, 158, 253, 1);
@@ -56,6 +67,7 @@
                     }
 
                     .memberName {
+                        position: relative;
                         padding: 0.04rem 0.26rem;
                         font-size: 0.28rem;
                         font-family: PingFangSC-Medium;
@@ -64,12 +76,15 @@
                         background: rgba(66, 158, 253, 1);
                         border-radius: 0.24rem;
                         margin-top: -0.16rem;
+                        z-index: 1;
                     }
                 }
             }
 
             .inviteBtn {
-                padding: 0.2rem 0;
+                width: 5.58rem;
+                height: 0.96rem;
+                line-height: 0.96rem;
                 text-align: center;
                 background: linear-gradient(
                     90deg,
@@ -77,7 +92,14 @@
                     rgba(253, 199, 13, 1) 100%
                 );
                 border-radius: 0.48rem;
-                margin-top: 0.4rem;
+                margin: 0.4rem auto 0;
+                bottom: 0.28rem;
+                left: 50%;
+                font-size: 0.4rem;
+                font-family: PingFangSC-Medium;
+                font-weight: 500;
+                color: rgba(52, 58, 62, 1);
+                z-index: 4;
             }
 
             .sharelink {
@@ -88,7 +110,7 @@
                 color: rgba(255, 67, 66, 1);
                 border-bottom: 0.02rem solid rgba(255, 67, 66, 1);
                 margin-top: 0.08rem;
-                line-height:0.36rem;
+                line-height: 0.36rem;
             }
         }
 
@@ -299,6 +321,7 @@
             .tabs {
                 position: sticky;
                 top: 0;
+                z-index: 2;
             }
 
             .contentItem {

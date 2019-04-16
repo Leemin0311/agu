@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { PullToRefresh } from 'antd-mobile';
 import Tabs from '@components/Tabs';
+import throttle from 'lodash.throttle';
 import Course from './components/Course';
 import styles from './index.less';
 
@@ -9,6 +9,17 @@ import styles from './index.less';
     ...classcenter,
 }))
 class ClassCenter extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleScroll = throttle(this.scroll, 500);
+    }
+
+    componentDidUpdate() {
+        this.scrollHeight = (this.content || {}).scrollHeight;
+        this.clientHeight = (this.content || {}).clientHeight;
+    }
+
     changeTab = ({ tabKey }) => {
         const { dispatch } = this.props;
 
@@ -23,6 +34,8 @@ class ClassCenter extends React.Component {
         dispatch({
             type: 'classcenter/getCourseList',
         });
+
+        this.content.scrollTo(0, 0);
     };
 
     fetchNewPage = () => {
@@ -34,6 +47,20 @@ class ClassCenter extends React.Component {
                 append: true,
             },
         });
+    };
+
+    scroll = e => {
+        const { dispatch, total, courses } = this.props;
+        const top = e.target.scrollTop;
+
+        if (top + this.clientHeight + 20 >= this.scrollHeight && courses.length < total) {
+            dispatch({
+                type: 'classcenter/getCourseList',
+                payload: {
+                    append: true,
+                },
+            });
+        }
     };
 
     render() {
@@ -62,21 +89,19 @@ class ClassCenter extends React.Component {
                             background:
                                 'linear-gradient(90deg,rgba(254, 227, 0, 1) 0%,rgba(253, 199, 13, 1) 100%)',
                         }}
-                        wrapperStyle={{height: '100%'}}
+                    />
+                    <div
+                        className={styles.content}
+                        onScroll={e => {
+                            e.persist();
+                            this.handleScroll(e);
+                        }}
+                        ref={content => (this.content = content)}
                     >
-                        <PullToRefresh
-                            onRefresh={this.fetchNewPage}
-                            direction="up"
-                            indicator={{}}
-                            distanceToRefresh={window.devicePixelRatio * 25}
-                        >
-                            <div className={styles.content}>
-                                {courses.map(item => (
-                                    <Course {...item} key={item.id} />
-                                ))}
-                            </div>
-                        </PullToRefresh>
-                    </Tabs>
+                        {courses.map(item => (
+                            <Course {...item} key={item.id} />
+                        ))}
+                    </div>
                 </div>
             </div>
         );

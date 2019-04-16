@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server packages",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "cross-env API_HOST=//172.20.110.42:10040 node server.js",
+    "dev-server": "cross-env API_HOST=//172.20.110.42:10040 STORAGE=session PORT=8888 node server.js",
+    "qa": "cross-env API_HOST=https://merit-gateway-qa.tap4fun.com STORAGE=local GA_ID=UA-131214472-1 node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0"
+  }
+}

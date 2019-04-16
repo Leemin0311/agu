@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'dva';
 import { Carousel, Icon } from 'antd-mobile';
 import Media from '@components/Media';
@@ -7,10 +8,14 @@ import Tabs from '@components/Tabs';
 import { formatPrice } from '@utils/tools';
 import moment from 'moment';
 import defaultAvatar from '@assets/defaultAvatar.svg';
+import backTop from '@assets/backTop.svg';
+import html2canvas from 'html2canvas';
+import throttle from 'lodash.throttle';
 import ServiceIntro from './components/ServiceIntro';
 import styles from './index.less';
 
-@connect(({ coursedetail, loading }) => ({
+@connect(({ coursedetail, loading, global }) => ({
+    ...global,
     ...coursedetail,
     loading: loading.effects['coursedetail/getDetail'],
 }))
@@ -18,6 +23,12 @@ class CourseDetail extends React.Component {
     state = {
         activeTab: 'detail',
     };
+
+    constructor(props) {
+        super(props);
+
+        this.handleScroll = throttle(this.scroll, 500);
+    }
 
     componentWillMount() {
         const {
@@ -36,11 +47,30 @@ class CourseDetail extends React.Component {
     }
 
     componentDidUpdate() {
-        this.detailTop = (this.detail || {}).offsetTop;
-        this.outlineTop = (this.outline || {}).offsetTop;
-        this.noteTop = (this.note || {}).offsetTop;
+        const { loading, id, order } = this.props;
+
+        if (!loading && id) {
+            this.detailTop = (this.detail || {}).offsetTop;
+            this.outlineTop = (this.outline || {}).offsetTop;
+            this.noteTop = (this.note || {}).offsetTop;
+            this.groupBottom = (this.group || {}).offsetTop + (this.group || {}).offsetHeight;
+            if ((order || {}).group) {
+                this.renderShare();
+            }
+        }
     }
 
+    componentWillUnmount() {
+        const ele = document.getElementById('shareDom');
+        if (ele) {
+            ReactDOM.unmountComponentAtNode(ele);
+            document.body.removeChild(ele);
+        }
+    }
+
+    /**
+     * 顶部跑马灯、简介
+     */
     renderHead = () => {
         const { headMedia, name, intro, theme } = this.props;
 
@@ -70,6 +100,9 @@ class CourseDetail extends React.Component {
         );
     };
 
+    /**
+     * 拼团详情，自己发起
+     */
     renderGroup = () => {
         const { order } = this.props;
 
@@ -88,7 +121,7 @@ class CourseDetail extends React.Component {
         }
 
         return (
-            <div className={styles.group}>
+            <div className={styles.group} ref={group => (this.group = group)}>
                 <div className={styles.groupTip}>
                     仅差<span style={{ color: '#FF4E00' }}>{3 - members.length}</span>人，拼团成功
                 </div>
@@ -100,7 +133,7 @@ class CourseDetail extends React.Component {
                 </div>
                 <div className={styles.avatars}>
                     {memberToRender.map(({ avatar, name }, index) => (
-                        <div className={styles.member}>
+                        <div className={styles.member} key={index}>
                             <img
                                 className={styles.memberAvatar}
                                 style={{
@@ -109,20 +142,25 @@ class CourseDetail extends React.Component {
                                 alt=""
                                 src={avatar || defaultAvatar}
                             />
-                            {(index === 0) && (
-                                <div className={styles.memberName}>
-                                    团长
-                                </div>
-                            )}
+                            {index === 0 && <div className={styles.memberName}>团长</div>}
                         </div>
                     ))}
                 </div>
-                <div className={styles.inviteBtn}>邀请好友</div>
+                <div
+                    className={styles.inviteBtn}
+                    ref={btn => (this.inviteBtn = btn)}
+                    onClick={this.share}
+                >
+                    邀请好友
+                </div>
                 <div className={styles.sharelink}>领加速海报</div>
             </div>
         );
     };
 
+    /**
+     * 价格区域
+     */
     renderPrice = () => {
         const { groupPrice, coupon, purchasers = [], userCount: userCountNum, tags } = this.props;
 
@@ -223,6 +261,9 @@ class CourseDetail extends React.Component {
         return <>{price}</>;
     };
 
+    /**
+     * 详情
+     */
     renderContent = () => {
         const { detailMedia = [], outlineMedia = [], noteMedia = [] } = this.props;
         const { activeTab } = this.state;
@@ -281,6 +322,9 @@ class CourseDetail extends React.Component {
         );
     };
 
+    /**
+     * 底部购买区域
+     */
     renderFooter = () => {
         const { price, groupPrice } = this.props;
 
@@ -309,38 +353,176 @@ class CourseDetail extends React.Component {
 
     scroll = e => {
         const top = e.target.scrollTop;
+        const { activeTab } = this.state;
+
+        if (top > 100) {
+            this.backTop.style.display = 'block';
+        } else {
+            this.backTop.style.display = 'none';
+        }
 
         if (this.noteTop - top < 200) {
-            this.setState({
-                activeTab: 'note',
-            });
+            if (activeTab !== 'note') {
+                this.setState({
+                    activeTab: 'note',
+                });
+            }
         } else if (this.outlineTop - top < 200) {
-            this.setState({
-                activeTab: 'outline',
-            });
+            if (activeTab !== 'outline') {
+                this.setState({
+                    activeTab: 'outline',
+                });
+            }
         } else {
-            this.setState({
-                activeTab: 'detail',
-            });
+            if (activeTab !== 'detail') {
+                this.setState({
+                    activeTab: 'detail',
+                });
+            }
+        }
+
+        if (this.inviteBtn) {
+            if (top > this.groupBottom) {
+                this.inviteBtn.style.position = 'fixed';
+                this.inviteBtn.style.transform = 'translateX(-50%)';
+            } else {
+                this.inviteBtn.style.position = 'static';
+                this.inviteBtn.style.transform = 'unset';
+            }
         }
     };
 
+    backToTop = () => {
+        this.content.scrollTo(0, 0);
+        this.backTop.style.display = 'none';
+    };
+
+    renderShareDom = bgImage => {
+        const { shareH5, user } = this.props;
+        const { qrcode } = shareH5;
+        const { nickName, avatarUrl } = user.wechatUser;
+        const { width, height, src } = bgImage;
+
+        return (
+            <>
+                <img
+                    src={src}
+                    alt=""
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '7.5rem',
+                        height: (window.innerWidth / width) * height,
+                    }}
+                />
+                <div style={{ position: 'absolute', top: '0.22rem', left: '0.32rem', zIndex: 1 }}>
+                    <img
+                        src={avatarUrl}
+                        alt=""
+                        style={{
+                            width: '0.56rem',
+                            height: '0.56rem',
+                            float: 'left',
+                            borderRadius: '0.56rem',
+                        }}
+                    />
+                    <span
+                        style={{
+                            fontSize: '0.22rem',
+                            fontWeight: 500,
+                            color: '#fff',
+                            lineHeight: '0.32rem',
+                            float: 'left',
+                            marginLeft: '0.2rem',
+                            zIndex: 1,
+                        }}
+                    >
+                        <div>{nickName}</div>
+                        <div>我觉得这个课程超棒，推荐给你！</div>
+                    </span>
+                </div>
+                <img
+                    src={qrcode}
+                    alt=""
+                    style={{
+                        position: 'absolute',
+                        right: '0.32rem',
+                        bottom: '0.32rem',
+                        width: '1.33rem',
+                        height: '1.33rem',
+                    }}
+                />
+            </>
+        );
+    };
+
+    renderShare = () => {
+        let ele = document.getElementById('shareDom');
+        if (!ele) {
+            ele = document.createElement('div');
+            ele.id = 'shareDom';
+            ele.style.position = 'relative';
+            // ele.style.visibility = 'hidden';
+            document.body.appendChild(ele);
+        }
+
+        const { shareH5 } = this.props;
+        const { bgImage } = shareH5;
+
+        const image = new Image();
+        image.src = bgImage;
+        image.onload = () => {
+            const { width, height } = image;
+            ele.style.width = '7.5rem';
+            ele.style.height = `${(window.innerWidth * height) / width}px`;
+            ele.style.background = `url(${bgImage})`;
+            ReactDOM.render(this.renderShareDom(image), ele);
+        };
+    };
+
+    share = () => {
+        html2canvas(document.getElementById('shareDom'), {
+            useCORS: true,
+            allowTaint: true,
+        }).then(canvas => {
+            const img = new Image();
+            img.src = canvas.toDataURL('image/png');
+            document.body.appendChild(canvas);
+        });
+    };
+
     render() {
-        const { loading, id } = this.props;
+        const { loading, id, order } = this.props;
         if (loading || !id) return null;
+
+        const showFooter = !(order || {}).group;
 
         return (
             <div className={styles.container}>
                 <div
                     className={styles.scrollContent}
                     ref={content => (this.content = content)}
-                    onScroll={this.scroll}
+                    onScroll={e => {
+                        e.persist();
+                        this.handleScroll(e);
+                    }}
+                    style={{
+                        height: showFooter ? 'calc(100% - 0.98rem)' : '100%',
+                    }}
                 >
                     {this.renderGroup()}
                     {this.renderHead()}
                     {this.renderContent()}
+                    <img
+                        src={backTop}
+                        className={styles.backTop}
+                        alt=""
+                        ref={backTop => (this.backTop = backTop)}
+                        onClick={this.backToTop}
+                    />
                 </div>
-                {this.renderFooter()}
+                {showFooter && this.renderFooter()}
             </div>
         );
     }

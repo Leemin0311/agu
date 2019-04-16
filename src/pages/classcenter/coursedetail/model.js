@@ -1,4 +1,4 @@
-import { getCourseDetail, getCoupon } from './service';
+import { getCourseDetail, getCoupon, getGroupDetail } from './service';
 
 export default {
     namespace: 'coursedetail',
@@ -11,7 +11,20 @@ export default {
         },
     },
     effects: {
-        *getDetail({payload : { id }}, { put, call }) {
+        *getDetail({payload : { id }}, { put, call, select }) {
+            const { user } = yield select(state => state.global);
+            const { groupId, groupLeaderId } = yield select(state => state.coursedetail);
+
+            if(groupId && user.id !== groupLeaderId) {
+                yield put({
+                    type: 'getGroupDetail',
+                    payload: {
+                        groupId,
+                        userId: groupLeaderId
+                    }
+                });
+            }
+
             const rst = yield call(getCourseDetail, id);
             if(!rst.error) {
                 const coupon = yield call(getCoupon, id);
@@ -20,10 +33,40 @@ export default {
                     type: 'setData',
                     payload: {
                         ...rst.data,
-                        coupon: coupon.error ? null : coupon.data[0]
+                        coupon: coupon.error ? null : coupon.data[0],
+                        couponList: coupon.data
                     }
                 });
             }
+        },
+        *getGroupDetail({ payload : {userId, groupId }}, {put, call}) {
+            const rst = yield call(getGroupDetail);
+            if(!rst.error) {
+                const { user, group } = rst.data;
+
+                yield put({
+                    type: 'setData',
+                    payload: {
+                        groupLeader: user,
+                        groupDetail: group
+                    }
+                });
+            }
+        }
+    },
+    subscriptions: {
+        setup({ history, dispatch }) {
+            return history.listen(({ pathname, search, query }) => {
+                if(pathname.startsWith('/classcenter/coursedetail')) {
+                    dispatch({
+                        type: 'setData',
+                        payload: {
+                            groupId: query.groupId,
+                            groupLeaderId: query.userId
+                        }
+                    });
+                }
+            });
         },
     },
 };
