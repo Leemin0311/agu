@@ -20,7 +20,7 @@ export default class Media extends React.Component {
         const { showVideo } = this.state;
 
         return showVideo ? (
-            <video className={className}>
+            <video className={className} autoPlay>
                 <source src={videoUrl} type="video/mp4" />
                 <track kind="captions" />
             </video>
