@@ -21,7 +21,7 @@ export default delay({
                             group: {
                                 courseId: '@guid',
                                 createTime: "2019-04-15T10:14:53.627Z",
-                                expireTime: "2019-04-15T10:14:53.627Z",
+                                expireTime: "2019-04-17T10:14:53.627Z",
                                 id: '@guid',
                                 'members|10': [
                                     {

@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import { Button } from 'antd-mobile';
-
 import { connect } from 'dva';
+import Countdown from '@components/Countdown';
+
+import moment from 'moment';
 import styles from './index.less';
+
 
 @connect(({person_order}) => ({
     orders: person_order.orders,
@@ -60,9 +63,13 @@ class Orders extends Component{
                                 </div>
                             </div>
                             <div className={styles.action}>
-                                <div className={styles.time}>
-                                    拼团剩余时间
-                                </div>
+                                {
+                                    item.status === 'Grouping' && item.group && new Date(item.group.expireTime) - moment() >= 0 && (
+                                        <div className={styles.time}>
+                                            拼团剩余时间: {<Countdown timeCount={(new Date(item.group.expireTime) - moment()) % 86400000} />}
+                                        </div>
+                                    )
+                                }
                                 {
                                     this.status[item.status][1] &&
                                         <Button type='primary' className={styles.buttonPri} style={{background: this.colors[item.status] && this.colors[item.status][1], color: this.colors[item.status] && this.colors[item.status][2]}}>
