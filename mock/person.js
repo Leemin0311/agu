@@ -63,4 +63,48 @@ export default delay({
             }),
         );
     },
+    'POST /api/user/coupon/list': (req, res) => {
+        const { status } = req.body;
+        res.send(
+            Mock.mock({
+                data: {
+                    'conten|10': [
+                        {
+                            courseId: "@guid",
+                            createTime: '2019-04-16T05:50:57.585Z',
+                            expireTime: '2019-04-16T05:50:57.585Z',
+                            fee: 0,
+                            group: {
+                                courseId: "@guid",
+                                createTime: '2019-04-16T05:50:57.585Z',
+                                expireTime: '2019-04-16T05:50:57.585Z',
+                                id: "string",
+                                members: [
+                                    {
+                                        avatar: "string",
+                                        name: "@cname",
+                                        userId: "@guid"
+                                    }
+                                ]
+                            },
+                            id: "@guid",
+                            payTime: '2019-04-16T05:50:57.585Z',
+                            refundTime: '2019-04-16T05:50:57.585Z',
+                            snapshot: {
+                                courseId: "string",
+                                icon: "string",
+                                name: "string"
+                            },
+                            status: status,
+                            type: "Member",
+                            userId: "string"
+                        }
+                    ],
+                    page: 0,
+                    size: 0,
+                    total: 0
+                },
+            }),
+        );
+    },
 });

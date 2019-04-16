@@ -19,11 +19,13 @@ class Mine extends Component{
     tools = [
         {
             src: order,
-            title: '我的订单'
+            title: '我的订单',
+            router: '/person/orders'
         },
         {
             src: coupon,
-            title: '优惠券'
+            title: '优惠券',
+            router: '/person/coupon'
         },
         {
             src: classes,
@@ -83,7 +85,7 @@ class Mine extends Component{
                                 className={styles.tool}
                                 key={index}
                                 onClick={() => {
-                                    router.push('/person/orders');
+                                    router.push(item.router);
                                 }}
                             >
                                 <div className={styles.toolImg}>

@@ -87,7 +87,7 @@ class Info extends Component{
             type: 'person_info/upDateBabyInfo' ,
             payload: {
                 birthday: moment(birth).format(),
-                male: sexValue === 'male' ? '男' : sexValue === 'female' ? '女' : '',
+                male: sexValue[0] === 'male' ? '男' : sexValue[0] === 'female' ? '女' : '',
                 name
             }
         });

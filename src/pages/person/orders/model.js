@@ -12,7 +12,7 @@ export default {
         },
     },
     effects: {
-        *getOrderList({ payload = {append : false} }, { select, call, put, take }) {
+        *getOrderList({ payload = {append : false} }, { select, call, put }) {
             const { page, orders } = yield select(state => state.person_order);
 
 
