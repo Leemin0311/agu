@@ -1,0 +1,74 @@
+.orderContent{
+    width: 100%;
+    padding-bottom: 0.9rem;
+    .order{
+        width: 100%;
+        background:rgba(255,255,255,1);
+        margin-bottom: 0.2rem;
+        padding: 0.28rem 0.28rem 0;
+        .snapshot{
+            display: flex;
+            border-bottom: 1px solid #E5E5E5;
+            padding-bottom: 0.28rem;
+            height: 1.88rem;
+            .orderIcon{
+                width: 1.6rem;
+                height: 1.6rem;
+                border-radius: 0.12rem;
+                margin-right: 0.28rem;
+            }
+            .orderInfo{
+                height: 1.6rem;
+                position: relative;
+                .orderName{
+                    max-height: 0.84rem;
+                    overflow: hidden;
+                    font-size: 0.30rem;
+                    font-family:PingFangSC-Medium;
+                    font-weight:500;
+                }
+                .ortherInfo{
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    .status{
+                        font-size: 0.30rem;
+                        font-family: PingFangSC-Medium;
+                        font-weight: 500;
+                    }
+                    .money{
+                        position: absolute;
+                        font-size: 0.26rem;
+                        font-family:PingFangSC-Regular;
+                        font-weight:400;
+                        right: 0;
+                        bottom: 0;
+                    }
+                }
+            }
+        }
+        .action{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 0.86rem;
+            .time{
+                font-size: 0.26rem;
+                font-family:PingFangSC-Regular;
+                font-weight:400;
+            }
+            .buttonPri{
+                display: inline-block;
+                border-radius: 0.27rem;
+                font-size: 0.28rem;
+                height: 0.52rem;
+                line-height: 0.52rem;
+                padding-right: 0.24rem;
+                padding-left: 0.24rem;
+            }
+            .buttonPri::before{
+                border: none;
+            }
+        }
+    }
+}
