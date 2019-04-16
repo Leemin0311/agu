@@ -78,7 +78,13 @@ export default delay({
                                 image :  "https://v.aguzaojiao.com/test/coupon1.png",
                                 type :  "Member" ,
                                 intro :  "新用户购买， 立减3元" ,
-                                value : 1
+                                value : 1,
+                                'courses|5': [
+                                    {
+                                        id: '@guid',
+                                        name: '@cname@cname@cname'
+                                    }
+                                ]
                             },
                             status :  status ,
                             createTime : 1554997885112,
