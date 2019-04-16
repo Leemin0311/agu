@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import Tabs from '@components/Tabs';
 import Expired from '@assets/expired.png';
+import Empty from '@assets/empty.png';
 
 import { connect } from 'dva';
 import styles from './index.less';
@@ -66,9 +67,20 @@ class Coupon extends Component{
 
     };
 
+    emptyPage = () => (
+        <div className={styles.emptyPage}>
+            <img src={Empty} className={styles.emptyPageImg} />
+            <div className={styles.text}>暂时没有发现优惠券哦～</div>
+            <div className={styles.text}>去首页看看有什么新课程吧</div>
+            <Button type='primary' className={styles.emptyButtonPri}>
+                去看看
+            </Button>
+        </div>
+    );
+
     render() {
         const {activeTab} = this.state;
-        const {coupons_Valid, coupons_Used, coupons_Expired,} = this.props;
+        const { coupons_Valid, coupons_Used, coupons_Expired,} = this.props;
 
         return (
             <div
@@ -91,80 +103,95 @@ class Coupon extends Component{
                     }}
                 />
                 <div style={{ display: activeTab === 'Valid' ? 'block' : 'none' }} className={styles.contentItem}>
-                    <PullToRefresh
-                        onRefresh={this.fetchNewPage}
-                        direction="up"
-                        indicator={{}}
-                        distanceToRefresh={window.devicePixelRatio * 25}
-                    >
-                        {
-                            coupons_Valid.map(item => (
-                                <div className={styles.coupon}>
-                                    <img src={item.coupon.image} className={styles.couponImg} />
-                                    <div className={styles.others}>
-                                        <span className={styles.time}>
+                    {
+                        coupons_Valid && coupons_Valid.length > 0 ?
+                            <PullToRefresh
+                                onRefresh={this.fetchNewPage}
+                                direction="up"
+                                indicator={{}}
+                                distanceToRefresh={window.devicePixelRatio * 25}
+                            >
+                                {
+
+                                    coupons_Valid.map(item => (
+                                        <div className={styles.coupon}>
+                                            <img src={item.coupon.image} className={styles.couponImg} />
+                                            <div className={styles.others}>
+                                                <span className={styles.time}>
                                         有效期：{moment(item.expireTime).format('YYYY/MM/DD HH:MM')}
-                                        </span>
-                                        <span className={styles.info}>
+                                                </span>
+                                                <span className={styles.info}>
                                         使用范围
-                                        </span>
-                                        <Button type='primary' className={styles.buttonPri}>
-                                        去使用
-                                        </Button>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </PullToRefresh>
+                                                </span>
+                                                <Button type='primary' className={styles.buttonPri}>
+                                                    去使用
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    ))
+
+                                }
+                            </PullToRefresh> :
+                            this.emptyPage()
+                    }
                 </div>
                 <div style={{ display: activeTab === 'Used' ? 'block' : 'none' }} className={styles.contentItem}>
-                    <PullToRefresh
-                        onRefresh={this.fetchNewPage}
-                        direction="up"
-                        indicator={{}}
-                        distanceToRefresh={window.devicePixelRatio * 25}
-                    >
-                        {
-                            coupons_Used.map(item => (
-                                <div className={styles.coupon}>
-                                    <img src={item.coupon.image} className={styles.couponImg} />
-                                    <div className={styles.others}>
-                                        <span className={styles.time} style={{color: '#B9B9B9'}}>
+                    {
+                        coupons_Used && coupons_Used.length > 0 ?
+                            <PullToRefresh
+                                onRefresh={this.fetchNewPage}
+                                direction="up"
+                                indicator={{}}
+                                distanceToRefresh={window.devicePixelRatio * 25}
+                            >
+                                {
+                                    coupons_Used.map(item => (
+                                        <div className={styles.coupon}>
+                                            <img src={item.coupon.image} className={styles.couponImg} />
+                                            <div className={styles.others}>
+                                                <span className={styles.time} style={{color: '#B9B9B9'}}>
                                         有效期：{moment(item.expireTime).format('YYYY/MM/DD HH:MM')}
-                                        </span>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </PullToRefresh>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </PullToRefresh> :
+                            this.emptyPage()
+                    }
+
                 </div>
                 <div style={{ display: activeTab === 'Expired' ? 'block' : 'none' }} className={styles.contentItem}>
-                    <PullToRefresh
-                        onRefresh={this.fetchNewPage}
-                        direction="up"
-                        indicator={{}}
-                        distanceToRefresh={window.devicePixelRatio * 25}
-                    >
-                        {
-                            coupons_Expired.map(item => (
-                                <div className={styles.coupon}>
-                                    <img
-                                        src={item.coupon.image}
-                                        className={classNames({
-                                            [styles.gray]: true,
-                                            [styles.couponImg]: true,
-                                        })}
-                                    />
-                                    <img src={Expired} className={styles.expired} />
-                                    <div className={styles.others}>
-                                        <span className={styles.time} style={{color: '#B9B9B9'}}>
+                    {
+                        coupons_Expired && coupons_Expired.length > 0 ?
+                            <PullToRefresh
+                                onRefresh={this.fetchNewPage}
+                                direction="up"
+                                indicator={{}}
+                                distanceToRefresh={window.devicePixelRatio * 25}
+                            >
+                                {
+                                    coupons_Expired.map(item => (
+                                        <div className={styles.coupon}>
+                                            <img
+                                                src={item.coupon.image}
+                                                className={classNames({
+                                                    [styles.gray]: true,
+                                                    [styles.couponImg]: true,
+                                                })}
+                                            />
+                                            <img src={Expired} className={styles.expired} />
+                                            <div className={styles.others}>
+                                                <span className={styles.time} style={{color: '#B9B9B9'}}>
                                         有效期：{moment(item.expireTime).format('YYYY/MM/DD HH:MM')}
-                                        </span>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </PullToRefresh>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </PullToRefresh> :
+                            this.emptyPage()
+                    }
                 </div>
             </div>
         );
