@@ -131,14 +131,14 @@ class Orders extends Component{
                                                     {
                                                         order.status === 'Grouping' && order.group && new Date(order.group.expireTime) - moment() >= 0 && (
                                                             <div className={styles.time}>
-                                                                拼团剩余时间: {<Countdown timeCount={(new Date(order.group.expireTime) - moment()) % 86400000} />}
+                                                                拼团剩余时间: {<Countdown timeCount={(new Date(order.group.expireTime) - moment())} />}
                                                             </div>
                                                         )
                                                     }
                                                     {
                                                         order.status === 'Created' && order.expireTime && new Date(order.expireTime) - moment() >= 0 && (
                                                             <div className={styles.time}>
-                                                                订单剩余时间: {<Countdown timeCount={(new Date(order.expireTime) - moment()) % 86400000} />}
+                                                                订单剩余时间: {<Countdown timeCount={(new Date(order.expireTime) - moment())} />}
                                                             </div>
                                                         )
                                                     }
