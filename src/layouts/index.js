@@ -29,6 +29,21 @@ class BasicLayout extends React.PureComponent {
         if (pathname.startsWith('/classcenter/coursedetail')) {
             return '课程详情';
         }
+        if(pathname.startsWith('/person/info')){
+            return '宝宝信息';
+        }
+        if(pathname.startsWith('/person/orders')){
+            return '我的订单';
+        }
+        if(pathname.startsWith('/person/coupon')){
+            return '优惠券';
+        }
+        if(pathname.startsWith('/person/classes')){
+            return '加入官方班级群';
+        }
+        if(pathname.startsWith('/person')) {
+            return '个人中心';
+        }
 
         return '阿古早教';
     };
