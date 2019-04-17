@@ -61,7 +61,8 @@ class Orders extends Component{
                     onRefresh={this.fetchNewPage}
                     direction="up"
                     indicator={{}}
-                    distanceToRefresh={window.devicePixelRatio * 25}
+                    damping={60}
+                    className={styles.refresh}
                 >
                     {
                         (orders || []).map(item => (
