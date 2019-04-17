@@ -29,7 +29,8 @@ class Mine extends Component{
         },
         {
             src: classes,
-            title: '官方班级群'
+            title: '官方班级群',
+            router: '/person/classes'
         }
     ];
 
