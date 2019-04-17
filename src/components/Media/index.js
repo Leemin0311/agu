@@ -28,8 +28,8 @@ export default class Media extends React.Component {
             </video>
         ) : (
             <div className={styles.container}>
-                <img className={className} src={url} alt="" />
-                {type === 'Video' && <img src={play} alt="" className={styles.play} onClick={this.showVideo} />}
+                <img className={className} src={url} alt="img" />
+                {type === 'Video' && <img src={play} alt="img" className={styles.play} onClick={this.showVideo} />}
             </div>
         );
     }

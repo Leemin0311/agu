@@ -5,6 +5,7 @@ import { Carousel, Icon } from 'antd-mobile';
 import Media from '@components/Media';
 import Countdown from '@components/Countdown';
 import Tabs from '@components/Tabs';
+import pay from '@components/Pay';
 import { formatPrice } from '@utils/tools';
 import moment from 'moment';
 import defaultAvatar from '@assets/defaultAvatar.svg';
@@ -131,14 +132,14 @@ class CourseDetail extends React.Component {
         return (
             <div className={styles.joinGroup}>
                 <div className={styles.groupTitle}>
-                    <img src={avatarUrl} alt="" className={styles.groupLeaderAvatar} />
+                    <img src={avatarUrl} alt="img" className={styles.groupLeaderAvatar} />
                     <span style={{ float: 'left', marginLeft: '0.2rem' }}>
                         <div className={styles.groupLeaderName}>{nickName}</div>
                         <div className={styles.groupLeaderTip}>我发现一个超棒的课程！推荐给你</div>
                     </span>
                 </div>
                 <div className={styles.groupBrief}>
-                    <img src={shareImage} alt="" className={styles.groupShareImage} />
+                    <img src={shareImage} alt="img" className={styles.groupShareImage} />
                     <span
                         style={{
                             float: 'left',
@@ -167,10 +168,12 @@ class CourseDetail extends React.Component {
                                     style={{
                                         borderColor: name ? '#429EFD' : '#D3D3D3',
                                     }}
-                                    alt=""
+                                    alt="img"
                                     src={avatar || defaultAvatar}
                                 />
-                                {userId===groupLeader.id && <div className={styles.memberName}>团长</div>}
+                                {userId === groupLeader.id && (
+                                    <div className={styles.memberName}>团长</div>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -194,7 +197,7 @@ class CourseDetail extends React.Component {
                         style={{
                             background:
                                 'linear-gradient(90deg,rgba(255,138,28,1) 0%,rgba(247,77,57,1) 100%)',
-                            color: '#fff'
+                            color: '#fff',
                         }}
                     >
                         一键参团
@@ -243,7 +246,7 @@ class CourseDetail extends React.Component {
                                 style={{
                                     borderColor: name ? '#429EFD' : '#D3D3D3',
                                 }}
-                                alt=""
+                                alt="img"
                                 src={avatar || defaultAvatar}
                             />
                             {index === 0 && <div className={styles.memberName}>团长</div>}
@@ -437,16 +440,28 @@ class CourseDetail extends React.Component {
         return (
             <div className={styles.footer}>
                 <span className={styles.vipBtn}>会员免费</span>
-                <span className={styles.singleBtn}>
+                <span className={styles.singleBtn} onClick={() => this.payment(price)}>
                     <div className={styles.priceNum}>¥{formatPrice(price)}</div>
                     <div className={styles.priceType}>单独购买价</div>
                 </span>
                 <span className={styles.groupBtn}>
-                    <div className={styles.priceNum}>¥{formatPrice(groupPrice)}</div>
+                    <div className={styles.priceNum} onClick={() => this.payment(groupPrice)}>
+                        ¥{formatPrice(groupPrice)}
+                    </div>
                     <div className={styles.priceType}>三人团</div>
                 </span>
             </div>
         );
+    };
+
+    payment = price => {
+        const { name, couponList } = this.props;
+
+        pay({
+            price,
+            name,
+            couponList,
+        });
     };
 
     changeTab = ({ tabKey }) => {
@@ -512,7 +527,7 @@ class CourseDetail extends React.Component {
             <>
                 <img
                     src={bgImage}
-                    alt=""
+                    alt="img"
                     style={{
                         position: 'absolute',
                         top: 0,
@@ -525,7 +540,7 @@ class CourseDetail extends React.Component {
                 <div style={{ position: 'absolute', top: '0.22rem', left: '0.32rem', zIndex: 1 }}>
                     <img
                         src={avatarUrl}
-                        alt=""
+                        alt="img"
                         style={{
                             width: '0.56rem',
                             height: '0.56rem',
@@ -551,7 +566,7 @@ class CourseDetail extends React.Component {
                 </div>
                 <img
                     src={qrcode}
-                    alt=""
+                    alt="img"
                     style={{
                         position: 'absolute',
                         right: '0.32rem',
@@ -622,7 +637,7 @@ class CourseDetail extends React.Component {
                         />
                         <img
                             src={this.shareImage}
-                            alt=""
+                            alt="img"
                             style={{ width: '4.98rem', height: '8.86rem' }}
                             onTouchStart={e => e.preventDefault()}
                         />
@@ -672,7 +687,7 @@ class CourseDetail extends React.Component {
                 >
                     <img
                         src={arrow}
-                        alt=""
+                        alt="img"
                         style={{
                             position: 'absolute',
                             top: '-1.45rem',
@@ -687,8 +702,8 @@ class CourseDetail extends React.Component {
             maskClosable: true,
             bodyStyle: {
                 top: '1.74rem',
-                transform: 'translateX(-50%)'
-            }
+                transform: 'translateX(-50%)',
+            },
         });
     };
 
@@ -718,7 +733,7 @@ class CourseDetail extends React.Component {
                     <img
                         src={backTop}
                         className={styles.backTop}
-                        alt=""
+                        alt="img"
                         ref={backTop => (this.backTop = backTop)}
                         onClick={this.backToTop}
                     />

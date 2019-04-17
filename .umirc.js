@@ -37,4 +37,7 @@ export default {
     theme: {
         'primary-color': '#343A3E',
     },
+    define: {
+        'window.API_HOST': process.env.API_HOST
+    }
 };

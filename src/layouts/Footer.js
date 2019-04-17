@@ -65,7 +65,7 @@ export default class Footer extends React.Component {
                 {this.data.map(({ id, name, icon, icon_selected }) => (
                     <div className={styles.menuItem} key={id} onClick={() => this.change(id)}>
                         <div className={styles.icon}>
-                            <img src={selected === id ? icon_selected : icon} alt="" />
+                            <img src={selected === id ? icon_selected : icon} alt="img" />
                         </div>
                         <div
                             className={classNames({

@@ -1,86 +1,175 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Modal, Icon, Checkbox } from 'antd-mobile';
 import { formatPrice } from '@utils/tools';
 import prod from '@assets/prod.svg';
-import coupon from '@assets/coupon.svg';
+import couponIcon from '@assets/coupon.svg';
 import priceIcon from '@assets/price.svg';
+import classNames from 'classnames';
 import styles from './Pay.less';
 
-export default class Pay extends React.Component {
-    state = { showCoupon: false, selected: null };
+class Pay extends React.Component {
+    state = { showCoupon: false, selected: null, visible: true };
+
+    constructor(props) {
+        super(props);
+
+        this.hide = this.hide.bind(this);
+    }
+
+    hide = () => {
+        this.setState({
+            visible: false
+        });
+    }
 
     getPrice = () => {
-        const { price, coupons = [] } = this.props;
+        const { price, couponList = [] } = this.props;
         const { selected } = this.state;
 
-        const coupon = coupons.find(cou => cou.coupon.id === selected);
+        const coupon = couponList.find(cou => cou.coupon.id === selected);
 
         if (!coupon) return formatPrice(price);
 
         return formatPrice(price - coupon.coupon.value);
     };
 
+    changeCoupon = e => {
+        this.setState({
+            selected: e.target.checked ? e.target['data-value'] : null,
+        });
+    };
+
+    toggleCoupon = () => {
+        const { showCoupon } = this.state;
+
+        this.setState({
+            showCoupon: !showCoupon,
+        });
+    };
+
+    confirm = () => {
+        const { close } = this.props;
+        close();
+    }
+
+    close = () => {
+        const { close } = this.props;
+        close();
+    }
+
     render() {
-        const { name, coupons = [] } = this.props;
-        const { showCoupon, selected } = this.state;
+        const { name, couponList = [] } = this.props;
+        const { showCoupon, selected, visible } = this.state;
+        const coupon = couponList.find(cou => cou.coupon.id === selected);
 
         return (
-            <Modal visible popup maskClosable={false}>
-                <div className={styles.container}>
+            <Modal
+                visible={visible}
+                popup
+                maskClosable={false}
+                animationType="slide-up"
+                className={styles.container}
+            >
+                <div className={styles.content}>
                     <div className={styles.title}>
                         <span>商品详情</span>
-                        <span>关闭</span>
+                        <span className={styles.close} onClick={this.close}>关闭</span>
                     </div>
                     <div className={styles.item}>
                         <span style={{ float: 'left' }}>
-                            <img src={prod} alt="" className={styles.icon} />
+                            <img src={prod} alt="img" className={styles.icon} />
                             <span className={styles.text}>商品名</span>
                         </span>
                         <span className={styles.rightText}>{name}</span>
                     </div>
-                    {!!coupons.length && (
+                    {!!couponList.length && (
                         <div className={styles.item}>
-                            <div>
+                            <div onClick={this.toggleCoupon} style={{ height: '0.48rem' }}>
                                 <span style={{ float: 'left' }}>
-                                    <img src={coupon} alt="" className={styles.icon} />
-                                    <span className={styles.text}>商品名</span>
+                                    <img src={couponIcon} alt="img" className={styles.icon} />
+                                    <span className={styles.text}>优惠券抵扣</span>
                                 </span>
                                 <span className={styles.rightText}>
-                                    {name}
-                                    <Icon type={showCoupon ? 'down' : 'right'} size="xxs" />
+                                    {coupon ? `-¥${formatPrice(coupon.coupon.value)}` : null}
+                                    <Icon
+                                        type={showCoupon ? 'down' : 'right'}
+                                        size="xxs"
+                                        style={{ marginLeft: '0.16rem' }}
+                                    />
                                 </span>
                             </div>
                             {showCoupon && (
-                                <div className={styles.coupons}>
-                                    {coupons.map(({ coupon: { name, id } }) => (
-                                        <Checkbox
-                                            data-value={id}
-                                            onChange={this.changeCoupon}
-                                            checked={id === selected}
+                                <div
+                                    className={styles.couponList}
+                                    style={{
+                                        height: `${((couponList.length + 1) * 0.58).toFixed(2)}rem`,
+                                    }}
+                                >
+                                    {couponList.map(({ coupon: { name, id } }) => (
+                                        <div
+                                            key={id}
+                                            className={classNames({
+                                                [styles.checkItem]: true,
+                                                [styles.selected]: id === selected,
+                                            })}
                                         >
-                                            {name}
-                                        </Checkbox>
+                                            <Checkbox
+                                                data-value={id}
+                                                onChange={this.changeCoupon}
+                                                checked={id === selected}
+                                            >
+                                                {name}
+                                            </Checkbox>
+                                        </div>
                                     ))}
-                                    <Checkbox
-                                        data-value={null}
-                                        onChange={this.changeCoupon}
-                                        checked={!selected}
+                                    <div
+                                        className={classNames({
+                                            [styles.checkItem]: true,
+                                            [styles.selected]: !selected,
+                                        })}
                                     >
-                                        不使用优惠券
-                                    </Checkbox>
+                                        <Checkbox
+                                            data-value={null}
+                                            onChange={this.changeCoupon}
+                                            checked={!selected}
+                                        >
+                                            不使用优惠券
+                                        </Checkbox>
+                                    </div>
                                 </div>
                             )}
                         </div>
                     )}
                     <div className={styles.item}>
                         <span style={{ float: 'left' }}>
-                            <img src={priceIcon} alt="" className={styles.icon} />
+                            <img src={priceIcon} alt="img" className={styles.icon} />
                             <span className={styles.text}>支付总额</span>
                         </span>
                         <span className={styles.rightText}>¥{this.getPrice()}</span>
                     </div>
                 </div>
+                <div className={styles.confirm} onClick={this.confirm}>确定支付</div>
             </Modal>
         );
     }
 }
+
+const pay = props => {
+    const ele = document.createElement('div');
+    document.body.appendChild(ele);
+    let modal = null;
+
+    const close = () => {
+        modal.hide();
+        
+        setTimeout(() => {
+            ReactDOM.unmountComponentAtNode(ele);
+            document.body.removeChild(ele);
+        }, 500);
+    };
+
+    ReactDOM.render(<Pay {...props} close={close} ref={instance => modal = instance} />, ele);
+};
+
+export default pay;

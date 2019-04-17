@@ -48,6 +48,10 @@ app.get('/*', (req, res) => {
     });
 });
 
-app.listen(port, () => {
-    console.info('服务器已启动');
-});
+try{
+    app.listen(port, () => {
+        console.info(`服务器已启动, 端口: ${port}`);
+    });
+} catch(e){
+    console.info(e);
+}

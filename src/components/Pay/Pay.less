@@ -1,19 +1,108 @@
 .container {
-    .title {
+    background: rgba(255, 255, 255, 1);
+    border-radius: 0.32rem 0.32rem 0px 0px;
+    overflow: hidden;
 
+    .confirm {
+        background: linear-gradient(90deg, rgba(255, 138, 28, 1) 0%, rgba(247, 77, 57, 1) 100%);
+        font-size: 0.4rem;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
+        padding: 0.22rem;
+        text-align: center;
     }
 
-    .item {
-        .icon {
+    .content {
+        padding: 0 0.2rem 0.2rem;
 
+        .title {
+            font-size: 0.34rem;
+            font-family: PingFangSC-Regular;
+            font-weight: 400;
+            color: rgba(36, 37, 61, 1);
+            padding: 0.2rem;
+
+            .close {
+                font-size: 0.3rem;
+                font-family: PingFangSC-Regular;
+                font-weight: 400;
+                color: rgba(106, 106, 106, 1);
+                float: right;
+            }
         }
 
-        .text{
+        .item {
+            padding: 0.2rem;
+            border-top: 0.02rem solid #e0e0e0;
 
-        }
+            &::after {
+                display: block;
+                content: '';
+                clear: both;
+            }
 
-        .rightText {
+            .icon {
+                width: 0.44rem;
+                height: 0.44rem;
+                vertical-align: middle;
+            }
 
+            .text {
+                font-size: 0.34rem;
+                font-family: PingFangSC-Regular;
+                font-weight: 400;
+                color: rgba(106, 106, 106, 1);
+                margin-left: 0.16rem;
+                vertical-align: middle;
+            }
+
+            .rightText {
+                font-size: 0.34rem;
+                font-family: PingFangSC-Regular;
+                font-weight: 400;
+                color: rgba(52, 58, 62, 1);
+                float: right;
+            }
+
+            .couponList {
+                .checkItem {
+                    margin-top: 0.28rem;
+                    text-align: left;
+                    padding-left: 0.6rem;
+                    font-size: 0.28rem;
+                    font-family: PingFangSC-Regular;
+                    font-weight: 400;
+                    color: rgba(106, 106, 106, 1);
+
+                    :global {
+                        .am-checkbox-inner {
+                            width: 0.32rem;
+                            height: 0.32rem;
+                            margin-right: 0.12rem;
+                        }
+                    }
+                }
+
+                .selected {
+                    color: rgba(255, 137, 29, 1);
+
+                    :global {
+                        .am-checkbox-inner {
+                            border-color: rgba(255, 137, 29, 1);
+                            background: #fff;
+
+                            &::after {
+                                border-color: rgba(255, 137, 29, 1);
+                                width: 0.1rem;
+                                height: 0.18rem;
+                                top: 0.03rem;
+                                left: 0.08rem;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
