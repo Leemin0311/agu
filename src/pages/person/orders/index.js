@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import { Button, PullToRefresh } from 'antd-mobile';
+import { Button, PullToRefresh, Tabs } from 'antd-mobile';
 import { connect } from 'dva';
 import Countdown from '@components/Countdown';
+import classNames from 'classnames';
 
 import moment from 'moment';
 import styles from './index.less';
@@ -14,42 +15,68 @@ import styles from './index.less';
 class Orders extends Component{
 
     status = {
-        'Created': ['Created'],
+        'Created': ['待付款', '立即付款'],
         'Finished': ['已完成', '分享课程海报'],
         'Grouping': ['拼团中', '邀请成团'],
-        'GroupFailed': ['GroupFailed'],
-        'Refunded': ['Refunded']
+        'GroupFailed': ['拼团失败', '再次购买'],
     };
 
-    colors = {
-        'Created': ['#666666'],
-        'Finished': ['#666666', 'linear-gradient(90deg,rgba(254,227,0,1) 0%,rgba(253,199,13,1) 100%)', '#343A3E'],
-        'Grouping': ['#FF5038', 'linear-gradient(90deg,rgba(255,138,28,1) 0%,rgba(247,77,57,1) 100%)', '#FFFFFF'],
-        'GroupFailed': ['#666666'],
-        'Refunded': ['#666666']
-    };
+    tabs = [
+        {title: '全部', tabKey: 'All'},
+        {title: '待付款', tabKey: 'Created'},
+        {title: '拼团中', tabKey: 'Grouping'},
+        {title: '拼团失败', tabKey: 'GroupFailed'},
+        {title: '已完成', tabKey: 'Finished'},
+    ];
 
     componentDidMount(){
-        const {dispatch} = this.props;
 
-        dispatch({
-            type: 'person_order/getOrderList',
-            payload: {
-                page: 0
-            }
-        });
+        this.getNewData('All');
     }
 
-    fetchNewPage = () => {
+    getNewData = (tabKey) => {
+        const {dispatch} = this.props;
+
+        if(tabKey === 'All'){
+            dispatch({
+                type: 'person_order/getOrderList',
+                payload: {
+                    page: 0
+                }
+            });
+        } else {
+            dispatch({
+                type: 'person_order/getOrderList',
+                payload: {
+                    status: tabKey,
+                    page: 0
+                }
+            });
+        }
+
+    };
+
+    fetchNewPage = (tabKey) => {
         const { dispatch, page } = this.props;
 
-        dispatch({
-            type: 'person_order/getOrderList',
-            payload: {
-                append: true,
-                page
-            },
-        });
+        if(tabKey === 'All'){
+            dispatch({
+                type: 'person_order/getOrderList',
+                payload: {
+                    append: true,
+                    page
+                }
+            });
+        } else {
+            dispatch({
+                type: 'person_order/getOrderList',
+                payload: {
+                    append: true,
+                    status: tabKey,
+                    page,
+                }
+            });
+        }
     };
 
     render() {
@@ -57,49 +84,79 @@ class Orders extends Component{
 
         return (
             <div className={styles.orderContent}>
-                <PullToRefresh
-                    onRefresh={this.fetchNewPage}
-                    direction="up"
-                    indicator={{}}
-                    damping={60}
-                    className={styles.refresh}
+                <Tabs
+                    tabs={this.tabs}
+                    initialPage={0}
+                    onChange={(tab) => this.getNewData(tab.tabKey)}
                 >
                     {
-                        (orders || []).map(item => (
-                            <div className={styles.order} key={item.id}>
-                                <div className={styles.snapshot}>
-                                    <img src={item.snapshot && item.snapshot.icon} className={styles.orderIcon} />
-                                    <div className={styles.orderInfo}>
-                                        <div className={styles.orderName}>{item.snapshot && item.snapshot.name}</div>
-                                        <div className={styles.ortherInfo}>
-                                            <span className={styles.status} style={{color: this.colors[item.status][0]}}>
-                                                {this.status[item.status][0] || ''}
-                                            </span>
-                                            <span className={styles.money}>
-                                            实付金额：<span style={{color: '#FF5038'}}>¥{Number(item.fee) / 100}</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className={styles.action}>
+                        this.tabs.map(item => {
+
+                            return (
+                                <PullToRefresh
+                                    onRefresh={() => this.fetchNewPage(item.tabKey)}
+                                    direction="up"
+                                    indicator={{}}
+                                    damping={60}
+                                    className={styles.refresh}
+                                >
                                     {
-                                        item.status === 'Grouping' && item.group && new Date(item.group.expireTime) - moment() >= 0 && (
-                                            <div className={styles.time}>
-                                            拼团剩余时间: {<Countdown timeCount={(new Date(item.group.expireTime) - moment()) % 86400000} />}
+                                        (orders || []).map(order => (
+                                            <div
+                                                className={classNames({
+                                                    [styles.order]:  true,
+                                                    [styles[order.status]]: true
+                                                })}
+                                                key={order.id}
+                                            >
+                                                <div
+                                                    className={classNames({
+                                                        [styles.snapshot]:  true,
+                                                    })}
+                                                >
+                                                    <img src={order.snapshot && order.snapshot.icon} className={styles.orderIcon} />
+                                                    <div className={styles.orderInfo}>
+                                                        <div className={styles.orderName}>{order.snapshot && order.snapshot.name}</div>
+                                                        <div className={styles.ortherInfo}>
+                                                            <span className={styles.status}>
+                                                                {this.status[order.status][0] || ''}
+                                                            </span>
+                                                            <span className={styles.money}>
+                                            实付金额：<span style={{color: '#FF5038'}}>¥{Number(order.fee) / 100}</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className={styles.action}>
+                                                    {
+                                                        order.status === 'Grouping' && order.group && new Date(order.group.expireTime) - moment() >= 0 && (
+                                                            <div className={styles.time}>
+                                                                拼团剩余时间: {<Countdown timeCount={(new Date(order.group.expireTime) - moment()) % 86400000} />}
+                                                            </div>
+                                                        )
+                                                    }
+                                                    {
+                                                        order.status === 'Created' && order.expireTime && new Date(order.expireTime) - moment() >= 0 && (
+                                                            <div className={styles.time}>
+                                                                订单剩余时间: {<Countdown timeCount={(new Date(order.expireTime) - moment()) % 86400000} />}
+                                                            </div>
+                                                        )
+                                                    }
+                                                    {
+                                                        this.status[order.status][1] &&
+                                                        <Button type='primary' className={styles.buttonPri}>
+                                                            {this.status[order.status][1]}
+                                                        </Button>
+                                                    }
+                                                </div>
                                             </div>
-                                        )
+                                        ))
                                     }
-                                    {
-                                        this.status[item.status][1] &&
-                                        <Button type='primary' className={styles.buttonPri} style={{background: this.colors[item.status] && this.colors[item.status][1], color: this.colors[item.status] && this.colors[item.status][2]}}>
-                                            {this.status[item.status][1]}
-                                        </Button>
-                                    }
-                                </div>
-                            </div>
-                        ))
+                                </PullToRefresh>
+                            );
+                        })
                     }
-                </PullToRefresh>
+                </Tabs>
             </div>
         );
     }

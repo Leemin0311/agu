@@ -3,7 +3,14 @@ import Mock from 'mockjs';
 
 export default delay({
     'POST /api/user/order/list': (req, res) => {
-        const { page } = req.body;
+        const { page, status } = req.body;
+
+        let s ;
+        if(!status) {
+            s = ['Created', 'Finished', 'Grouping', 'GroupFailed'];
+        } else  {
+            s = [status];
+        }
 
         res.send(
             Mock.mock({
@@ -15,8 +22,8 @@ export default delay({
                         {
                             id: '@guid',
                             courseId: '@guid',
-                            createTime: "2019-04-15T10:14:53.627Z",
-                            expireTime: "2019-04-15T10:14:53.627Z",
+                            createTime: "2019-04-20T10:14:53.627Z",
+                            expireTime: "2019-04-30T10:14:53.627Z",
                             fee: '@integer(0,1000)',
                             group: {
                                 courseId: '@guid',
@@ -31,7 +38,7 @@ export default delay({
                                     }
                                 ]
                             },
-                            'status|1': ['Created', 'Finished', 'Grouping', 'GroupFailed', 'Refunded'],
+                            'status|1': s,
                             payTime: "2019-04-15T10:14:53.627Z",
                             refundTime: "2019-04-15T10:14:53.627Z",
                             snapshot: {
