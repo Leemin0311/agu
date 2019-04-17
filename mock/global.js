@@ -85,4 +85,20 @@ export default delay({
             ],
         });
     },
+    'POST /log': (req, res) => {
+        console.info(req.body);
+
+        res.send({
+            success: true
+        });
+    },
+    'GET /image': (req, res) => {
+        const { url } = req.query;
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Content-type', 'image/png');
+        axios.get(url)
+            .then(response => {
+                res.send(response.data);
+            });
+    }
 });

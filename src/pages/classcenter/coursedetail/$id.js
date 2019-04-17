@@ -9,8 +9,10 @@ import { formatPrice } from '@utils/tools';
 import moment from 'moment';
 import defaultAvatar from '@assets/defaultAvatar.svg';
 import backTop from '@assets/backTop.svg';
+import arrow from '@assets/arrow.svg';
 import html2canvas from 'html2canvas';
 import throttle from 'lodash.throttle';
+import { modal } from '@components/Modal';
 import ServiceIntro from './components/ServiceIntro';
 import styles from './index.less';
 
@@ -54,7 +56,7 @@ class CourseDetail extends React.Component {
             this.outlineTop = (this.outline || {}).offsetTop;
             this.noteTop = (this.note || {}).offsetTop;
             this.groupBottom = (this.group || {}).offsetTop + (this.group || {}).offsetHeight;
-            if ((order || {}).group) {
+            if ((order || {}).group && !this.shareImage) {
                 this.renderShare();
             }
         }
@@ -146,14 +148,12 @@ class CourseDetail extends React.Component {
                         </div>
                     ))}
                 </div>
-                <div
-                    className={styles.inviteBtn}
-                    ref={btn => (this.inviteBtn = btn)}
-                    onClick={this.share}
-                >
+                <div className={styles.inviteBtn} ref={btn => (this.inviteBtn = btn)} onClick={this.invite}>
                     邀请好友
                 </div>
-                <div className={styles.sharelink}>领加速海报</div>
+                <div className={styles.sharelink} onClick={this.sharePoster}>
+                    领加速海报
+                </div>
             </div>
         );
     };
@@ -397,24 +397,25 @@ class CourseDetail extends React.Component {
         this.backTop.style.display = 'none';
     };
 
-    renderShareDom = bgImage => {
+    renderShareDom = () => {
         const { shareH5, user } = this.props;
-        const { qrcode } = shareH5;
+        const { qrcode, bgImage } = shareH5;
         const { nickName, avatarUrl } = user.wechatUser;
-        const { width, height, src } = bgImage;
 
         return (
             <>
                 <img
-                    src={src}
+                    src={bgImage}
                     alt=""
                     style={{
                         position: 'absolute',
                         top: 0,
                         left: 0,
-                        width: '7.5rem',
-                        height: (window.innerWidth / width) * height,
+                        width: window.innerWidth,
+                        height: window.innerHeight,
                     }}
+                    crossOrigin="Anonymous"
+                    origin="Anonymous"
                 />
                 <div style={{ position: 'absolute', top: '0.22rem', left: '0.32rem', zIndex: 1 }}>
                     <img
@@ -426,6 +427,8 @@ class CourseDetail extends React.Component {
                             float: 'left',
                             borderRadius: '0.56rem',
                         }}
+                        crossOrigin="Anonymous"
+                        origin="Anonymous"
                     />
                     <span
                         style={{
@@ -452,6 +455,8 @@ class CourseDetail extends React.Component {
                         width: '1.33rem',
                         height: '1.33rem',
                     }}
+                    crossOrigin="Anonymous"
+                    origin="Anonymous"
                 />
             </>
         );
@@ -463,32 +468,119 @@ class CourseDetail extends React.Component {
             ele = document.createElement('div');
             ele.id = 'shareDom';
             ele.style.position = 'relative';
-            // ele.style.visibility = 'hidden';
+            ele.style.width = `${window.innerWidth}px`;
+            ele.style.height = `${window.innerHeight}px`;
+            ele.style.top = '100vh';
             document.body.appendChild(ele);
         }
 
         const { shareH5 } = this.props;
         const { bgImage } = shareH5;
-
-        const image = new Image();
+        let image = new Image();
         image.src = bgImage;
         image.onload = () => {
-            const { width, height } = image;
-            ele.style.width = '7.5rem';
-            ele.style.height = `${(window.innerWidth * height) / width}px`;
-            ele.style.background = `url(${bgImage})`;
-            ReactDOM.render(this.renderShareDom(image), ele);
+            ReactDOM.render(this.renderShareDom(), ele);
+
+            html2canvas(ele, {
+                useCORS: true,
+                allowTaint: true,
+                logging: false,
+            })
+                .then(canvas => {
+                    const dataUrl = canvas.toDataURL('image/png');
+                    // this.shareImage = navigator.userAgent.includes('AppleWebKit') ? dataUrl.replace() : dataUrl;
+                    this.shareImage = dataUrl;
+                    ele.style.display = 'none';
+                })
+                .catch(e => {
+                    console.info(e);
+                });
         };
     };
 
-    share = () => {
-        html2canvas(document.getElementById('shareDom'), {
-            useCORS: true,
-            allowTaint: true,
-        }).then(canvas => {
-            const img = new Image();
-            img.src = canvas.toDataURL('image/png');
-            document.body.appendChild(canvas);
+    sharePoster = () => {
+        try {
+            const opers = modal({
+                width: '4.98rem',
+                height: '8.86rem',
+                content: (
+                    <div style={{ width: '4.98rem', height: '8.86rem', position: 'relative' }}>
+                        <Icon
+                            type="cross-circle"
+                            color="#FFF"
+                            size="sm"
+                            style={{
+                                position: 'absolute',
+                                left: '4.98rem',
+                                top: '-0.4rem',
+                            }}
+                            onClick={() => opers.destroy()}
+                        />
+                        <img
+                            src={this.shareImage}
+                            alt=""
+                            style={{ width: '4.98rem', height: '8.86rem' }}
+                        />
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '50%',
+                                bottom: '9.28rem',
+                                fontSize: '0.34rem',
+                                color: '#fff',
+                                lineHeight: '0.48rem',
+                                textAlign: 'center',
+                                whiteSpace: 'nowrap',
+                                transform: 'translateX(-50%)',
+                            }}
+                        >
+                            <div>96%的家长转发后拼团成功</div>
+                            <div>长按保存图片</div>
+                            <div>转发给好友即可拼团</div>
+                        </div>
+                    </div>
+                ),
+                maskClosable: true,
+            });
+        } catch (e) {
+            alert(e);
+        }
+    };
+
+    invite = () => {
+        modal({
+            width: '5.58rem',
+            height: '2.04rem',
+            content: (
+                <div
+                    style={{
+                        width: '5.58rem',
+                        height: '2.04rem',
+                        lineHeight: '2.04rem',
+                        position: 'relative',
+                        background: '#fff',
+                        transform: 'translateY(-4.5rem)',
+                        fontSize: '0.4rem',
+                        fontWeight: 500,
+                        color: 'rgba(51,51,51,1)',
+                        textAlign: 'center'
+                    }}
+                >
+                    <img
+                        src={arrow}
+                        alt=""
+                        style={{
+                            position: 'absolute',
+                            top: '-1.45rem',
+                            right: '-0.5rem',
+                            width: '1.15rem',
+                            height: '1.15rem',
+                        }}
+                    />
+                    喊好友一起学习
+                </div>
+            ),
+            maskClosable: true,
         });
     };
 

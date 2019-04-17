@@ -187,7 +187,7 @@ export default delay({
                     shareUrl: 'http://www.aguzaojiao.com/courses/5caf6227c796e928960c60d5?f=s',
                     qrcode:
                         'http://www.aguzaojiao.com/qrcode?content=http%3A%2F%2Fwww.aguzaojiao.com%2Fcourses%2F5caf6227c796e928960c60d5%3Ff%3Ds',
-                    bgImage: 'https://v.aguzaojiao.com/test/detail1.png',
+                    bgImage: 'https://v.aguzaojiao.com/test/detail2.png',
                 },
             },
         });
