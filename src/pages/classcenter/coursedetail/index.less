@@ -12,8 +12,8 @@
             display: none;
             bottom: 2.3rem;
             right: 0.2rem;
-            width:0.88rem;
-            height:0.88rem;
+            width: 0.88rem;
+            height: 0.88rem;
             z-index: 100;
         }
 
@@ -112,6 +112,84 @@
                 border-bottom: 0.02rem solid rgba(255, 67, 66, 1);
                 margin-top: 0.08rem;
                 line-height: 0.36rem;
+            }
+        }
+
+        .joinGroup {
+            background: rgba(255, 255, 255, 1);
+
+            .groupTitle {
+                padding: 0.28rem;
+                line-height: 0.54rem;
+
+                &::after {
+                    display: block;
+                    content: ' ';
+                    clear: both;
+                }
+
+                .groupLeaderAvatar {
+                    width: 1.08rem;
+                    height: 1.08rem;
+                    border-radius: 1.08rem;
+                    float: left;
+                }
+
+                .groupLeaderName {
+                    font-size: 0.3rem;
+                    font-family: PingFangSC-Medium;
+                    font-weight: 500;
+                    color: rgba(52, 58, 62, 1);
+                    vertical-align: bottom;
+                }
+
+                .groupLeaderTip {
+                    font-size: 0.26rem;
+                    font-family: PingFangSC-Regular;
+                    font-weight: 400;
+                    color: rgba(106, 106, 106, 1);
+                }
+            }
+
+            .groupBrief {
+                background: rgba(254, 223, 2, 0.2);
+                line-height: 1.6rem;
+                margin: 0 0.14rem;
+                padding: 0.14rem 0.12rem;
+
+                &::after {
+                    display: block;
+                    content: ' ';
+                    clear: both;
+                }
+
+                .groupShareImage {
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    float: left;
+                }
+
+                .groupShareTitle {
+                    font-size: 0.3rem;
+                    font-family: PingFangSC-Medium;
+                    font-weight: 500;
+                    color: rgba(51, 51, 51, 1);
+                }
+
+                .groupOldPrice {
+                    font-size: 0.22rem;
+                    font-family: PingFangSC-Medium;
+                    font-weight: 500;
+                    color: rgba(137, 135, 135, 1);
+                    text-decoration: line-through;
+                }
+
+                .groupNewPrice {
+                    font-size: 0.3rem;
+                    font-family: PingFangSC-Medium;
+                    font-weight: 500;
+                    color: rgba(255, 80, 56, 1);
+                }
             }
         }
 

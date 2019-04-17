@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import classNames from 'classnames';
 import styles from './Modal.less';
 
-export const modal = (props) => {
-    const { width, height, content, maskClosable } = props;
+export const modal = props => {
+    const { width, height, content, maskClosable, centered = true, bodyStyle } = props;
 
     const ele = document.createElement('div');
     document.body.appendChild(ele);
@@ -17,7 +18,14 @@ export const modal = (props) => {
         <div className={styles.container}>
             <div className={styles.mask} />
             <div className={styles.content} onClick={maskClosable ? destroy : () => {}}>
-                <div className={styles.body} style={{ width, height }} onClick={e => e.stopPropagation()}>
+                <div
+                    className={classNames({
+                        [styles.body]: true,
+                        [styles.centered]: centered,
+                    })}
+                    style={{ width, height, ...bodyStyle }}
+                    onClick={e => e.stopPropagation()}
+                >
                     {content}
                 </div>
             </div>
@@ -27,6 +35,6 @@ export const modal = (props) => {
     ReactDOM.render(modalContent, ele);
 
     return {
-        destroy
+        destroy,
     };
 };

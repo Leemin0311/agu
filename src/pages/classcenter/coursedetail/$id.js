@@ -103,12 +103,114 @@ class CourseDetail extends React.Component {
     };
 
     /**
+     * 拼团详情，参加别人的
+     */
+    renderJoinGroup = () => {
+        const {
+            groupId,
+            groupLeader = {},
+            groupDetail,
+            shareH5 = {},
+            price,
+            groupPrice,
+        } = this.props;
+
+        if (!groupId) return null;
+
+        const { avatarUrl, nickName } = groupLeader.wechatUser || {};
+        const { shareImage, shareTitle } = shareH5;
+        const { members, expireTime } = groupDetail;
+
+        const memberToRender = [...members];
+        for (let i = 0; i + members.length < 3; i++) {
+            memberToRender.push({
+                avatar: defaultAvatar,
+            });
+        }
+
+        return (
+            <div className={styles.joinGroup}>
+                <div className={styles.groupTitle}>
+                    <img src={avatarUrl} alt="" className={styles.groupLeaderAvatar} />
+                    <span style={{ float: 'left', marginLeft: '0.2rem' }}>
+                        <div className={styles.groupLeaderName}>{nickName}</div>
+                        <div className={styles.groupLeaderTip}>我发现一个超棒的课程！推荐给你</div>
+                    </span>
+                </div>
+                <div className={styles.groupBrief}>
+                    <img src={shareImage} alt="" className={styles.groupShareImage} />
+                    <span
+                        style={{
+                            float: 'left',
+                            marginLeft: '0.2rem',
+                            width: 'calc(100% - 1.8rem)',
+                            lineHeight: '0.42rem',
+                        }}
+                    >
+                        <div className={styles.groupShareTitle}>{shareTitle}</div>
+                        <div className={styles.groupOldPrice}>¥{formatPrice(price)}</div>
+                        <div className={styles.groupNewPrice}>
+                            三人团 ¥{formatPrice(groupPrice)}
+                        </div>
+                    </span>
+                </div>
+                <div className={styles.group} ref={group => (this.group = group)}>
+                    <div className={styles.groupTip}>
+                        仅差<span style={{ color: '#FF4E00' }}>{3 - members.length}</span>
+                        人，拼团成功
+                    </div>
+                    <div className={styles.avatars}>
+                        {memberToRender.map(({ avatar, name, userId }, index) => (
+                            <div className={styles.member} key={index}>
+                                <img
+                                    className={styles.memberAvatar}
+                                    style={{
+                                        borderColor: name ? '#429EFD' : '#D3D3D3',
+                                    }}
+                                    alt=""
+                                    src={avatar || defaultAvatar}
+                                />
+                                {userId===groupLeader.id && <div className={styles.memberName}>团长</div>}
+                            </div>
+                        ))}
+                    </div>
+                    <div className={styles.lessTime}>
+                        <span
+                            style={{
+                                fontSize: '0.32rem',
+                                fontFamily: 'PingFangSC-Medium',
+                                fontWeight: 500,
+                                color: 'rgba(255,80,56,1)',
+                            }}
+                        >
+                            <Countdown timeCount={+moment(expireTime) - +moment()} />
+                        </span>
+                        后结束
+                    </div>
+                    <div
+                        className={styles.inviteBtn}
+                        ref={btn => (this.inviteBtn = btn)}
+                        onClick={this.invite}
+                        style={{
+                            background:
+                                'linear-gradient(90deg,rgba(255,138,28,1) 0%,rgba(247,77,57,1) 100%)',
+                            color: '#fff'
+                        }}
+                    >
+                        一键参团
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
+    /**
      * 拼团详情，自己发起
      */
     renderGroup = () => {
-        const { order } = this.props;
+        const { order, groupId } = this.props;
 
-        if (!order) return null;
+        if (!order || groupId) return null;
 
         const {
             refundTime,
@@ -148,7 +250,11 @@ class CourseDetail extends React.Component {
                         </div>
                     ))}
                 </div>
-                <div className={styles.inviteBtn} ref={btn => (this.inviteBtn = btn)} onClick={this.invite}>
+                <div
+                    className={styles.inviteBtn}
+                    ref={btn => (this.inviteBtn = btn)}
+                    onClick={this.invite}
+                >
                     邀请好友
                 </div>
                 <div className={styles.sharelink} onClick={this.sharePoster}>
@@ -414,8 +520,7 @@ class CourseDetail extends React.Component {
                         width: window.innerWidth,
                         height: window.innerHeight,
                     }}
-                    crossOrigin="Anonymous"
-                    origin="Anonymous"
+                    crossOrigin="anonymous"
                 />
                 <div style={{ position: 'absolute', top: '0.22rem', left: '0.32rem', zIndex: 1 }}>
                     <img
@@ -427,8 +532,7 @@ class CourseDetail extends React.Component {
                             float: 'left',
                             borderRadius: '0.56rem',
                         }}
-                        crossOrigin="Anonymous"
-                        origin="Anonymous"
+                        crossOrigin="anonymous"
                     />
                     <span
                         style={{
@@ -455,8 +559,7 @@ class CourseDetail extends React.Component {
                         width: '1.33rem',
                         height: '1.33rem',
                     }}
-                    crossOrigin="Anonymous"
-                    origin="Anonymous"
+                    crossOrigin="anonymous"
                 />
             </>
         );
@@ -483,8 +586,9 @@ class CourseDetail extends React.Component {
 
             html2canvas(ele, {
                 useCORS: true,
-                allowTaint: true,
+                // allowTaint: true,
                 logging: false,
+                proxy: 'https://www.aguzaojiao.com/api/rdt/img',
             })
                 .then(canvas => {
                     const dataUrl = canvas.toDataURL('image/png');
@@ -520,6 +624,7 @@ class CourseDetail extends React.Component {
                             src={this.shareImage}
                             alt=""
                             style={{ width: '4.98rem', height: '8.86rem' }}
+                            onTouchStart={e => e.preventDefault()}
                         />
                         <div
                             style={{
@@ -559,11 +664,10 @@ class CourseDetail extends React.Component {
                         lineHeight: '2.04rem',
                         position: 'relative',
                         background: '#fff',
-                        transform: 'translateY(-4.5rem)',
                         fontSize: '0.4rem',
                         fontWeight: 500,
                         color: 'rgba(51,51,51,1)',
-                        textAlign: 'center'
+                        textAlign: 'center',
                     }}
                 >
                     <img
@@ -581,14 +685,18 @@ class CourseDetail extends React.Component {
                 </div>
             ),
             maskClosable: true,
+            bodyStyle: {
+                top: '1.74rem',
+                transform: 'translateX(-50%)'
+            }
         });
     };
 
     render() {
-        const { loading, id, order } = this.props;
+        const { loading, id, order, groupId } = this.props;
         if (loading || !id) return null;
 
-        const showFooter = !(order || {}).group;
+        const showFooter = !(order || {}).group || !groupId;
 
         return (
             <div className={styles.container}>
@@ -603,6 +711,7 @@ class CourseDetail extends React.Component {
                         height: showFooter ? 'calc(100% - 0.98rem)' : '100%',
                     }}
                 >
+                    {this.renderJoinGroup()}
                     {this.renderGroup()}
                     {this.renderHead()}
                     {this.renderContent()}
