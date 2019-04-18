@@ -6,6 +6,8 @@ import prod from '@assets/prod.svg';
 import couponIcon from '@assets/coupon.svg';
 import priceIcon from '@assets/price.svg';
 import classNames from 'classnames';
+import { chooseWXPay } from '@utils/wx';
+import request from '@utils/request';
 import styles from './Pay.less';
 
 class Pay extends React.Component {
@@ -48,9 +50,27 @@ class Pay extends React.Component {
         });
     };
 
-    confirm = () => {
-        const { close } = this.props;
-        close();
+    confirm = async () => {
+        const { close, type, groupId, courseId, orderId } = this.props;
+        const { selected } = this.state;
+
+        const rst = await request('/api/wxpay/prepare', {
+            method: 'post',
+            body: JSON.stringify({
+                type,
+                fee: 100 * this.getPrice(),
+                groupId,
+                courseId,
+                orderId,
+                couponId: selected || undefined
+            })
+        });
+
+        if(!rst.error) {
+            chooseWXPay(rst.data.paymentParams, () => {
+                close();
+            });
+        }
     }
 
     close = () => {
@@ -162,7 +182,7 @@ const pay = props => {
 
     const close = () => {
         modal.hide();
-        
+
         setTimeout(() => {
             ReactDOM.unmountComponentAtNode(ele);
             document.body.removeChild(ele);

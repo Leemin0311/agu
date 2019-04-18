@@ -63,7 +63,7 @@ export default {
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
-                if(pathname==='/classcenter') {
+                if(pathname.startsWith('/classcenter')) {
                     dispatch({
                         type: 'initialize'
                     });

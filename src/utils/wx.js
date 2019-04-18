@@ -45,3 +45,21 @@ export function configWxShare(title, desc, link, imgUrl) {
         },
     });
 }
+
+/**
+ *
+ * @param {objcet} props           - 微信支付参数
+ * @param {function} onOk          - 支付成功回调
+ * @param {function} onOk          - 支付成功回调
+ */
+export function chooseWXPay(props, onOk, onFail) {
+    wx.chooseWXPay({
+        ...props,
+        success: function (res) {
+            onOk && onOk();
+        },
+        fail: function (err) {
+            onFail && onFail(err);
+        }
+    });
+}

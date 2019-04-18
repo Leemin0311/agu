@@ -16,13 +16,19 @@ export default {
             const { groupId, groupLeaderId } = yield select(state => state.coursedetail);
 
             if(groupId && user.id !== groupLeaderId) {
-                yield put({
-                    type: 'getGroupDetail',
-                    payload: {
-                        groupId,
-                        userId: groupLeaderId
-                    }
-                });
+
+                const rst = yield call(getGroupDetail, groupId, groupLeaderId);
+                if(!rst.error) {
+                    const { user, group } = rst.data;
+
+                    yield put({
+                        type: 'setData',
+                        payload: {
+                            groupLeader: user,
+                            groupDetail: group
+                        }
+                    });
+                }
             }
 
             const rst = yield call(getCourseDetail, id);
@@ -39,20 +45,6 @@ export default {
                 });
             }
         },
-        *getGroupDetail({ payload : {userId, groupId }}, {put, call}) {
-            const rst = yield call(getGroupDetail);
-            if(!rst.error) {
-                const { user, group } = rst.data;
-
-                yield put({
-                    type: 'setData',
-                    payload: {
-                        groupLeader: user,
-                        groupDetail: group
-                    }
-                });
-            }
-        }
     },
     subscriptions: {
         setup({ history, dispatch }) {

@@ -39,11 +39,11 @@ export default delay({
                 id: '5caf4383c796e922962f226f',
                 babies: [
                     {
-                        birthday: "2019-04-15T07:33:06.780Z",
+                        birthday: '2019-04-15T07:33:06.780Z',
                         male: true,
-                        name: "熊孩子",
-                        photo: "string"
-                    }
+                        name: '熊孩子',
+                        photo: 'string',
+                    },
                 ],
                 wechatUser: {
                     unionId: 'ocxGV0vgaDhcPjRw7yVW5No4oNXA',
@@ -89,16 +89,13 @@ export default delay({
         console.info(req.body);
 
         res.send({
-            success: true
+            success: true,
         });
     },
-    'GET /image': (req, res) => {
-        const { url } = req.query;
+    'POST /api/wxpay/prepare': (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Content-type', 'image/png');
-        axios.get(url)
-            .then(response => {
-                res.send(response.data);
-            });
-    }
+        axios.post('http://www.aguzaojiao.com/api/wxpay/prepare', req.body).then(response => {
+            res.send(response.data);
+        });
+    },
 });

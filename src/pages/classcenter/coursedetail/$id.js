@@ -13,6 +13,7 @@ import backTop from '@assets/backTop.svg';
 import arrow from '@assets/arrow.svg';
 import html2canvas from 'html2canvas';
 import throttle from 'lodash.throttle';
+import { configWxShare } from '@utils/wx';
 import { modal } from '@components/Modal';
 import ServiceIntro from './components/ServiceIntro';
 import styles from './index.less';
@@ -50,16 +51,25 @@ class CourseDetail extends React.Component {
     }
 
     componentDidUpdate() {
-        const { loading, id, order } = this.props;
+        const { loading, id, order, shareH5 } = this.props;
 
         if (!loading && id) {
             this.detailTop = (this.detail || {}).offsetTop;
             this.outlineTop = (this.outline || {}).offsetTop;
             this.noteTop = (this.note || {}).offsetTop;
             this.groupBottom = (this.group || {}).offsetTop + (this.group || {}).offsetHeight;
+
             if ((order || {}).group && !this.shareImage) {
                 this.renderShare();
             }
+
+            const { shareTitle, shareDesc, shareUrl, shareImage } = shareH5 || {};
+            configWxShare(
+                shareTitle || '课程详情',
+                shareDesc || '我觉得这个课程超棒，推荐给你！',
+                shareUrl || 'www.aguzaojiao.com/classcenter',
+                shareImage,
+            );
         }
     }
 
@@ -193,7 +203,7 @@ class CourseDetail extends React.Component {
                     <div
                         className={styles.inviteBtn}
                         ref={btn => (this.inviteBtn = btn)}
-                        onClick={this.invite}
+                        onClick={() => this.payment('CourseGroup', groupPrice)}
                         style={{
                             background:
                                 'linear-gradient(90deg,rgba(255,138,28,1) 0%,rgba(247,77,57,1) 100%)',
@@ -440,12 +450,15 @@ class CourseDetail extends React.Component {
         return (
             <div className={styles.footer}>
                 <span className={styles.vipBtn}>会员免费</span>
-                <span className={styles.singleBtn} onClick={() => this.payment(price)}>
+                <span className={styles.singleBtn} onClick={() => this.payment('Course', price)}>
                     <div className={styles.priceNum}>¥{formatPrice(price)}</div>
                     <div className={styles.priceType}>单独购买价</div>
                 </span>
                 <span className={styles.groupBtn}>
-                    <div className={styles.priceNum} onClick={() => this.payment(groupPrice)}>
+                    <div
+                        className={styles.priceNum}
+                        onClick={() => this.payment('CourseGroup', groupPrice)}
+                    >
                         ¥{formatPrice(groupPrice)}
                     </div>
                     <div className={styles.priceType}>三人团</div>
@@ -454,13 +467,16 @@ class CourseDetail extends React.Component {
         );
     };
 
-    payment = price => {
-        const { name, couponList } = this.props;
+    payment = (type, price) => {
+        const { name, couponList, id: courseId, groupId } = this.props;
 
         pay({
+            type,
             price,
             name,
             couponList,
+            courseId,
+            groupId,
         });
     };
 
