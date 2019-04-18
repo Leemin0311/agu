@@ -46,6 +46,12 @@ class BasicLayout extends React.PureComponent {
         if(pathname.startsWith('/person')) {
             return '个人中心';
         }
+        if(pathname.startsWith('/classroom/classlist')) {
+            return '课程详情';
+        }
+        if(pathname.startsWith('/classroom')) {
+            return '我的课堂';
+        }
 
         return '阿古早教';
     };
