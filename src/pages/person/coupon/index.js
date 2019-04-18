@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import { Button, PullToRefresh } from 'antd-mobile';
 import classNames from 'classnames';
+import router from 'umi/router';
 
 import Tabs from '@components/Tabs';
 import Expired from '@assets/expired.png';
@@ -73,7 +74,13 @@ class Coupon extends Component{
             <img src={Empty} className={styles.emptyPageImg} />
             <div className={styles.text}>暂时没有发现优惠券哦～</div>
             <div className={styles.text}>去首页看看有什么新课程吧</div>
-            <Button type='primary' className={styles.emptyButtonPri}>
+            <Button
+                type='primary'
+                className={styles.emptyButtonPri}
+                onClick={() => {
+                    router.push('/classcenter');
+                }}
+            >
                 去看看
             </Button>
         </div>
@@ -133,7 +140,13 @@ class Coupon extends Component{
                                                         </span>
                                                     )
                                                 }
-                                                <Button type='primary' className={styles.buttonPri}>
+                                                <Button
+                                                    type='primary'
+                                                    className={styles.buttonPri}
+                                                    onClick={() => {
+                                                        router.push('/classcenter');
+                                                    }}
+                                                >
                                                     去使用
                                                 </Button>
                                             </div>
