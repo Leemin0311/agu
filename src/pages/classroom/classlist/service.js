@@ -13,3 +13,12 @@ export function getCourseDetail(id) {
         })
     });
 }
+
+export function getLearn(id) {
+    return request('/api/course/learn', {
+        method: 'POST',
+        body: JSON.stringify({
+            id
+        })
+    });
+}

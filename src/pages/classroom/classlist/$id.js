@@ -32,19 +32,27 @@ class ClassList extends Component{
     };
 
     handlePlay = (id) => {
+        const {dispatch} = this.props;
 
+        dispatch({
+            type: 'classroom_list/learn',
+            payload: {
+                id
+            }
+        });
     };
 
     render(){
-        const {headMedia, detailMedia, lessons} = this.props;
-        const head = headMedia ? (headMedia[0] || {}) : {};
+        const {playVideo, detailMedia, lessons} = this.props;
         return (
             <div className={styles.container}>
                 <Media
-                    type={head.type}
-                    url={head.thumbnail || head.url}
-                    videoUrl={head.url}
+                    type={playVideo.type}
+                    url={playVideo.thumbnail || playVideo.url}
+                    videoUrl={playVideo.url}
                     className={styles.img}
+                    controls
+                    key={playVideo.id}
                 />
                 <div
                     style={{
