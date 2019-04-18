@@ -1,42 +1,109 @@
 import React, {Component} from 'react';
-import { Button } from 'antd-mobile';
+import { Button, PullToRefresh } from 'antd-mobile';
 import moment from 'moment';
+import classNames from 'classnames';
+import { connect } from 'dva';
+import router from 'umi/router';
 
 import Countdown from '@components/Countdown';
-import { connect } from 'dva';
 import styles from './index.less';
 
-@connect()
+@connect(({classroom}) => ({
+    page: classroom.page,
+    courses: classroom.courses
+}))
 class ClassRoom extends Component{
+    constructor(props){
+        super(props);
+
+        props.dispatch({
+            type: 'classroom/getCourseList',
+            payload: {
+                page: 0
+            }
+        });
+    }
+
+    fetchNewPage = () => {
+        const {dispatch, page} = this.props;
+        dispatch({
+            type: 'classroom/getCourseList',
+            payload: {
+                page: page
+            }
+        });
+    };
+
+    getAction = (item) => {
+        if(item.order && item.order.group && item.order.group.expireTime) {
+            return (
+                <div className={styles.action}>
+                    <div className={styles.timeBlock}>
+                        <div className={styles.disc}>拼团仅剩</div>
+                        <div className={styles.time}>{<Countdown timeCount={(new Date(item.order.group.expireTime) - moment())} />}</div>
+                    </div>
+                    <Button type='primary' className={classNames(styles.buttonPri, styles.invitation)}>
+                        邀请成团
+                    </Button>
+                </div>
+            );
+        }
+        if (item.purchased) {
+            return (
+                <div className={styles.action}>
+                    <div className={styles.timeBlock}>
+                        <div className={styles.disc}>已学习{Math.floor((item.progress / item.duration) * 1000) / 10}%</div>
+                        <div className={styles.progressbar}>
+                            <div
+                                className={styles.progress}
+                                style={{
+                                    width: `${Math.floor((item.progress / item.duration) * 1000) / 10}%`,
+                                    borderRadius: `${item.progress === item.duration ? '0.14rem' : '0.14rem 0 0 0.14rem'}`
+                                }}
+                            />
+                        </div>
+                    </div>
+                    <Button
+                        type='primary'
+                        className={classNames(styles.buttonPri, styles.study)}
+                        onClick={() => {
+                            router.push(`/classroom/classlist/${item.id}`);
+                        }}
+                    >
+                        继续学习
+                    </Button>
+                </div>
+            );
+        }
+    };
+
     render(){
-        const courses = [{data: 1}];
+        const {courses} = this.props;
         return (
             <div className={styles.container}>
-                {
-                    courses.map(item => (
-                        <div className={styles.course}>
-                            <img src='#' className={styles.img} />
-                            <div className={styles.info}>
-                                <div className={styles.title}>
-                                    轻松掌握阅读技巧，畅读世界经典绘本！
-                                </div>
-                                <div className={styles.action}>
-                                    <div className={styles.timeBlock}>
-                                        <div className={styles.disc}>拼团仅剩</div>
-                                        <div className={styles.time}>{<Countdown timeCount={(new Date('2019-04-30T09:36:34.509Z') - moment())} />}</div>
-                                        {/*<div className={styles.disc}>已学习30%</div>*/}
-                                        {/*<div className={styles.progressbar}>*/}
-                                        {/*<div className={styles.progress} style={{width: '30%'}} />*/}
-                                        {/*</div>*/}
+                <PullToRefresh
+                    onRefresh={this.fetchNewPage}
+                    direction="up"
+                    indicator={{}}
+                    damping={60}
+                    className={styles.refresh}
+                >
+                    {
+                        courses.map(item => (
+                            <div className={styles.course}>
+                                <img src={item.coverImage} className={styles.img} />
+                                <div className={styles.info}>
+                                    <div className={styles.title}>
+                                        {item.name}
                                     </div>
-                                    <Button type='primary' className={styles.buttonPri}>
-                                        去使用
-                                    </Button>
+                                    {
+                                        this.getAction(item)
+                                    }
                                 </div>
                             </div>
-                        </div>
-                    ))
-                }
+                        ))
+                    }
+                </PullToRefresh>
             </div>
         );
     }

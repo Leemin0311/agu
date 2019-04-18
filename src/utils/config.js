@@ -4,5 +4,6 @@ export const noFooterPages = [
     '/classcenter/coursedetail',
     '/person/info',
     '/person/coupon',
-    '/vip'
+    '/vip',
+    '/classroom/classlist'
 ];
