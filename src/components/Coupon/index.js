@@ -20,7 +20,7 @@ class Coupon extends React.Component {
     };
 
     render() {
-        const { coupon = {}, cources } = this.props;
+        const { coupon = {}, courses } = this.props;
         const { bgImage } = coupon;
 
         return (
@@ -41,7 +41,7 @@ class Coupon extends React.Component {
                 />
                 <div className={styles.text}>- 本券适用如下课程 -</div>
                 <div className={styles.content}>
-                    {cources.map(({ id, name, icon }) => (
+                    {courses.map(({ id, name, icon }) => (
                         <div className={styles.course} key={id}>
                             <img src={icon} alt="img" className={styles.icon} />
                             <span className={styles.detail}>
