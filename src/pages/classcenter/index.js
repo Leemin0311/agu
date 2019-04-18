@@ -5,10 +5,23 @@ import { PullToRefresh } from 'antd-mobile';
 import Course from './components/Course';
 import styles from './index.less';
 
-@connect(({ classcenter }) => ({
+@connect(({ classcenter, loading }) => ({
     ...classcenter,
+    loading: loading.effects['classcenter/initialize']
 }))
 class ClassCenter extends React.Component {
+    componentWillMount() {
+        const { dispatch } = this.props;
+
+        dispatch({
+            type: 'classcenter/setData',
+            payload: {
+                currentPage: 1,
+                courses: []
+            }
+        });
+    }
+
     changeTab = ({ tabKey }) => {
         const { dispatch } = this.props;
 
@@ -39,7 +52,9 @@ class ClassCenter extends React.Component {
     };
 
     render() {
-        const { categories, courses, selectedCate } = this.props;
+        const { categories, courses, selectedCate, loading } = this.props;
+
+        if(loading) return null;
 
         return (
             <div className={styles.container}>
