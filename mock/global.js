@@ -6,7 +6,7 @@ export default delay({
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
             .post(
-                'http://www.aguzaojiao.com/api/config/h5',
+                'http://39.98.98.122/api/config/h5',
                 {},
                 {
                     headers: req.headers,
@@ -20,7 +20,7 @@ export default delay({
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
             .post(
-                'http://www.aguzaojiao.com/api/config/js',
+                'http://39.98.98.122/api/config/js',
                 {},
                 {
                     headers: {
@@ -94,8 +94,10 @@ export default delay({
     },
     'POST /api/wxpay/prepare': (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
-        axios.post('http://www.aguzaojiao.com/api/wxpay/prepare', req.body).then(response => {
-            res.send(response.data);
-        });
+        axios
+            .post('http://39.98.98.122/api/wxpay/prepare', req.body, { headers: req.headers })
+            .then(response => {
+                res.send(response.data);
+            });
     },
 });

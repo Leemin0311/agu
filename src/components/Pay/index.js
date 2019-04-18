@@ -67,7 +67,8 @@ class Pay extends React.Component {
         });
 
         if(!rst.error) {
-            chooseWXPay(rst.data.paymentParams, () => {
+            const { timeStamp, ...rest } = rst.data.paymentParams;
+            chooseWXPay({...rest, timestamp: timeStamp}, () => {
                 close();
                 onOk();
             });
