@@ -38,3 +38,5 @@ export const modal = props => {
         destroy,
     };
 };
+
+export default modal;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import Tabs from '@components/Tabs';
-import throttle from 'lodash.throttle';
+import { PullToRefresh } from 'antd-mobile';
 import Course from './components/Course';
 import styles from './index.less';
 
@@ -9,17 +9,6 @@ import styles from './index.less';
     ...classcenter,
 }))
 class ClassCenter extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.handleScroll = throttle(this.scroll, 500);
-    }
-
-    componentDidUpdate() {
-        this.scrollHeight = (this.content || {}).scrollHeight;
-        this.clientHeight = (this.content || {}).clientHeight;
-    }
-
     changeTab = ({ tabKey }) => {
         const { dispatch } = this.props;
 
@@ -34,26 +23,12 @@ class ClassCenter extends React.Component {
         dispatch({
             type: 'classcenter/getCourseList',
         });
-
-        this.content.scrollTo(0, 0);
     };
 
     fetchNewPage = () => {
-        const { dispatch } = this.props;
-
-        dispatch({
-            type: 'classcenter/getCourseList',
-            payload: {
-                append: true,
-            },
-        });
-    };
-
-    scroll = e => {
         const { dispatch, total, courses } = this.props;
-        const top = e.target.scrollTop;
 
-        if (top + this.clientHeight + 20 >= this.scrollHeight && courses.length < total) {
+        if (courses.length < total) {
             dispatch({
                 type: 'classcenter/getCourseList',
                 payload: {
@@ -90,19 +65,20 @@ class ClassCenter extends React.Component {
                                 'linear-gradient(90deg,rgba(254, 227, 0, 1) 0%,rgba(253, 199, 13, 1) 100%)',
                         }}
                     />
-                    <div
-                        className={styles.content}
-                        onScroll={e => {
-                            e.persist();
-                            this.handleScroll(e);
-                        }}
-                        ref={content => (this.content = content)}
-                    >
+                </div>
+
+                <PullToRefresh
+                    direction="up"
+                    distanceToRefresh={window.devicePixelRatio * 25}
+                    onRefresh={this.fetchNewPage}
+                    key={selectedCate}
+                >
+                    <div className={styles.content}>
                         {courses.map(item => (
                             <Course {...item} key={item.id} />
                         ))}
                     </div>
-                </div>
+                </PullToRefresh>
             </div>
         );
     }

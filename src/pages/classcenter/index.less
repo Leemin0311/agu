@@ -1,13 +1,21 @@
 .container {
     height: 100%;
 
+    :global {
+        .am-pull-to-refresh {
+            height: calc(~"100%" - 0.46rem);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+
     .tabBar {
-        height: 100%;
+        position: sticky;
+        top: 0;
     }
 
     .content {
-        overflow: auto;
-        height: calc(~"100%" - 0.46rem);
+        overflow: visible;
         padding: 0.28rem;
         -webkit-overflow-scrolling: touch;
     }

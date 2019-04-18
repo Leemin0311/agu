@@ -1,4 +1,6 @@
-import { getCourseList, getCategories } from './service';
+import showCoupon from '@components/Coupon';
+import get from 'lodash.get';
+import { getCourseList, getCategories, getCouponList } from './service';
 
 export default {
     namespace: 'classcenter',
@@ -7,7 +9,7 @@ export default {
         tips: [],
         selectedCate: null,
         currentPage: 1,
-        courses: []
+        courses: [],
     },
     reducers: {
         setData(state, { payload }) {
@@ -15,12 +17,12 @@ export default {
         },
     },
     effects: {
-        *getCourseList({ payload = {append : false} }, { select, call, put, take }) {
+        *getCourseList({ payload = { append: false } }, { select, call, put, take }) {
             const { selectedCate, currentPage, courses } = yield select(state => state.classcenter);
 
             const rst = yield call(getCourseList, selectedCate, currentPage);
 
-            if(!rst.error) {
+            if (!rst.error) {
                 const { content, total } = rst.data;
 
                 yield put({
@@ -28,14 +30,29 @@ export default {
                     payload: {
                         courses: payload.append ? [...courses, ...content] : content,
                         currentPage: currentPage + 1,
-                        total
-                    }
+                        total,
+                    },
                 });
             }
         },
-        *getCategories(action, { put, call }) {
-            const rst = yield call(getCategories);
+        *showCoupon(action, { call }) {
+            const rst = yield call(getCouponList);
+
             if(!rst.error) {
+                const coupon = get(rst, 'data.content').find(cou => cou.coupon.type === 'Course');
+
+                if(coupon) {
+                    showCoupon(coupon);
+                }
+            }
+        },
+        *initialize(action, { put, call }) {
+            yield put({
+                type: 'showCoupon'
+            });
+
+            const rst = yield call(getCategories);
+            if (!rst.error) {
                 const { categories, tips } = rst.data;
 
                 yield put({
@@ -43,29 +60,22 @@ export default {
                     payload: {
                         categories,
                         tips,
-                        selectedCate: categories[0].id
-                    }
+                        selectedCate: categories[0].id,
+                    },
+                });
+
+                yield put({
+                    type: 'getCourseList',
                 });
             }
         },
-        *initialize(action, { put, take }) {
-            yield put({
-                type: 'getCategories'
-            });
-
-            yield take('classcenter/getCategories/@@end');
-
-            yield put({
-                type: 'getCourseList'
-            });
-        }
     },
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
-                if(pathname.startsWith('/classcenter')) {
+                if (pathname === '/classcenter') {
                     dispatch({
-                        type: 'initialize'
+                        type: 'initialize',
                     });
                 }
             });

@@ -25,3 +25,18 @@ export function getCategories() {
         method: 'post',
     });
 }
+
+/**
+ * 获取课程列表
+ *
+ * @return {Promise<Response>}
+ */
+export function getCouponList() {
+    return request('/api/user/coupon/list', {
+        method: 'post',
+        body: JSON.stringify({
+            stauts: 'Valid',
+            page: 1
+        })
+    });
+}

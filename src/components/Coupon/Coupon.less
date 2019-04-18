@@ -1,0 +1,75 @@
+.container {
+    width: 5.74rem;
+    height: 8.8rem;
+    border-radius: 0.12rem;
+    padding-top: 1.54rem;
+
+    .text {
+        font-size: 0.26rem;
+        font-family: PingFangSC-Medium;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 1);
+        text-align: center;
+    }
+
+    .content {
+        width: 5.26rem;
+        height: 6.42rem;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 0.08rem;
+        margin: 0.16rem auto 0;
+        padding: 0.24rem;
+        overflow-y: auto;
+
+        .course {
+            padding-bottom: 0.24rem;
+
+            &:not(:last-child) {
+                border-bottom: 0.02rem solid #e5e5e5;
+            }
+
+            .icon {
+                display: inline-block;
+                width: 1.4rem;
+                height: 1.4rem;
+                vertical-align: top;
+            }
+
+            .detail {
+                position: relative;
+                display: inline-block;
+                height: 1.4rem;
+                margin-left: 0.24rem;
+                vertical-align: top;
+
+                .name {
+                    font-size: 0.26rem;
+                    font-family: PingFangSC-Medium;
+                    font-weight: 500;
+                    color: rgba(51, 51, 51, 1);
+                    white-space: pre;
+                }
+
+                .btn {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    width: 1.28rem;
+                    height: 0.44rem;
+                    line-height: 0.44rem;
+                    text-align: center;
+                    background: linear-gradient(
+                        90deg,
+                        rgba(255, 138, 28, 1) 0%,
+                        rgba(247, 77, 57, 1) 100%
+                    );
+                    border-radius: 0.24rem;
+                    font-size: 0.26rem;
+                    font-family: PingFangSC-Medium;
+                    font-weight: 500;
+                    color: rgba(255, 255, 255, 1);
+                }
+            }
+        }
+    }
+}

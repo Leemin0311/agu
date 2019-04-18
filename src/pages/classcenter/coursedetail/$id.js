@@ -634,53 +634,49 @@ class CourseDetail extends React.Component {
     };
 
     sharePoster = () => {
-        try {
-            const opers = modal({
-                width: '4.98rem',
-                height: '8.86rem',
-                content: (
-                    <div style={{ width: '4.98rem', height: '8.86rem', position: 'relative' }}>
-                        <Icon
-                            type="cross-circle"
-                            color="#FFF"
-                            size="sm"
-                            style={{
-                                position: 'absolute',
-                                left: '4.98rem',
-                                top: '-0.4rem',
-                            }}
-                            onClick={() => opers.destroy()}
-                        />
-                        <img
-                            src={this.shareImage}
-                            alt="img"
-                            style={{ width: '4.98rem', height: '8.86rem' }}
-                            onTouchStart={e => e.preventDefault()}
-                        />
-                        <div
-                            style={{
-                                position: 'absolute',
-                                left: '50%',
-                                bottom: '9.28rem',
-                                fontSize: '0.34rem',
-                                color: '#fff',
-                                lineHeight: '0.48rem',
-                                textAlign: 'center',
-                                whiteSpace: 'nowrap',
-                                transform: 'translateX(-50%)',
-                            }}
-                        >
-                            <div>96%的家长转发后拼团成功</div>
-                            <div>长按保存图片</div>
-                            <div>转发给好友即可拼团</div>
-                        </div>
+        const opers = modal({
+            width: '4.98rem',
+            height: '8.86rem',
+            content: (
+                <div style={{ width: '4.98rem', height: '8.86rem', position: 'relative' }}>
+                    <Icon
+                        type="cross-circle"
+                        color="#FFF"
+                        size="sm"
+                        style={{
+                            position: 'absolute',
+                            left: '4.98rem',
+                            top: '-0.4rem',
+                        }}
+                        onClick={() => opers.destroy()}
+                    />
+                    <img
+                        src={this.shareImage}
+                        alt="img"
+                        style={{ width: '4.98rem', height: '8.86rem' }}
+                        onTouchStart={e => e.preventDefault()}
+                    />
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: '50%',
+                            bottom: '9.28rem',
+                            fontSize: '0.34rem',
+                            color: '#fff',
+                            lineHeight: '0.48rem',
+                            textAlign: 'center',
+                            whiteSpace: 'nowrap',
+                            transform: 'translateX(-50%)',
+                        }}
+                    >
+                        <div>96%的家长转发后拼团成功</div>
+                        <div>长按保存图片</div>
+                        <div>转发给好友即可拼团</div>
                     </div>
-                ),
-                maskClosable: true,
-            });
-        } catch (e) {
-            alert(e);
-        }
+                </div>
+            ),
+            maskClosable: true,
+        });
     };
 
     invite = () => {
