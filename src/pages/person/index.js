@@ -59,7 +59,13 @@ class Mine extends Component{
                         user.wechatUser && user.wechatUser.nickName
                     }
                     <span className={styles.member}>还不是会员？</span>
-                    <span className={styles.beMember}>开通会员&gt;&gt;</span>
+                    <span
+                        className={styles.beMember}
+                        onClick={() => {
+                            router.push('/vip');
+                        }}
+                    >开通会员&gt;&gt;
+                    </span>
                 </div>
                 <div className={styles.babyCard}>
                     <div className={styles.babyInfo}>
