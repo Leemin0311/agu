@@ -47,10 +47,6 @@ export default {
             }
         },
         *initialize(action, { put, call }) {
-            yield put({
-                type: 'showCoupon'
-            });
-
             const rst = yield call(getCategories);
             if (!rst.error) {
                 const { categories, tips } = rst.data;
@@ -73,10 +69,15 @@ export default {
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
-                if (pathname === '/classcenter') {
+                if (pathname === '/classcenter' || pathname === '/classcenter/') {
                     dispatch({
                         type: 'initialize',
                     });
+
+                    dispatch({
+                        type: 'showCoupon'
+                    });
+
                 }
             });
         },
