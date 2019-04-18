@@ -50,4 +50,20 @@ export default delay({
             }),
         );
     },
+    'POST /api/course/learn' : (req, res) => {
+        res.send({
+            data: {
+                baseUsers: 0,
+                courseId: "string",
+                cover: "https://v.aguzaojiao.com/assets/share1.png",
+                duration: 0,
+                id: "string",
+                name: "string",
+                progress: 0,
+                seq: 0,
+                userCount: 0,
+                video: "https://v.aguzaojiao.com/assets/assess_intro.mp4"
+            }
+        });
+    }
 });
