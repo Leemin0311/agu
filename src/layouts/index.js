@@ -19,9 +19,11 @@ class BasicLayout extends React.PureComponent {
     }
 
     async componentDidMount() {
-        const rst = await jsConfig();
-        if (!rst.error) {
-            configWxJs(rst.data);
+        if(sessionStorage.authed) {
+            const rst = await jsConfig();
+            if (!rst.error) {
+                configWxJs(rst.data);
+            }
         }
     }
 

@@ -51,7 +51,7 @@ class Pay extends React.Component {
     };
 
     confirm = async () => {
-        const { close, type, groupId, courseId, orderId } = this.props;
+        const { close, type, groupId, courseId, orderId, onOk, onFail } = this.props;
         const { selected } = this.state;
 
         const rst = await request('/api/wxpay/prepare', {
@@ -69,7 +69,11 @@ class Pay extends React.Component {
         if(!rst.error) {
             chooseWXPay(rst.data.paymentParams, () => {
                 close();
+                onOk();
             });
+        } else {
+            close();
+            onFail();
         }
     }
 
@@ -174,6 +178,11 @@ class Pay extends React.Component {
         );
     }
 }
+
+Pay.defaultProps = {
+    onOk: () => {},
+    onFail: () => {}
+};
 
 const pay = props => {
     const ele = document.createElement('div');
