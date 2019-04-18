@@ -3,7 +3,7 @@ import { getClasses } from './service';
 export default {
     namespace: 'person_Classes',
     state: {
-        image: ''
+        classImage: ''
     },
     reducers: {
         setData(state, { payload }) {
@@ -13,7 +13,14 @@ export default {
     effects: {
         *getCategories(action, { put, call }) {
             const rst = yield call(getClasses);
-            console.info(rst);
+            if(!rst.error) {
+                yield put({
+                    type: 'setData',
+                    payload: {
+                        classImage: rst.data.classImage
+                    }
+                });
+            }
         },
     },
 };
