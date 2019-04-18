@@ -22,5 +22,6 @@ export default (url, option = {}) => {
     return request(url, {
         ...option,
         headers,
+        credentials: "include"
     });
 };
