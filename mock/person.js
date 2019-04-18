@@ -107,7 +107,7 @@ export default delay({
                             bgImage: 'https://v.aguzaojiao.com/test/bg_coupon.png',
                         },
                         status,
-                        cources: [
+                        courses: [
                             {
                                 id: '5caf6227c796e928960c60d5',
                                 name: '(1)少儿版三国演义动画故事',

@@ -723,7 +723,7 @@ class CourseDetail extends React.Component {
         const { loading, id, order, groupId } = this.props;
         if (loading || !id) return null;
 
-        const showFooter = !(order || {}).group || !groupId;
+        const showFooter = !(order || {}).group && !groupId;
 
         return (
             <div className={styles.container}>
