@@ -11,6 +11,8 @@ export function configWxJs(data, onReadyCallback) {
             'chooseWXPay',
             'updateAppMessageShareData',
             'updateTimelineShareData',
+            'chooseImage',
+            'uploadImage'
         ], // 必填，需要使用的JS接口列表
     });
     wx.ready(function() {

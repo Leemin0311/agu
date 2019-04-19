@@ -55,8 +55,17 @@ class Info extends Component{
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: function (res) {
-                // var localIds = res.localIds;
-                // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                let localId = res.localIds[0];
+
+                wx.uploadImage({
+                    localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                    isShowProgressTips: 1, // 默认为1，显示进度提示
+                    success: function (res) {
+                        let serverId = res.serverId; // 返回图片的服务器端ID , res.serverId 就是 media_id，根据它去微信服务器读取图片数据
+                        console.info(serverId);
+                    }
+                });    //上传结束
+
             }
         });
         return false;
