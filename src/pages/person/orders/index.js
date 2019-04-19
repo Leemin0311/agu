@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import get from 'lodash.get';
 
-import { renderShare } from '@components/Poster';
+import { renderShare, showPoster } from '@components/Poster';
 import pay from '@components/Pay';
 import Countdown from '@components/Countdown';
 import request from "@utils/request";
@@ -22,6 +22,7 @@ import styles from './index.less';
 }))
 class Orders extends Component{
 
+    rendPoster = false;
     status = {
         'Created': ['待付款', '立即付款'],
         'Finished': ['已完成', '分享课程海报'],
@@ -99,7 +100,6 @@ class Orders extends Component{
                     type: 'Course'
                 })
             });
-
             pay({
                 type: order.type,
                 price: order.fee,
@@ -108,13 +108,22 @@ class Orders extends Component{
                 onOk: () => {this.fetchNewPage(order.type);}
             });
         } else if(order.status === 'Finished') {
-            renderShare({
-                bgImage: order.snapshot.bgPoster,
-                nickName,
-                avatarUrl,
-                callbackUrl: order.snapshot.url,
-                showHeader: false
-            });
+            if(!this.rendPoster){
+                this.rendPoster = true;
+                const _this = this;
+                renderShare({
+                    bgImage: order.snapshot.bgPoster,
+                    nickName,
+                    avatarUrl,
+                    callbackUrl: order.snapshot.url,
+                    showHeader: false,
+                    onOk: (dataUrl) => {
+                        showPoster(dataUrl, false);
+                        _this.rendPoster = false;
+                    }
+                });
+            }
+
         }
     };
 
