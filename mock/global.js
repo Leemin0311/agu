@@ -89,6 +89,7 @@ export default delay({
         });
     },
     'POST /log': (req, res) => {
+        console.info(`cookie: ${req.headers.cookie}`);
         console.info(req.body);
 
         res.send({
