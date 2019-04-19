@@ -98,7 +98,7 @@ export default delay({
         });
 
         try {
-            fs.appendFile('../log/log.txt', req.body, 'utf8', function(err){
+            fs.appendFile('/opt/agu-fe/agu/log/log.txt', req.body, 'utf8', function(err){
                 console.info(err);
             });
         } catch(e) {
