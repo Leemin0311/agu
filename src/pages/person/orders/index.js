@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import { Button, PullToRefresh, Tabs } from 'antd-mobile';
 import { connect } from 'dva';
+import router from 'umi/router';
+
+import pay from '@components/Pay';
 import Countdown from '@components/Countdown';
+import request from "@utils/request";
 import classNames from 'classnames';
 
 import moment from 'moment';
@@ -11,6 +15,7 @@ import styles from './index.less';
 @connect(({person_order}) => ({
     orders: person_order.orders,
     page: person_order.page,
+    couponList: person_order.couponList
 }))
 class Orders extends Component{
 
@@ -79,6 +84,26 @@ class Orders extends Component{
         }
     };
 
+    payment = async (order) => {
+        if(order.status === 'Grouping' || order.status === 'GroupFailed') {
+            if(order.courseId) router.push(`/classcenter/coursedetail/${order.courseId}`);
+        } else if(order.status === 'Created') {
+            const rst = await request('/api/user/coupon/match', {
+                method: 'post',
+                body: JSON.stringify({
+                    type: 'Course'
+                })
+            });
+
+            pay({
+                type: order.type,
+                price: order.fee,
+                name: order.snapshot.name,
+                couponList: rst.error ? [] : rst.data
+            });
+        }
+    };
+
     render() {
         const {orders} = this.props;
 
@@ -108,6 +133,7 @@ class Orders extends Component{
                                                     [styles[order.status]]: true
                                                 })}
                                                 key={order.id}
+                                                onClick={() => this.payment(order)}
                                             >
                                                 <div
                                                     className={classNames({
