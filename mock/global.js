@@ -104,11 +104,11 @@ export default delay({
             });
     },
     'GET /api/rdt/qrcode': (req, res) => {
-        console.info(req.query);
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
             .get(`http://47.92.193.242:8085/api/rdt/qrcode?text=${req.query.text}`, req.body, { headers: req.headers })
             .then(response => {
+                res.set(response.headers);
                 res.send(response.data);
             });
     }
