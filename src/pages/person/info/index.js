@@ -44,12 +44,13 @@ class Info extends Component{
             name: babyInfo ? babyInfo.name : '',
             sexValue: babyInfo ? babyInfo.male ? ['male'] : ['female'] : '',
             birth: babyInfo ? new Date(babyInfo.birthday) : '',
+            icon: defaultAvatar
         };
     }
 
 
     handleUpload = (e) => {
-        //alert("选择图片")
+        const _this = this;
         wx.chooseImage({
             count: 1,
             sizeType: ['original', 'compressed'],
@@ -57,6 +58,9 @@ class Info extends Component{
             success: function (res) {
                 let localId = res.localIds[0];
 
+                _this.setState({
+                    icon: localId
+                });
                 wx.uploadImage({
                     localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
                     isShowProgressTips: 1, // 默认为1，显示进度提示
@@ -106,12 +110,12 @@ class Info extends Component{
     };
 
     render(){
-        const {sexValue, birth, name} = this.state;
+        const {sexValue, birth, name, icon} = this.state;
 
         return (
             <div className={styles.infoContent}>
                 <div className={styles.upload} onClick={this.handleUpload}>
-                    <img src={defaultAvatar} className={styles.avatar} />
+                    <img src={icon} className={styles.avatar} />
                     <img src={camera} className={styles.camera} />
                 </div>
 
