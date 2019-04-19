@@ -4,7 +4,13 @@ import html2canvas from 'html2canvas';
 import { modal } from '@components/Modal';
 import { Icon } from 'antd-mobile';
 
-const renderShareDom = ({ bgImage, nickName, avatarUrl, callbackUrl, text = '我觉得这个课程超棒，推荐给你！'}) => {
+const renderShareDom = ({
+    bgImage,
+    nickName,
+    avatarUrl,
+    callbackUrl,
+    text = '我觉得这个课程超棒，推荐给你！',
+}) => {
     return (
         <>
             <img
@@ -62,7 +68,7 @@ const renderShareDom = ({ bgImage, nickName, avatarUrl, callbackUrl, text = '我
     );
 };
 
-export const showPoster = (dataUrl) => {
+export const showPoster = (dataUrl, showHead = true) => {
     const opers = modal({
         width: '4.98rem',
         height: '8.86rem',
@@ -85,23 +91,25 @@ export const showPoster = (dataUrl) => {
                     style={{ width: '4.98rem', height: '8.86rem' }}
                     onTouchStart={e => e.preventDefault()}
                 />
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: '50%',
-                        bottom: '9.28rem',
-                        fontSize: '0.34rem',
-                        color: '#fff',
-                        lineHeight: '0.48rem',
-                        textAlign: 'center',
-                        whiteSpace: 'nowrap',
-                        transform: 'translateX(-50%)',
-                    }}
-                >
-                    <div>96%的家长转发后拼团成功</div>
-                    <div>长按保存图片</div>
-                    <div>转发给好友即可拼团</div>
-                </div>
+                {showHead && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: '50%',
+                            bottom: '9.28rem',
+                            fontSize: '0.34rem',
+                            color: '#fff',
+                            lineHeight: '0.48rem',
+                            textAlign: 'center',
+                            whiteSpace: 'nowrap',
+                            transform: 'translateX(-50%)',
+                        }}
+                    >
+                        <div>96%的家长转发后拼团成功</div>
+                        <div>长按保存图片</div>
+                        <div>转发给好友即可拼团</div>
+                    </div>
+                )}
             </div>
         ),
         maskClosable: true,
@@ -116,10 +124,11 @@ export const showPoster = (dataUrl) => {
  *      nickName,
  *      avatarUrl,
  *      callbackUrl: `course.aguzaojiao.com/classcenter`,
- *      onOk: dataUrl => (this.dataUrl = dataUrl),    不传onOk会立即渲染，onOk返回图片url，异步渲染需调用showPoster(dataUrl)
+ *      onOk: dataUrl => {},    //不传onOk会立即渲染，onOk返回图片url，异步渲染需调用showPoster(dataUrl),
+ *      showHead                //是否显示海报上方的文字，默认显示
  *  }
  */
-export const renderShare = (props) => {
+export const renderShare = props => {
     let ele = document.getElementById('shareDom');
     if (!ele) {
         ele = document.createElement('div');
