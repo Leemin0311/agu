@@ -65,7 +65,7 @@ class Orders extends Component{
 
     };
 
-    fetchNewPage = (tabKey) => {
+    fetchNewPage = (tabKey, newPage) => {
         const { dispatch, page } = this.props;
 
         if(tabKey === 'All'){
@@ -73,7 +73,7 @@ class Orders extends Component{
                 type: 'person_order/getOrderList',
                 payload: {
                     append: true,
-                    page
+                    page: newPage || page
                 }
             });
         } else {
@@ -82,7 +82,7 @@ class Orders extends Component{
                 payload: {
                     append: true,
                     status: tabKey,
-                    page,
+                    page: newPage || page,
                 }
             });
         }
@@ -106,7 +106,7 @@ class Orders extends Component{
                 name: order.snapshot.name,
                 orderId: order.id,
                 couponList: rst.error ? [] : rst.data,
-                onOk: () => {this.fetchNewPage(order.type);}
+                onOk: () => {this.fetchNewPage(order.type, 0);}
             });
         } else if(order.status === 'Finished') {
             if(!this.rendPoster){
