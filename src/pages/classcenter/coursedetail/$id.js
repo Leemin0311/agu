@@ -5,6 +5,7 @@ import Media from '@components/Media';
 import Countdown from '@components/Countdown';
 import Tabs from '@components/Tabs';
 import pay from '@components/Pay';
+import router from 'umi/router';
 import { formatPrice } from '@utils/tools';
 import moment from 'moment';
 import defaultAvatar from '@assets/defaultAvatar.svg';
@@ -473,7 +474,7 @@ class CourseDetail extends React.Component {
 
         return (
             <div className={styles.footer}>
-                <span className={styles.vipBtn}>会员免费</span>
+                <span className={styles.vipBtn} onClick={() => router.push('/vip')}>会员免费</span>
                 <span className={styles.singleBtn} onClick={() => this.payment('Course', price)}>
                     <div className={styles.priceNum}>¥{formatPrice(price)}</div>
                     <div className={styles.priceType}>单独购买价</div>
