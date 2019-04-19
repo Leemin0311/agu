@@ -127,8 +127,7 @@ export default delay({
             )
             .then(response => {
                 res.set(response.headers);
-                res.write(response.data);
-                res.end();
+                res.send(response.data);
             });
     },
 });
