@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env PORT=8087 umi dev",
+    "dev-server": "cross-env PORT=8087 MOCK=none umi dev",
     "build": "umi build",
     "test": "umi test",
     "lint": "eslint --ext .js src mock tests",
