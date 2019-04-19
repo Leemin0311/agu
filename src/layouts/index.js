@@ -2,7 +2,7 @@ import React from 'react';
 import DocumentTitle from 'react-document-title';
 import memoizeOne from 'memoize-one';
 import { connect } from 'dva';
-import { configWxJs } from '@utils/wx';
+import { configWxJs, configWxShare } from '@utils/wx';
 import { noFooterPages } from '@utils/config';
 import Footer from './Footer';
 import { jsConfig } from '../services/global';
@@ -19,10 +19,17 @@ class BasicLayout extends React.PureComponent {
     }
 
     async componentDidMount() {
-        if(sessionStorage.authed) {
+        if (sessionStorage.authed) {
             const rst = await jsConfig();
             if (!rst.error) {
-                configWxJs(rst.data);
+                configWxJs(rst.data, () => {
+                    configWxShare(
+                        '阿古早教',
+                        '快乐早教，阿古阿古！',
+                        'https://course.aguzaojiao.com/classcenter',
+                        'https://v.aguzaojiao.com/course/logo.png',
+                    );
+                });
             }
         }
     }
@@ -35,25 +42,25 @@ class BasicLayout extends React.PureComponent {
         if (pathname.startsWith('/classcenter/coursedetail')) {
             return '课程详情';
         }
-        if(pathname.startsWith('/person/info')){
+        if (pathname.startsWith('/person/info')) {
             return '宝宝信息';
         }
-        if(pathname.startsWith('/person/orders')){
+        if (pathname.startsWith('/person/orders')) {
             return '我的订单';
         }
-        if(pathname.startsWith('/person/coupon')){
+        if (pathname.startsWith('/person/coupon')) {
             return '优惠券';
         }
-        if(pathname.startsWith('/person/classes')){
+        if (pathname.startsWith('/person/classes')) {
             return '加入官方班级群';
         }
-        if(pathname.startsWith('/person')) {
+        if (pathname.startsWith('/person')) {
             return '个人中心';
         }
-        if(pathname.startsWith('/classroom/classlist')) {
+        if (pathname.startsWith('/classroom/classlist')) {
             return '课程详情';
         }
-        if(pathname.startsWith('/classroom')) {
+        if (pathname.startsWith('/classroom')) {
             return '我的课堂';
         }
 
