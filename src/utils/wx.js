@@ -58,7 +58,7 @@ export function chooseWXPay(props, onOk, onFail) {
     wx.chooseWXPay({
         ...props,
         success: function (res) {
-            onOk && onOk();
+            onOk && onOk(res);
         },
         fail: function (err) {
             onFail && onFail(err);

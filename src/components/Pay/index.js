@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Modal, Icon, Checkbox } from 'antd-mobile';
-import { formatPrice } from '@utils/tools';
+import { formatPrice, log } from '@utils/tools';
 import prod from '@assets/prod.svg';
 import couponIcon from '@assets/coupon.svg';
 import priceIcon from '@assets/price.svg';
@@ -68,7 +68,8 @@ class Pay extends React.Component {
 
         if(!rst.error) {
             const { timeStamp, ...rest } = rst.data.paymentParams;
-            chooseWXPay({...rest, timestamp: timeStamp}, () => {
+            chooseWXPay({...rest, timestamp: timeStamp}, (res) => {
+                log(res);
                 close();
                 onOk();
             });

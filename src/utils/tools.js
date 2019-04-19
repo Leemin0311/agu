@@ -1,3 +1,5 @@
+import request from './request';
+
 /**
  * 换算金额
  * @param price 金额，单位分
@@ -20,4 +22,11 @@ export const scrollToCenter = (scrollEl, offset, direction = 'vertical') => {
     if (client < scroll) {
         scrollEl[scrollType] = offset > client / 2 ? offset - client / 2 : 0;
     }
+};
+
+export const log = (msg) => {
+    request('/log', {
+        method: 'post',
+        body: typeof msg === 'object' ? JSON.stringify(msg) : msg
+    });
 };
