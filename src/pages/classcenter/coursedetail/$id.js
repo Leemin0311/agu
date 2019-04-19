@@ -70,7 +70,7 @@ class CourseDetail extends React.Component {
                     bgImage,
                     nickName,
                     avatarUrl,
-                    callbackUrl: `course.aguzaojiao.com/classcenter/coursedetail/${courseId}?groupId=${groupId}&userId=${userId}`,
+                    callbackUrl: `https://course.aguzaojiao.com/classcenter/coursedetail/${courseId}?groupId=${groupId}&userId=${userId}`,
                     onOk: dataUrl => (this.dataUrl = dataUrl),
                 });
             }
