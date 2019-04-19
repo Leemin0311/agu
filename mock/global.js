@@ -98,11 +98,11 @@ export default delay({
         });
 
         try {
-            fs.appendFile('/opt/agu-fe/agu/log/log.txt', req.body, 'utf8', function(err){
+            fs.appendFile('/opt/agu-fe/agu/log/log.txt', JSON.stringify(req.body) + '\n\n', 'utf8', function(err){
                 console.info(err);
             });
         } catch(e) {
-            console.info(e);
+            if(e) console.info(e);
         }
     },
     'POST /api/wxpay/prepare': (req, res) => {
