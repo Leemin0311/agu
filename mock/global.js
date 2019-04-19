@@ -7,7 +7,7 @@ export default delay({
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
             .post(
-                'http://127.0.0.1:8085/api/config/h5',
+                'http://47.92.193.242:8085/api/config/h5',
                 {},
                 {
                     headers: req.headers,
@@ -15,13 +15,17 @@ export default delay({
             )
             .then(response => {
                 res.send(response.data);
+            })
+            .catch(e => {
+                console.info(e);
+                res.end();
             });
     },
     'POST /api/config/js': (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
             .post(
-                'http://127.0.0.1:8085/api/config/js',
+                'http://47.92.193.242:8085/api/config/js',
                 {},
                 {
                     headers: {
@@ -34,6 +38,7 @@ export default delay({
             })
             .catch(e => {
                 console.info(e);
+                res.end();
             });
     },
     'POST /api/user/detail': (req, res) => {
@@ -90,7 +95,6 @@ export default delay({
         });
     },
     'POST /log': (req, res) => {
-        console.info(`cookie: ${req.headers.cookie}`);
         console.info(req.body);
 
         res.send({
@@ -108,27 +112,35 @@ export default delay({
     'POST /api/wxpay/prepare': (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
-            .post('http://127.0.0.1:8085/api/wxpay/prepare', req.body, { headers: req.headers })
+            .post('http://47.92.193.242:8085/api/wxpay/prepare', req.body, { headers: req.headers })
             .then(response => {
                 res.send(response.data);
+            })
+            .catch(e => {
+                console.info(e);
+                res.end();
             });
     },
     'GET /api/rdt/qrcode': (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
-            .get(`http://127.0.0.1:8085/api/rdt/qrcode?text=${req.query.text}`, {
+            .get(`http://47.92.193.242:8085/api/rdt/qrcode?text=${req.query.text}`, {
                 headers: req.headers,
             })
             .then(response => {
                 res.set(response.headers);
                 res.write(response.data);
                 res.end();
+            })
+            .catch(e => {
+                console.info(e);
+                res.end();
             });
     },
     'GET /api/user/auth/wechat': (req, res) => {
         axios({
             method: 'get',
-            url: `http://127.0.0.1:8085/api/user/auth/wechat?code=${req.query.code}&state=${
+            url: `http://47.92.193.242:8085/api/user/auth/wechat?code=${req.query.code}&state=${
                 req.query.state
             }`,
             maxRedirects: 0
