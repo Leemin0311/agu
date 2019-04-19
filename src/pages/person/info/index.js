@@ -41,10 +41,11 @@ class Info extends Component{
         const babyInfo = user.babies && user.babies.length > 0 ? user.babies[0] : null;
 
         this.state = {
-            name: babyInfo ? babyInfo.name : '',
+            name: babyInfo && babyInfo.name ? babyInfo.name : '',
             sexValue: babyInfo ? babyInfo.male ? ['male'] : ['female'] : '',
-            birth: babyInfo ? new Date(babyInfo.birthday) : '',
-            icon: defaultAvatar
+            birth: babyInfo && babyInfo.birthday ? new Date(babyInfo.birthday) : '',
+            icon: babyInfo && babyInfo.photo ? babyInfo.photo : defaultAvatar,
+            photo: ''
         };
     }
 
@@ -67,6 +68,9 @@ class Info extends Component{
                     success: function (res) {
                         let serverId = res.serverId; // 返回图片的服务器端ID , res.serverId 就是 media_id，根据它去微信服务器读取图片数据
                         console.info(serverId);
+                        _this.setState({
+                            photo: serverId
+                        });
                     }
                 });    //上传结束
 
@@ -95,13 +99,14 @@ class Info extends Component{
 
     handleSubmit = async () => {
         const {dispatch} = this.props;
-        const {birth, sexValue, name} = this.state;
+        const {birth, sexValue, name, photo} = this.state;
         await dispatch({
             type: 'person_info/upDateBabyInfo' ,
             payload: {
                 birthday: moment(birth).format(),
                 male: sexValue[0] === 'male' ? '男' : sexValue[0] === 'female' ? '女' : '',
-                name
+                name,
+                photo
             }
         });
 
