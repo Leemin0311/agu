@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import { Button, PullToRefresh, Tabs } from 'antd-mobile';
 import { connect } from 'dva';
 import router from 'umi/router';
+import get from 'lodash.get';
 
+import { renderShare } from '@components/Poster';
 import pay from '@components/Pay';
 import Countdown from '@components/Countdown';
 import request from "@utils/request";
@@ -12,10 +14,11 @@ import moment from 'moment';
 import styles from './index.less';
 
 
-@connect(({person_order}) => ({
+@connect(({person_order, global}) => ({
     orders: person_order.orders,
     page: person_order.page,
-    couponList: person_order.couponList
+    couponList: person_order.couponList,
+    user: global.user
 }))
 class Orders extends Component{
 
@@ -85,6 +88,8 @@ class Orders extends Component{
     };
 
     payment = async (order) => {
+        const { nickName, avatarUrl } = get(this.props, 'user.wechatUser');
+
         if(order.status === 'Grouping' || order.status === 'GroupFailed') {
             if(order.courseId) router.push(`/classcenter/coursedetail/${order.courseId}`);
         } else if(order.status === 'Created') {
@@ -100,6 +105,14 @@ class Orders extends Component{
                 price: order.fee,
                 name: order.snapshot.name,
                 couponList: rst.error ? [] : rst.data
+            });
+        } else if(order.status === 'Finished') {
+            renderShare({
+                bgImage: order.snapshot.bgPoster,
+                nickName,
+                avatarUrl,
+                callbackUrl: order.snapshot.url,
+                showHeader: false
             });
         }
     };
@@ -124,6 +137,7 @@ class Orders extends Component{
                                     indicator={{}}
                                     damping={60}
                                     className={styles.refresh}
+                                    key={item.tabKey}
                                 >
                                     {
                                         (orders || []).map(order => (

@@ -46,6 +46,9 @@ export default delay({
                                 icon: 'https://v.aguzaojiao.com/assets/share1.png',
                                 name:
                                     '@cname@cname@cname@cname@cname@cname@cname@cname@cname@cname',
+                                bgPoster: 'https://v.aguzaojiao.com/assets/share1.png',
+                                url: 'https://baidu.com'
+
                             },
                             type: 'Member',
                             userId: '@guid',
