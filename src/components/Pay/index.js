@@ -75,6 +75,7 @@ class Pay extends React.Component {
                 onFail(res);
             });
         } else {
+            log(rst.error);
             close();
             onFail();
         }
