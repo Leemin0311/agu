@@ -133,8 +133,12 @@ export default delay({
             }`
         })
             .then(response => {
+                console.info('-----------');
+                console.info(response.status);
+                console.info(response.request);
                 console.info(response.headers);
-                console.info(response.data);
+                console.info('-----------');
+
                 res.set(response.headers);
                 res.send(response.data);
             });
