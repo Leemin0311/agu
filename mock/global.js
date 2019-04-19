@@ -107,11 +107,28 @@ export default delay({
     'GET /api/rdt/qrcode': (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
-            .get(`http://47.92.193.242:8085/api/rdt/qrcode?text=${req.query.text}`, req.body, { headers: req.headers })
+            .get(`http://47.92.193.242:8085/api/rdt/qrcode?text=${req.query.text}`, req.body, {
+                headers: req.headers,
+            })
             .then(response => {
                 res.set(response.headers);
                 res.write(response.data);
                 res.end();
             });
-    }
+    },
+    'GET /api/user/auth/wechat': (req, res) => {
+        axios
+            .get(
+                `http://47.92.193.242:8085/api/user/auth/wechat?code=${req.query.code}&state=${
+                    req.query.state
+                }`,
+                {},
+                { headers: req.headers },
+            )
+            .then(response => {
+                res.set(response.headers);
+                res.write(response.data);
+                res.end();
+            });
+    },
 });
