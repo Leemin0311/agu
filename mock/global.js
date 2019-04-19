@@ -122,7 +122,6 @@ export default delay({
                 `http://127.0.0.1:8085/api/user/auth/wechat?code=${req.query.code}&state=${
                     req.query.state
                 }`,
-                { headers: req.headers },
             )
             .then(response => {
                 console.info(response);
