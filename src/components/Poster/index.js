@@ -53,7 +53,7 @@ const renderShareDom = ({
                 </span>
             </div>
             <img
-                src={`https://course.aguzaojiao.com/api/rdt/qrcode?${encodeURIComponent(callbackUrl)}`}
+                src={`https://course.aguzaojiao.com/api/rdt/qrcode?text=${encodeURIComponent(callbackUrl)}`}
                 alt="img"
                 style={{
                     position: 'absolute',
