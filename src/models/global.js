@@ -16,6 +16,7 @@ export default {
         *auth({ payload }, { call, put }) {
             log(`authed: ${sessionStorage.authed}`);
 
+            sessionStorage.render = false;
             if (!sessionStorage.authed) {
                 const rst = yield call(auth);
                 const { authUrl } = rst.data;
@@ -25,6 +26,7 @@ export default {
                 if (/MicroMessenger/.test(navigator.userAgent)) window.location.href = authUrl;
                 sessionStorage.authed = true;
             } else {
+                sessionStorage.render = true;
                 yield put({
                     type: 'getUser',
                 });

@@ -74,7 +74,7 @@ export default {
                         type: 'initialize',
                     });
 
-                    if(sessionStorage.authed) {
+                    if(sessionStorage.render) {
                         dispatch({
                             type: 'showCoupon'
                         });

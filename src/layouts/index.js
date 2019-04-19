@@ -27,6 +27,10 @@ class BasicLayout extends React.PureComponent {
         }
     }
 
+    componentWillUnmount() {
+        sessionStorage.render = false;
+    }
+
     getPageTitle = pathname => {
         if (pathname.startsWith('/classcenter/coursedetail')) {
             return '课程详情';
