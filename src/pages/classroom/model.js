@@ -4,7 +4,7 @@ export default {
     namespace: 'classroom',
     state: {
         courses: [],
-        page: 0,
+        page: 1,
     },
     reducers: {
         setData(state, { payload }) {

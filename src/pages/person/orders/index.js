@@ -50,7 +50,7 @@ class Orders extends Component{
             dispatch({
                 type: 'person_order/getOrderList',
                 payload: {
-                    page: 0
+                    page: 1
                 }
             });
         } else {
@@ -58,7 +58,7 @@ class Orders extends Component{
                 type: 'person_order/getOrderList',
                 payload: {
                     status: tabKey,
-                    page: 0
+                    page: 1
                 }
             });
         }
@@ -106,7 +106,7 @@ class Orders extends Component{
                 name: order.snapshot.name,
                 orderId: order.id,
                 couponList: rst.error ? [] : rst.data,
-                onOk: () => {this.fetchNewPage(order.type, 0);}
+                onOk: () => {this.fetchNewPage(order.type, 1);}
             });
         } else if(order.status === 'Finished') {
             if(!this.rendPoster){

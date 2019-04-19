@@ -19,7 +19,7 @@ class ClassRoom extends Component{
         props.dispatch({
             type: 'classroom/getCourseList',
             payload: {
-                page: 0
+                page: 1
             }
         });
     }
