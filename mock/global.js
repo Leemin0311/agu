@@ -127,7 +127,14 @@ export default delay({
     },
     'GET /api/user/auth/wechat': (req, res) => {
         const instance = axios.create();
-        instance.interceptors.response.use((response) => response);
+        instance.interceptors.response.use((response) => {
+            console.info('-----------');
+            console.info(response.status);
+            console.info(response.request);
+            console.info(response.headers);
+            console.info('-----------');
+            return response;
+        });
 
         instance({
             method: 'get',
@@ -136,11 +143,6 @@ export default delay({
             }`
         })
             .then(response => {
-                console.info('-----------');
-                console.info(response.status);
-                console.info(response.request);
-                console.info(response.headers);
-                console.info('-----------');
 
                 res.set(response.headers);
                 res.send(response.data);
