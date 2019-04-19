@@ -22,7 +22,7 @@ export default {
 
                 log(`userAgent: ${navigator.userAgent}`);
 
-                if (/wechat/.test(navigator.userAgent)) window.location.href = authUrl;
+                if (/MicroMessenger/.test(navigator.userAgent)) window.location.href = authUrl;
                 sessionStorage.authed = true;
             } else {
                 yield put({
