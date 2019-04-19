@@ -53,7 +53,7 @@ const renderShareDom = ({
                 </span>
             </div>
             <img
-                src={`/api/rdt/qrcode?${encodeURIComponent(callbackUrl)}`}
+                src={`https://course.aguzaojiao.com/api/rdt/qrcode?${encodeURIComponent(callbackUrl)}`}
                 alt="img"
                 style={{
                     position: 'absolute',
@@ -129,15 +129,12 @@ export const showPoster = (dataUrl, showHeader = true) => {
  *  }
  */
 export const renderShare = props => {
-    let ele = document.getElementById('shareDom');
-    if (!ele) {
-        ele = document.createElement('div');
-        ele.style.position = 'relative';
-        ele.style.width = `${window.innerWidth}px`;
-        ele.style.height = `${window.innerHeight}px`;
-        ele.style.top = '100vh';
-        document.body.appendChild(ele);
-    }
+    const ele = document.createElement('div');
+    ele.style.position = 'relative';
+    ele.style.width = `${window.innerWidth}px`;
+    ele.style.height = `${window.innerHeight}px`;
+    ele.style.top = '100vh';
+    document.body.appendChild(ele);
 
     const { bgImage, onOk } = props;
 
@@ -153,7 +150,6 @@ export const renderShare = props => {
         })
             .then(canvas => {
                 const dataUrl = canvas.toDataURL('image/png');
-                // this.shareImage = navigator.userAgent.includes('AppleWebKit') ? dataUrl.replace() : dataUrl;
                 (onOk || showPoster)(dataUrl, props.showHeader);
                 ReactDOM.unmountComponentAtNode(ele);
                 document.body.removeChild(ele);
