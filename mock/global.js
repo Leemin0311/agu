@@ -1,5 +1,6 @@
 import { delay } from 'roadhog-api-doc';
 import axios from 'axios';
+import fs from 'fs';
 
 export default delay({
     'POST /api/config/h5': (req, res) => {
@@ -92,6 +93,14 @@ export default delay({
         console.info(`cookie: ${req.headers.cookie}`);
         console.info(req.body);
 
+        if(!fs.exists('../log/log.txt')) {
+            fs.createWriteStream('../log/log.txt');
+        }
+
+        fs.appendFile('../log/log.txt', req.body, 'utf8', function(err){
+            console.info(err);
+        });
+
         res.send({
             success: true,
         });
@@ -118,7 +127,7 @@ export default delay({
     },
     'GET /api/user/auth/wechat': (req, res) => {
         axios
-            .post(
+            .get(
                 `http://127.0.0.1:8085/api/user/auth/wechat?code=${req.query.code}&state=${
                     req.query.state
                 }`,
