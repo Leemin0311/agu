@@ -104,7 +104,8 @@ class Orders extends Component{
                 type: order.type,
                 price: order.fee,
                 name: order.snapshot.name,
-                couponList: rst.error ? [] : rst.data
+                couponList: rst.error ? [] : rst.data,
+                onOk: () => {this.fetchNewPage(order.type);}
             });
         } else if(order.status === 'Finished') {
             renderShare({
