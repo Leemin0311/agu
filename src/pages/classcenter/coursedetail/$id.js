@@ -96,13 +96,13 @@ class CourseDetail extends React.Component {
     showTip = () => {
         const { tips } = this.props;
 
+        this.tipTimer = setTimeout(this.showTip, (Math.random() * 40 + 10) * 1000);
+
         if(!tips || !tips.length) return;
 
         const random = parseInt((Math.random() * tips.length));
 
         Toast.info(tips[random].message, 3, undefined, false);
-
-        this.tipTimer = setTimeout(this.showTip, (Math.random() * 40 + 10) * 1000);
     }
 
     /**

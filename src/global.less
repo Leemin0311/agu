@@ -25,8 +25,9 @@ body {
 }
 
 .am-toast {
-    top: 0.28rem !important;
     left: 0.28rem !important;
+    animation: tips 1s ease-in;
+    animation-fill-mode: forwards;
 
     .am-toast-notice {
         transform: unset !important;
@@ -40,5 +41,16 @@ body {
             font-weight: 400;
             border-radius: 0.16rem;
         }
+    }
+}
+
+@keyframes tips {
+    from {
+        top: 3rem;
+        opacity: 0;
+    }
+    to {
+        top: 0.28rem;
+        opacity: 1;
     }
 }
