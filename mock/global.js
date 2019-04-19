@@ -145,7 +145,8 @@ export default delay({
                 res.send(response.data);
             })
             .catch(err =>  {
-                console.info(err.response);
+                res.set(err.response.headers);
+                res.status(302).end();
             });
 
     },
