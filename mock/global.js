@@ -140,7 +140,9 @@ export default delay({
             method: 'get',
             url: `http://127.0.0.1:8085/api/user/auth/wechat?code=${req.query.code}&state=${
                 req.query.state
-            }`
+            }`,
+            maxRedirects: 0
+
         })
             .then(response => {
 
