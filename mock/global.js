@@ -93,17 +93,17 @@ export default delay({
         console.info(`cookie: ${req.headers.cookie}`);
         console.info(req.body);
 
-        if(!fs.exists('../log/log.txt')) {
-            fs.createWriteStream('../log/log.txt');
-        }
-
-        fs.appendFile('../log/log.txt', req.body, 'utf8', function(err){
-            console.info(err);
-        });
-
         res.send({
             success: true,
         });
+
+        try {
+            fs.appendFile('../log/log.txt', req.body, 'utf8', function(err){
+                console.info(err);
+            });
+        } catch(e) {
+            console.info(e);
+        }
     },
     'POST /api/wxpay/prepare': (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
