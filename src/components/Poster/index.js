@@ -68,7 +68,7 @@ const renderShareDom = ({
     );
 };
 
-export const showPoster = (dataUrl, showHead = true) => {
+export const showPoster = (dataUrl, showHeader = true) => {
     const opers = modal({
         width: '4.98rem',
         height: '8.86rem',
@@ -91,7 +91,7 @@ export const showPoster = (dataUrl, showHead = true) => {
                     style={{ width: '4.98rem', height: '8.86rem' }}
                     onTouchStart={e => e.preventDefault()}
                 />
-                {showHead && (
+                {showHeader && (
                     <div
                         style={{
                             position: 'absolute',
@@ -125,7 +125,7 @@ export const showPoster = (dataUrl, showHead = true) => {
  *      avatarUrl,
  *      callbackUrl: `course.aguzaojiao.com/classcenter`,
  *      onOk: dataUrl => {},    //不传onOk会立即渲染，onOk返回图片url，异步渲染需调用showPoster(dataUrl),
- *      showHead                //是否显示海报上方的文字，默认显示
+ *      showHeader              //是否显示海报上方的文字，默认显示
  *  }
  */
 export const renderShare = props => {
@@ -154,7 +154,7 @@ export const renderShare = props => {
             .then(canvas => {
                 const dataUrl = canvas.toDataURL('image/png');
                 // this.shareImage = navigator.userAgent.includes('AppleWebKit') ? dataUrl.replace() : dataUrl;
-                (onOk || showPoster)(dataUrl);
+                (onOk || showPoster)(dataUrl, props.showHeader);
                 ReactDOM.unmountComponentAtNode(ele);
                 document.body.removeChild(ele);
             })
