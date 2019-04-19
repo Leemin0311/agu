@@ -43,3 +43,14 @@ export function getCoupon(id) {
         })
     });
 }
+
+/**
+ * 获取tips
+ *
+ * @return {Promise<Response>}
+ */
+export function getTips() {
+    return request('/api/config/h5', {
+        method: 'post',
+    });
+}

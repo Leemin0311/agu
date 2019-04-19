@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Carousel, Icon } from 'antd-mobile';
+import { Carousel, Icon, Toast } from 'antd-mobile';
 import Media from '@components/Media';
 import Countdown from '@components/Countdown';
 import Tabs from '@components/Tabs';
@@ -50,6 +50,10 @@ class CourseDetail extends React.Component {
         });
     }
 
+    componentDidMount() {
+        this.tipTimer = setTimeout(this.showTip);
+    }
+
     componentDidUpdate() {
         const { loading, id, order, shareH5 } = this.props;
 
@@ -83,6 +87,22 @@ class CourseDetail extends React.Component {
                 shareImage,
             );
         }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.tipTimer);
+    }
+
+    showTip = () => {
+        const { tips } = this.props;
+
+        if(!tips || !tips.length) return;
+
+        const random = parseInt((Math.random() * tips.length));
+
+        Toast.info(tips[random].message, 3, undefined, false);
+
+        this.tipTimer = setTimeout(this.showTip, (Math.random() * 40 + 10) * 1000);
     }
 
     /**

@@ -1,4 +1,4 @@
-import { getCourseDetail, getCoupon, getGroupDetail } from './service';
+import { getCourseDetail, getCoupon, getGroupDetail, getTips } from './service';
 
 export default {
     namespace: 'coursedetail',
@@ -45,6 +45,19 @@ export default {
                 });
             }
         },
+        *getTips(action, { call, put }) {
+            const rst = yield call(getTips);
+            if(!rst.error) {
+                const { tips } = rst.data;
+
+                yield put({
+                    type: 'setData',
+                    payload: {
+                        tips
+                    }
+                });
+            }
+        }
     },
     subscriptions: {
         setup({ history, dispatch }) {
@@ -56,6 +69,9 @@ export default {
                             groupId: query.groupId,
                             groupLeaderId: query.userId
                         }
+                    });
+                    dispatch({
+                        type: 'getTips'
                     });
                 }
             });
