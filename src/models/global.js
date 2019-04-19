@@ -1,3 +1,5 @@
+
+import { log } from '@utils/tools';
 import { auth, getUser } from '../services/global';
 
 export default {
@@ -12,10 +14,13 @@ export default {
     },
     effects: {
         *auth({ payload }, { call, put }) {
+            log(`authed: ${sessionStorage.authed}`);
 
             if (!sessionStorage.authed) {
                 const rst = yield call(auth);
                 const { authUrl } = rst.data;
+
+                log(`userAgent: ${navigator.userAgent}`);
 
                 if (/wechat/.test(navigator.userAgent)) window.location.href = authUrl;
                 sessionStorage.authed = true;
