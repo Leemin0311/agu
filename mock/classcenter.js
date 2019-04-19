@@ -7,7 +7,7 @@ export default delay({
     'POST /api/course/list': (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
-            .post('https://47.92.193.242:8085/api/course/list', req.body, { headers: req.headers })
+            .post('http://47.92.193.242:8085/api/course/list', req.body, { headers: req.headers })
             .then(response => {
                 res.send(response.data);
             });

@@ -6,7 +6,7 @@ export default delay({
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
             .post(
-                'https://47.92.193.242:8085/api/config/h5',
+                'http://47.92.193.242:8085/api/config/h5',
                 {},
                 {
                     headers: req.headers,
@@ -20,7 +20,7 @@ export default delay({
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
             .post(
-                'https://47.92.193.242:8085/api/config/js',
+                'http://47.92.193.242:8085/api/config/js',
                 {},
                 {
                     headers: {
@@ -30,6 +30,9 @@ export default delay({
             )
             .then(response => {
                 res.send(response.data);
+            })
+            .catch(e => {
+                console.info(e);
             });
     },
     'POST /api/user/detail': (req, res) => {
@@ -95,7 +98,7 @@ export default delay({
     'POST /api/wxpay/prepare': (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
-            .post('https://47.92.193.242:8085/api/wxpay/prepare', req.body, { headers: req.headers })
+            .post('http://47.92.193.242:8085/api/wxpay/prepare', req.body, { headers: req.headers })
             .then(response => {
                 res.send(response.data);
             });
@@ -103,7 +106,7 @@ export default delay({
     'GET /api/rdt/qrcode': (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         axios
-            .get(`https://47.92.193.242:8085/api/rdt/qrcode?url=${req.query.url}`, req.body, { headers: req.headers })
+            .get(`http://47.92.193.242:8085/api/rdt/qrcode?url=${req.query.url}`, req.body, { headers: req.headers })
             .then(response => {
                 res.send(response.data);
             });
