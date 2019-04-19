@@ -145,7 +145,7 @@ export default delay({
                 res.send(response.data);
             })
             .catch(err =>  {
-                console.info(err);
+                console.info(err.response);
             });
 
     },
