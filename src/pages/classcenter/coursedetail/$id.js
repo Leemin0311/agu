@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'dva';
 import { Carousel, Icon } from 'antd-mobile';
 import Media from '@components/Media';
@@ -11,10 +10,11 @@ import moment from 'moment';
 import defaultAvatar from '@assets/defaultAvatar.svg';
 import backTop from '@assets/backTop.svg';
 import arrow from '@assets/arrow.svg';
-import html2canvas from 'html2canvas';
 import throttle from 'lodash.throttle';
 import { configWxShare } from '@utils/wx';
 import { modal } from '@components/Modal';
+import { renderShare, showPoster } from '@components/Poster';
+import get from 'lodash.get';
 import ServiceIntro from './components/ServiceIntro';
 import styles from './index.less';
 
@@ -60,7 +60,19 @@ class CourseDetail extends React.Component {
             this.groupBottom = (this.group || {}).offsetTop + (this.group || {}).offsetHeight;
 
             if ((order || {}).group && !this.shareImage) {
-                this.renderShare();
+                const { id: courseId } = this.props;
+                const { bgImage } = get(this.props, 'shareH5');
+                const { nickName, avatarUrl } = get(this.props, 'user.wechatUser');
+                const { id: userId } = get(this.props, 'user');
+                const { id: groupId } = get(this.props, 'order.group');
+
+                renderShare({
+                    bgImage,
+                    nickName,
+                    avatarUrl,
+                    callbackUrl: `course.aguzaojiao.com/classcenter/coursedetail/${courseId}?groupId=${groupId}&userId=${userId}`,
+                    onOk: dataUrl => (this.dataUrl = dataUrl),
+                });
             }
 
             const { shareTitle, shareDesc, shareUrl, shareImage } = shareH5 || {};
@@ -70,14 +82,6 @@ class CourseDetail extends React.Component {
                 shareUrl || 'www.aguzaojiao.com/classcenter',
                 shareImage,
             );
-        }
-    }
-
-    componentWillUnmount() {
-        const ele = document.getElementById('shareDom');
-        if (ele) {
-            ReactDOM.unmountComponentAtNode(ele);
-            document.body.removeChild(ele);
         }
     }
 
@@ -534,149 +538,8 @@ class CourseDetail extends React.Component {
         this.backTop.style.display = 'none';
     };
 
-    renderShareDom = () => {
-        const { shareH5, user } = this.props;
-        const { qrcode, bgImage } = shareH5;
-        const { nickName, avatarUrl } = user.wechatUser;
-
-        return (
-            <>
-                <img
-                    src={bgImage}
-                    alt="img"
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: window.innerWidth,
-                        height: window.innerHeight,
-                    }}
-                    crossOrigin="anonymous"
-                />
-                <div style={{ position: 'absolute', top: '0.22rem', left: '0.32rem', zIndex: 1 }}>
-                    <img
-                        src={avatarUrl}
-                        alt="img"
-                        style={{
-                            width: '0.56rem',
-                            height: '0.56rem',
-                            float: 'left',
-                            borderRadius: '0.56rem',
-                        }}
-                        crossOrigin="anonymous"
-                    />
-                    <span
-                        style={{
-                            fontSize: '0.22rem',
-                            fontWeight: 500,
-                            color: '#fff',
-                            lineHeight: '0.32rem',
-                            float: 'left',
-                            marginLeft: '0.2rem',
-                            zIndex: 1,
-                        }}
-                    >
-                        <div>{nickName}</div>
-                        <div>我觉得这个课程超棒，推荐给你！</div>
-                    </span>
-                </div>
-                <img
-                    src={qrcode}
-                    alt="img"
-                    style={{
-                        position: 'absolute',
-                        right: '0.32rem',
-                        bottom: '0.32rem',
-                        width: '1.33rem',
-                        height: '1.33rem',
-                    }}
-                    crossOrigin="anonymous"
-                />
-            </>
-        );
-    };
-
-    renderShare = () => {
-        let ele = document.getElementById('shareDom');
-        if (!ele) {
-            ele = document.createElement('div');
-            ele.id = 'shareDom';
-            ele.style.position = 'relative';
-            ele.style.width = `${window.innerWidth}px`;
-            ele.style.height = `${window.innerHeight}px`;
-            ele.style.top = '100vh';
-            document.body.appendChild(ele);
-        }
-
-        const { shareH5 } = this.props;
-        const { bgImage } = shareH5;
-        let image = new Image();
-        image.src = bgImage;
-        image.onload = () => {
-            ReactDOM.render(this.renderShareDom(), ele);
-
-            html2canvas(ele, {
-                useCORS: true,
-                // allowTaint: true,
-                logging: false,
-                proxy: 'https://www.aguzaojiao.com/api/rdt/img',
-            })
-                .then(canvas => {
-                    const dataUrl = canvas.toDataURL('image/png');
-                    // this.shareImage = navigator.userAgent.includes('AppleWebKit') ? dataUrl.replace() : dataUrl;
-                    this.shareImage = dataUrl;
-                    ele.style.display = 'none';
-                })
-                .catch(e => {
-                    console.info(e);
-                });
-        };
-    };
-
     sharePoster = () => {
-        const opers = modal({
-            width: '4.98rem',
-            height: '8.86rem',
-            content: (
-                <div style={{ width: '4.98rem', height: '8.86rem', position: 'relative' }}>
-                    <Icon
-                        type="cross-circle"
-                        color="#FFF"
-                        size="sm"
-                        style={{
-                            position: 'absolute',
-                            left: '4.98rem',
-                            top: '-0.4rem',
-                        }}
-                        onClick={() => opers.destroy()}
-                    />
-                    <img
-                        src={this.shareImage}
-                        alt="img"
-                        style={{ width: '4.98rem', height: '8.86rem' }}
-                        onTouchStart={e => e.preventDefault()}
-                    />
-                    <div
-                        style={{
-                            position: 'absolute',
-                            left: '50%',
-                            bottom: '9.28rem',
-                            fontSize: '0.34rem',
-                            color: '#fff',
-                            lineHeight: '0.48rem',
-                            textAlign: 'center',
-                            whiteSpace: 'nowrap',
-                            transform: 'translateX(-50%)',
-                        }}
-                    >
-                        <div>96%的家长转发后拼团成功</div>
-                        <div>长按保存图片</div>
-                        <div>转发给好友即可拼团</div>
-                    </div>
-                </div>
-            ),
-            maskClosable: true,
-        });
+        showPoster(this.dataUrl);
     };
 
     invite = () => {
