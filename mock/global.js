@@ -118,7 +118,7 @@ export default delay({
     },
     'GET /api/user/auth/wechat': (req, res) => {
         axios
-            .get(
+            .post(
                 `http://127.0.0.1:8085/api/user/auth/wechat?code=${req.query.code}&state=${
                     req.query.state
                 }`,
