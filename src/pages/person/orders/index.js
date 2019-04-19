@@ -104,6 +104,7 @@ class Orders extends Component{
                 type: order.type,
                 price: order.fee,
                 name: order.snapshot.name,
+                orderId: order.id,
                 couponList: rst.error ? [] : rst.data,
                 onOk: () => {this.fetchNewPage(order.type);}
             });
