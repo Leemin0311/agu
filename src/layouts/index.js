@@ -68,7 +68,7 @@ class BasicLayout extends React.PureComponent {
         return (
             <DocumentTitle title={this.getPageTitle(pathname)}>
                 <>
-                    {loading ? null : (
+                    {loading || !sessionStorage.authed ? null : (
                         <div
                             className={styles.content}
                             style={{ height: noFooter ? '100%' : 'calc(100% - 0.98rem)' }}

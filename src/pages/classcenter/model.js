@@ -74,9 +74,11 @@ export default {
                         type: 'initialize',
                     });
 
-                    dispatch({
-                        type: 'showCoupon'
-                    });
+                    if(sessionStorage.authed) {
+                        dispatch({
+                            type: 'showCoupon'
+                        });
+                    }
 
                 }
             });
