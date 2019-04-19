@@ -124,7 +124,8 @@ export default delay({
                 }`,
             )
             .then(response => {
-                console.info(response);
+                console.info(response.headers);
+                console.info(response.data);
                 res.set(response.headers);
                 res.send(response.data);
             });
