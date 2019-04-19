@@ -75,7 +75,7 @@ class CourseDetail extends React.Component {
                     nickName,
                     avatarUrl,
                     callbackUrl: `https://course.aguzaojiao.com/classcenter/coursedetail/${courseId}?groupId=${groupId}&userId=${userId}`,
-                    onOk: dataUrl => (this.dataUrl = dataUrl),
+                    onOk: dataUrl => (this.shareImage = dataUrl),
                 });
             }
 
@@ -559,7 +559,7 @@ class CourseDetail extends React.Component {
     };
 
     sharePoster = () => {
-        showPoster(this.dataUrl);
+        showPoster(this.shareImage);
     };
 
     invite = () => {
