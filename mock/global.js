@@ -126,6 +126,7 @@ export default delay({
                 { headers: req.headers },
             )
             .then(response => {
+                console.info(response);
                 res.set(response.headers);
                 res.send(response.data);
             });
