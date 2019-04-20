@@ -23,7 +23,10 @@ export default {
 
                 log(`userAgent: ${navigator.userAgent}`);
 
-                if (/MicroMessenger/.test(navigator.userAgent)) window.location.href = authUrl;
+                if (/MicroMessenger/.test(navigator.userAgent)) {
+                    log(`jump to authUrl ${authUrl}`);
+                    window.location.href = authUrl;
+                }
                 sessionStorage.authed = true;
             } else {
                 sessionStorage.render = true;
@@ -54,7 +57,11 @@ export default {
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
-                log(pathname);
+                log({
+                    pathname,
+                    query
+                });
+
                 dispatch({
                     type: 'auth',
                 });
