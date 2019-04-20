@@ -33,7 +33,7 @@ class Coupon extends Component{
             type: 'person_coupon/getCouponList',
             payload: {
                 status: 'Valid',
-                page: 0
+                page: 1
             }
         });
     }
@@ -48,7 +48,7 @@ class Coupon extends Component{
                     type: 'person_coupon/getCouponList',
                     payload: {
                         status: tabKey,
-                        page: 0
+                        page: 1
                     }
                 });
             }

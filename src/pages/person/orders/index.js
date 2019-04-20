@@ -50,7 +50,7 @@ class Orders extends Component{
             dispatch({
                 type: 'person_order/getOrderList',
                 payload: {
-                    page: 0
+                    page: 1
                 }
             });
         } else {
@@ -58,14 +58,14 @@ class Orders extends Component{
                 type: 'person_order/getOrderList',
                 payload: {
                     status: tabKey,
-                    page: 0
+                    page: 1
                 }
             });
         }
 
     };
 
-    fetchNewPage = (tabKey) => {
+    fetchNewPage = (tabKey, newPage) => {
         const { dispatch, page } = this.props;
 
         if(tabKey === 'All'){
@@ -73,7 +73,7 @@ class Orders extends Component{
                 type: 'person_order/getOrderList',
                 payload: {
                     append: true,
-                    page
+                    page: newPage || page
                 }
             });
         } else {
@@ -82,7 +82,7 @@ class Orders extends Component{
                 payload: {
                     append: true,
                     status: tabKey,
-                    page,
+                    page: newPage || page,
                 }
             });
         }
@@ -104,8 +104,9 @@ class Orders extends Component{
                 type: order.type,
                 price: order.fee,
                 name: order.snapshot.name,
+                orderId: order.id,
                 couponList: rst.error ? [] : rst.data,
-                onOk: () => {this.fetchNewPage(order.type);}
+                onOk: () => {this.fetchNewPage(order.type, 1);}
             });
         } else if(order.status === 'Finished') {
             if(!this.rendPoster){

@@ -3,7 +3,7 @@ import { getOrdersList } from './service';
 export default {
     namespace: 'person_order',
     state: {
-        page: 0,
+        page: 1,
         orders: []
     },
     reducers: {
