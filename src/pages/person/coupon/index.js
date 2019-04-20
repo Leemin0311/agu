@@ -6,8 +6,8 @@ import router from 'umi/router';
 
 import Tabs from '@components/Tabs';
 import Expired from '@assets/expired.png';
-import Empty from '@assets/empty.png';
 import showCoupon from '@components/Coupon';
+import emptyPage from '@components/EmptyPage';
 
 import { connect } from 'dva';
 import styles from './index.less';
@@ -25,6 +25,8 @@ class Coupon extends Component{
     state = {
         activeTab: 'Valid',
     };
+
+    emptyContent = '暂时没有发现优惠券哦～';
 
     async componentDidMount() {
         const {dispatch} = this.props;
@@ -69,22 +71,7 @@ class Coupon extends Component{
 
     };
 
-    emptyPage = () => (
-        <div className={styles.emptyPage}>
-            <img src={Empty} className={styles.emptyPageImg} />
-            <div className={styles.text}>暂时没有发现优惠券哦～</div>
-            <div className={styles.text}>去首页看看有什么新课程吧</div>
-            <Button
-                type='primary'
-                className={styles.emptyButtonPri}
-                onClick={() => {
-                    router.push('/classcenter');
-                }}
-            >
-                去看看
-            </Button>
-        </div>
-    );
+
 
     handelShowModal = (item) => {
         showCoupon(item);
@@ -159,7 +146,7 @@ class Coupon extends Component{
 
                                 }
                             </PullToRefresh> :
-                            this.emptyPage()
+                            emptyPage({content: this.emptyContent})
                     }
                 </div>
                 <div style={{ display: activeTab === 'Used' ? 'block' : 'none' }} className={styles.contentItem}>
@@ -185,7 +172,7 @@ class Coupon extends Component{
                                     ))
                                 }
                             </PullToRefresh> :
-                            this.emptyPage()
+                            emptyPage({content: this.emptyContent})
                     }
 
                 </div>
@@ -219,7 +206,8 @@ class Coupon extends Component{
                                     ))
                                 }
                             </PullToRefresh> :
-                            this.emptyPage()
+                            emptyPage({content: this.emptyContent})
+
                     }
                 </div>
             </div>

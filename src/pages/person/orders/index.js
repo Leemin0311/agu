@@ -4,10 +4,10 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import get from 'lodash.get';
 
+import emptyPage from '@components/EmptyPage';
 import { renderShare, showPoster } from '@components/Poster';
 import pay from '@components/Pay';
 import Countdown from '@components/Countdown';
-import request from "@utils/request";
 import classNames from 'classnames';
 
 import moment from 'moment';
@@ -88,24 +88,17 @@ class Orders extends Component{
         }
     };
 
-    payment = async (order) => {
+    payment =  (order) => {
         const { nickName, avatarUrl } = get(this.props, 'user.wechatUser');
 
         if(order.status === 'Grouping' || order.status === 'GroupFailed') {
             if(order.courseId) router.push(`/classcenter/coursedetail/${order.courseId}`);
         } else if(order.status === 'Created') {
-            const rst = await request('/api/user/coupon/match', {
-                method: 'post',
-                body: JSON.stringify({
-                    type: 'Course'
-                })
-            });
             pay({
                 type: order.type,
                 price: order.fee,
                 name: order.snapshot.name,
                 orderId: order.id,
-                couponList: rst.error ? [] : rst.data,
                 onOk: () => {
                     router.push(`/classroom/classlist/${order.snapshot.courseId}`);
                 }
@@ -153,7 +146,8 @@ class Orders extends Component{
                                     key={item.tabKey}
                                 >
                                     {
-                                        (orders || []).length < 1 ? <div style={{width: '100%', height: '100%'}} />
+                                        (orders || []).length < 1 ?  emptyPage({content: '暂时没有发现课程哦~'})
+
                                             :
                                             orders.map(order => (
                                                 <div

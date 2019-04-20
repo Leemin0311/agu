@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { connect } from 'dva';
 import router from 'umi/router';
 
+import emptyPage from '@components/EmptyPage';
 import Countdown from '@components/Countdown';
 import styles from './index.less';
 
@@ -29,7 +30,8 @@ class ClassRoom extends Component{
         dispatch({
             type: 'classroom/getCourseList',
             payload: {
-                page: page
+                page: page,
+                append: true
             }
         });
     };
@@ -95,19 +97,21 @@ class ClassRoom extends Component{
                     className={styles.refresh}
                 >
                     {
-                        courses.map((item, index) => (
-                            <div className={styles.course} key={index}>
-                                <img src={item.coverImage} className={styles.img} />
-                                <div className={styles.info}>
-                                    <div className={styles.title}>
-                                        {item.name}
+                        (courses || []).length > 0 ?
+                            courses.map((item, index) => (
+                                <div className={styles.course} key={index}>
+                                    <img src={item.coverImage} className={styles.img} />
+                                    <div className={styles.info}>
+                                        <div className={styles.title}>
+                                            {item.name}
+                                        </div>
+                                        {
+                                            this.getAction(item)
+                                        }
                                     </div>
-                                    {
-                                        this.getAction(item)
-                                    }
                                 </div>
-                            </div>
-                        ))
+                            )) :
+                            emptyPage({content: '暂时没有发现课程哦~'})
                     }
                 </PullToRefresh>
             </div>
