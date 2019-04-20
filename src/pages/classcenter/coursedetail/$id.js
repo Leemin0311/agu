@@ -53,6 +53,7 @@ class CourseDetail extends React.Component {
 
     componentDidMount() {
         this.tipTimer = setTimeout(this.showTip);
+        this.headMedia = [];
     }
 
     componentDidUpdate() {
@@ -112,6 +113,18 @@ class CourseDetail extends React.Component {
         Toast.info(tips[random].message, 3, undefined, false);
     }
 
+    carouselChange = (from, to) => {
+        const { headMedia } = this.props;
+
+        if(headMedia[from].type === 'Video') {
+            this.headMedia[from].pause();
+        }
+
+        if(headMedia[to].type === 'Video') {
+            this.headMedia[to].play();
+        }
+    }
+
     /**
      * 顶部跑马灯、简介
      */
@@ -120,7 +133,7 @@ class CourseDetail extends React.Component {
 
         return (
             <>
-                <Carousel autoplay={false} infinite>
+                <Carousel autoplay={false} infinite beforeChange={this.carouselChange}>
                     {headMedia.map(({ type, url, thumbnail }, index) => (
                         <Media
                             type={type}
@@ -128,6 +141,7 @@ class CourseDetail extends React.Component {
                             videoUrl={url}
                             className={styles.img}
                             key={index}
+                            ref={media => this.headMedia[index] = media}
                         />
                     ))}
                 </Carousel>
