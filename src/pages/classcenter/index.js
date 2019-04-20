@@ -20,6 +20,7 @@ class ClassCenter extends React.Component {
             payload: {
                 currentPage: 1,
                 courses: [],
+                tabChanged: true
             },
         });
     }
