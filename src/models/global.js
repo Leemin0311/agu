@@ -31,6 +31,9 @@ export default {
                 }
                 sessionStorage.authed = true;
                 sessionStorage.render = true;
+                yield put({
+                    type: 'getUser',
+                });
             } else {
                 sessionStorage.render = true;
                 yield put({
