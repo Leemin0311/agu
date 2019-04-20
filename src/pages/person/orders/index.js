@@ -136,7 +136,14 @@ class Orders extends Component{
                     {
                         this.tabs.map(item => {
 
-                            if((orders || []).length < 1) return emptyPage({content: '暂时没有发现订单哦~'});
+                            if((orders || []).length < 1)
+                                return (
+                                    <div key={`empty_${item.tabKey}`} style={{height: '100%'}}>
+                                        {
+                                            emptyPage({content: '暂时没有发现订单哦~'})
+                                        }
+                                    </div>
+                                );
                             return (
                                 <PullToRefresh
                                     onRefresh={() => this.fetchNewPage(item.tabKey)}
