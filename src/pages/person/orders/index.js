@@ -149,6 +149,7 @@ class Orders extends Component{
                                     damping={60}
                                     className={styles.refresh}
                                     key={item.tabKey}
+                                    animated={false}
                                 >
                                     {
                                         (orders || []).map(order => (
