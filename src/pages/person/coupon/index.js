@@ -99,21 +99,25 @@ class Coupon extends Component{
                 className={styles.couponContent}
                 ref={content => (this.content = content)}
             >
-                <Tabs
-                    tabs={[
-                        { title: '可使用', tabKey: 'Valid'},
-                        { title: '已使用', tabKey: 'Used'},
-                        { title: '已过期', tabKey: 'Expired'},
-                    ]}
-                    initialPage={0}
-                    animated
-                    onTabClick={this.changeTab}
-                    page={activeTab}
-                    underlineStyle={{
-                        background:
+                <div style={{height: '0.78rem'}}>
+                    <Tabs
+                        tabs={[
+                            { title: '可使用', tabKey: 'Valid'},
+                            { title: '已使用', tabKey: 'Used'},
+                            { title: '已过期', tabKey: 'Expired'},
+                        ]}
+                        initialPage={0}
+                        animated={false}
+                        useOnPan
+                        onTabClick={this.changeTab}
+                        selectedTabKey={activeTab}
+                        swipeable
+                        underlineStyle={{
+                            background:
                             'linear-gradient(90deg,rgba(254, 227, 0, 1) 0%,rgba(253, 199, 13, 1) 100%)',
-                    }}
-                />
+                        }}
+                    />
+                </div>
                 <div style={{ display: activeTab === 'Valid' ? 'block' : 'none' }} className={styles.contentItem}>
                     {
                         coupons_Valid && coupons_Valid.length > 0 ?
