@@ -26,6 +26,11 @@ export default {
             try {
                 if (groupId && user.id !== groupLeaderId) {
                     const rst = yield call(getGroupDetail, groupId, groupLeaderId);
+
+                    log({
+                        groupRst: rst,
+                    });
+
                     if (!rst.error) {
                         const { user, group } = rst.data;
 
@@ -37,13 +42,14 @@ export default {
                             },
                         });
                     }
-
-                    log({
-                        groupRst: rst,
-                    });
                 }
 
                 const rst = yield call(getCourseDetail, id);
+
+                log({
+                    detailRst: rst,
+                });
+
                 if (!rst.error) {
                     const coupon = yield call(getCoupon, id);
 
@@ -56,10 +62,6 @@ export default {
                         },
                     });
                 }
-
-                log({
-                    detailRst: rst,
-                });
             } catch (e) {
                 log(e);
             }
