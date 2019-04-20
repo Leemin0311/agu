@@ -269,9 +269,9 @@ class CourseDetail extends React.Component {
      * 拼团详情，自己发起
      */
     renderGroup = () => {
-        const { order, groupId, user, groupLeaderId} = this.props;
+        const { order, groupId, user, groupLeaderId, purchased } = this.props;
 
-        if ((!order || !order.group || groupId) && user.id !== groupLeaderId) return null;
+        if (purchased || ((!order || !order.group || groupId) && user.id !== groupLeaderId)) return null;
 
         const {
             group: { members = [], expireTime = +moment() },
