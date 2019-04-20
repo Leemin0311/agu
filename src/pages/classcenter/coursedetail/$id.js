@@ -247,11 +247,11 @@ class CourseDetail extends React.Component {
     renderGroup = () => {
         const { order, groupId } = this.props;
 
-        if (!order || groupId) return null;
+        if (!order || !order.group || groupId) return null;
 
         const {
             refundTime,
-            group: { members },
+            group: { members = [] },
         } = order;
 
         const memberToRender = [...members];
