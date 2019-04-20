@@ -29,7 +29,7 @@ class Pay extends React.Component {
         const { price, couponList = [] } = this.props;
         const { selected } = this.state;
 
-        const coupon = couponList.find(cou => cou.coupon.id === selected);
+        const coupon = couponList.find(cou => cou.id === selected);
 
         if (!coupon) return formatPrice(price);
 
@@ -93,7 +93,7 @@ class Pay extends React.Component {
     render() {
         const { name, couponList = [] } = this.props;
         const { showCoupon, selected, visible } = this.state;
-        const coupon = couponList.find(cou => cou.coupon.id === selected);
+        const coupon = couponList.find(cou => cou.id === selected);
 
         return (
             <Modal
