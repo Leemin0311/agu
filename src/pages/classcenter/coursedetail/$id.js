@@ -251,8 +251,7 @@ class CourseDetail extends React.Component {
         if (!order || !order.group || groupId) return null;
 
         const {
-            refundTime,
-            group: { members = [] },
+            group: { members = [], expireTime = +moment() },
         } = order;
 
         const memberToRender = [...members];
@@ -270,7 +269,7 @@ class CourseDetail extends React.Component {
                 <div className={styles.lessTime}>
                     剩余
                     <span className={styles.countdownArea}>
-                        <Countdown timeCount={+moment(refundTime) - +moment()} />
+                        <Countdown timeCount={+moment(expireTime) - +moment()} />
                     </span>
                 </div>
                 <div className={styles.avatars}>
@@ -494,6 +493,15 @@ class CourseDetail extends React.Component {
 
     payment = (type, price) => {
         const { name, couponList, id: courseId, groupId } = this.props;
+        const onOk = () => {
+            if(type === 'Course') {
+                router.push(`/classroom/classlist/${courseId}`);
+            }
+
+            if(type === 'CourseGroup') {
+                window.location.reload();
+            }
+        };
 
         pay({
             type,
@@ -502,6 +510,7 @@ class CourseDetail extends React.Component {
             couponList,
             courseId,
             groupId,
+            onOk
         });
     };
 

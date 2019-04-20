@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import Media from '@components/Media';
 import pay from '@components/Pay';
+import router from 'umi/router';
 import styles from './index.less';
 
 @connect(({ vip }) => ({
@@ -16,6 +17,9 @@ class Vip extends React.Component {
             price,
             name: '阿古早教会员',
             couponList,
+            onOk: () => {
+                router.push('/classroom');
+            }
         });
     };
 
