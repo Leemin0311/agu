@@ -10,7 +10,9 @@ import { log } from './tools';
  * 配置request请求时的默认参数
  */
 const request = extend({
-    errorHandler: () => {}, // 默认错误处理
+    errorHandler: e => {
+        log(e);
+    }, // 默认错误处理
     prefix: API_HOST,
 });
 
@@ -21,16 +23,9 @@ export default (url, option = {}) => {
         ...option.headers,
     };
 
-    let rst = new Promise(resolve => resolve({ error: 'failed' }));
-    try {
-        rst = request(url, {
-            ...option,
-            headers,
-            credentials: 'include',
-        });
-    } catch (e) {
-        log(e);
-    }
-
-    return rst;
+    return request(url, {
+        ...option,
+        headers,
+        credentials: 'include',
+    });
 };

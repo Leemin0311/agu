@@ -156,10 +156,11 @@ class CourseDetail extends React.Component {
             price,
             groupPrice,
             user,
-            groupLeaderId
+            groupLeaderId,
+            purchased
         } = this.props;
 
-        if (!groupId || groupLeaderId === user.id) return null;
+        if (purchased || !groupId || groupLeaderId === user.id) return null;
 
         const { avatarUrl, nickName } = groupLeader.wechatUser || {};
         const { shareImage, shareTitle } = shareH5;
@@ -621,10 +622,11 @@ class CourseDetail extends React.Component {
     };
 
     render() {
-        const { loading, id, order, groupId } = this.props;
+        const { loading, id, order, groupId, purchased } = this.props;
+
         if (loading || !id) return null;
 
-        const showFooter = !(order || {}).group && !groupId;
+        const showFooter = !(order || {}).group && !groupId && !purchased;
 
         return (
             <div className={styles.container}>

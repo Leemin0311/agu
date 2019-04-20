@@ -25,6 +25,8 @@ export const scrollToCenter = (scrollEl, offset, direction = 'vertical') => {
 };
 
 export const log = (msg) => {
+    if(window.LOG !== 'on') return;
+
     request('/log', {
         method: 'post',
         body: typeof msg === 'object' ? JSON.stringify(msg) : JSON.stringify({msg})

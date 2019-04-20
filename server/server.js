@@ -16,6 +16,9 @@ app.use('/', express.static('dist'));
 //mock首页, 将index.html读取到内存, 根据环境变量添加API HOST
 app.get('/*', (req, res) => {
     fs.readFile('dist/index.html', 'utf8', (err, data) => {
+        let prefix =
+            '<body><script>var LOG=\'' + process.env.LOG + '\';</script>';
+        data = data.replace('<body>', prefix);
         res.header('content-type', 'text/html');
         res.write(data);
         res.end();

@@ -38,6 +38,7 @@ export default {
         'primary-color': '#343A3E',
     },
     define: {
-        'window.API_HOST': process.env.API_HOST
+        'window.API_HOST': process.env.API_HOST,
+        'window.LOG': process.env.LOG
     }
 };
