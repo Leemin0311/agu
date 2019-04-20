@@ -69,7 +69,7 @@ class Mine extends Component{
                 </div>
                 <div className={styles.babyCard}>
                     <div className={styles.babyInfo}>
-                        <img src={babyInfo ? babyInfo.photo : defaultAvatar} className={styles.avatar} />
+                        <img src={babyInfo && babyInfo.photo ? babyInfo.photo : defaultAvatar} className={styles.avatar} />
                         <div className={styles.info}>
                             <div className={styles.babyNik}>{babyInfo ? babyInfo.name : '宝宝昵称'}</div>
                             <div className={styles.parameter}>
