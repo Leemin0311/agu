@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, PullToRefresh, Tabs } from 'antd-mobile';
+import { Button, Icon, PullToRefresh, Tabs } from 'antd-mobile';
 import { connect } from 'dva';
 import router from 'umi/router';
 import get from 'lodash.get';
@@ -141,7 +141,14 @@ class Orders extends Component{
                     {
                         this.tabs.map(item => {
 
-                            if(this.needLoading && loading) return null;
+                            if(this.needLoading && loading) return (
+                                <div className={styles.content} key={`loading_${item.tabKey}`}>
+                                    <div className={styles.loading}>
+                                        <Icon type="loading" size="lg" />
+                                        <div className={styles.loadingText}>加载中...</div>
+                                    </div>
+                                </div>
+                            );
 
                             if((orders || []).length < 1)
                                 return (
