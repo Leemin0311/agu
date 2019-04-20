@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from '@/pages/person/coupon/index.less';
 import { Button } from 'antd-mobile';
 import router from 'umi/router';
 import Empty from '@assets/empty.png';
+import styles from './index.less';
 
 const emptyPage = ({content}) => {
     return (
