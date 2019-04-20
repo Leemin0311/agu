@@ -140,7 +140,7 @@ class Pay extends React.Component {
                                         height: `${((couponList.length + 1) * 0.58).toFixed(2)}rem`,
                                     }}
                                 >
-                                    {couponList.map(({ coupon: { name, id } }) => (
+                                    {couponList.map(({ coupon: { name }, id }) => (
                                         <div
                                             key={id}
                                             className={classNames({
