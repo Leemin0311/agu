@@ -94,10 +94,10 @@ class CourseDetail extends React.Component {
     componentWillUnmount() {
         clearTimeout(this.tipTimer);
 
-        const { dispatch } =  this.props;
+        const { dispatch } = this.props;
 
         dispatch({
-            type: 'coursedetail/clear'
+            type: 'coursedetail/clear',
         });
     }
 
@@ -106,24 +106,26 @@ class CourseDetail extends React.Component {
 
         this.tipTimer = setTimeout(this.showTip, (Math.random() * 40 + 10) * 1000);
 
-        if(!tips || !tips.length) return;
+        if (!tips || !tips.length) return;
 
-        const random = parseInt((Math.random() * tips.length));
+        const random = parseInt(Math.random() * tips.length);
 
         Toast.info(tips[random].message, 3, undefined, false);
-    }
+    };
 
     carouselChange = (from, to) => {
+        if (from === to) return;
+
         const { headMedia } = this.props;
 
-        if(headMedia[from].type === 'Video') {
+        if (headMedia[from].type === 'Video') {
             this.headMedia[from].pause();
         }
 
-        if(headMedia[to].type === 'Video') {
+        if (headMedia[to].type === 'Video') {
             this.headMedia[to].play();
         }
-    }
+    };
 
     /**
      * 顶部跑马灯、简介
@@ -141,7 +143,7 @@ class CourseDetail extends React.Component {
                             videoUrl={url}
                             className={styles.img}
                             key={index}
-                            ref={media => this.headMedia[index] = media}
+                            ref={media => (this.headMedia[index] = media)}
                         />
                     ))}
                 </Carousel>
@@ -171,7 +173,7 @@ class CourseDetail extends React.Component {
             groupPrice,
             user,
             groupLeaderId,
-            purchased
+            purchased,
         } = this.props;
 
         if (purchased || !groupId || groupLeaderId === user.id) return null;
@@ -250,12 +252,26 @@ class CourseDetail extends React.Component {
                     </div>
                     <div
                         className={styles.inviteBtn}
-                        ref={btn => (this.inviteBtn = btn)}
                         onClick={() => this.payment('CourseGroup', groupPrice)}
                         style={{
                             background:
                                 'linear-gradient(90deg,rgba(255,138,28,1) 0%,rgba(247,77,57,1) 100%)',
                             color: '#fff',
+                        }}
+                    >
+                        一键参团
+                    </div>
+                    <div
+                        ref={btn => (this.inviteBtn = btn)}
+                        className={styles.inviteBtn}
+                        onClick={() => this.payment('CourseGroup', groupPrice)}
+                        style={{
+                            background:
+                                'linear-gradient(90deg,rgba(255,138,28,1) 0%,rgba(247,77,57,1) 100%)',
+                            color: '#fff',
+                            position: 'fixed',
+                            display: 'none',
+                            transform: 'translateX(-50%)',
                         }}
                     >
                         一键参团
@@ -271,7 +287,8 @@ class CourseDetail extends React.Component {
     renderGroup = () => {
         const { order, groupId, user, groupLeaderId, purchased } = this.props;
 
-        if (purchased || ((!order || !order.group || groupId) && user.id !== groupLeaderId)) return null;
+        if (purchased || ((!order || !order.group || groupId) && user.id !== groupLeaderId))
+            return null;
 
         const {
             group: { members = [], expireTime = +moment() },
@@ -310,10 +327,14 @@ class CourseDetail extends React.Component {
                         </div>
                     ))}
                 </div>
+                <div className={styles.inviteBtn} onClick={this.invite}>
+                    邀请好友
+                </div>
                 <div
                     className={styles.inviteBtn}
                     ref={btn => (this.inviteBtn = btn)}
                     onClick={this.invite}
+                    style={{ display: 'none', position: 'fixed', transform: 'translateX(-50%)' }}
                 >
                     邀请好友
                 </div>
@@ -496,7 +517,9 @@ class CourseDetail extends React.Component {
 
         return (
             <div className={styles.footer}>
-                <span className={styles.vipBtn} onClick={() => router.push('/vip')}>会员免费</span>
+                <span className={styles.vipBtn} onClick={() => router.push('/vip')}>
+                    会员免费
+                </span>
                 <span className={styles.singleBtn} onClick={() => this.payment('Course', price)}>
                     <div className={styles.priceNum}>¥{formatPrice(price)}</div>
                     <div className={styles.priceType}>单独购买价</div>
@@ -517,11 +540,11 @@ class CourseDetail extends React.Component {
     payment = (type, price) => {
         const { name, couponList, id: courseId, groupId } = this.props;
         const onOk = () => {
-            if(type === 'Course') {
+            if (type === 'Course') {
                 router.push(`/classroom/classlist/${courseId}`);
             }
 
-            if(type === 'CourseGroup') {
+            if (type === 'CourseGroup') {
                 window.location.reload();
             }
         };
@@ -533,7 +556,7 @@ class CourseDetail extends React.Component {
             couponList,
             courseId,
             groupId,
-            onOk
+            onOk,
         });
     };
 
@@ -577,11 +600,9 @@ class CourseDetail extends React.Component {
 
         if (this.inviteBtn) {
             if (top > this.groupBottom) {
-                this.inviteBtn.style.position = 'fixed';
-                this.inviteBtn.style.transform = 'translateX(-50%)';
+                this.inviteBtn.style.display = 'block';
             } else {
-                this.inviteBtn.style.position = 'static';
-                this.inviteBtn.style.transform = 'unset';
+                this.inviteBtn.style.display = 'none';
             }
         }
     };
