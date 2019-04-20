@@ -155,9 +155,11 @@ class CourseDetail extends React.Component {
             shareH5 = {},
             price,
             groupPrice,
+            user,
+            groupLeaderId
         } = this.props;
 
-        if (!groupId) return null;
+        if (!groupId || groupLeaderId === user.id) return null;
 
         const { avatarUrl, nickName } = groupLeader.wechatUser || {};
         const { shareImage, shareTitle } = shareH5;
@@ -252,9 +254,9 @@ class CourseDetail extends React.Component {
      * 拼团详情，自己发起
      */
     renderGroup = () => {
-        const { order, groupId } = this.props;
+        const { order, groupId, user, groupLeaderId} = this.props;
 
-        if (!order || !order.group || groupId) return null;
+        if ((!order || !order.group || groupId) && user.id !== groupLeaderId) return null;
 
         const {
             group: { members = [], expireTime = +moment() },
