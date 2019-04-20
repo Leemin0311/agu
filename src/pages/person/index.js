@@ -3,9 +3,6 @@ import {connect} from 'dva';
 import { Icon } from 'antd-mobile';
 import router from 'umi/router';
 
-import { log } from '@utils/tools';
-
-
 import defaultAvatar from '@assets/defaultAvatar.svg';
 import person_back from '@assets/person_back.svg';
 import order from '@assets/order.png';
@@ -55,7 +52,7 @@ class Mine extends Component{
         const {user} = this.props;
         const babyInfo = user.babies && user.babies.length > 0 ? user.babies[0] : null;
 
-        log('babyinfo', babyInfo);
+        console.info('babyinfo', babyInfo);
         return (
             <div className={styles.content} style={{backgroundImage:`url(${person_back})`}}>
                 <div className={styles.nickname}>
