@@ -21,9 +21,9 @@ class Pay extends React.Component {
 
     hide = () => {
         this.setState({
-            visible: false
+            visible: false,
         });
-    }
+    };
 
     getPrice = () => {
         const { price, couponList = [] } = this.props;
@@ -62,29 +62,33 @@ class Pay extends React.Component {
                 groupId,
                 courseId,
                 orderId,
-                couponId: selected || undefined
-            })
+                couponId: selected || undefined,
+            }),
         });
 
-        if(!rst.error) {
+        if (!rst.error) {
             const { timeStamp, ...rest } = rst.data.paymentParams;
-            chooseWXPay({...rest, timestamp: timeStamp}, (res) => {
-                close();
-                onOk(res);
-            }, (res) => {
-                onFail(res);
-            });
+            chooseWXPay(
+                { ...rest, timestamp: timeStamp },
+                res => {
+                    close();
+                    onOk(res);
+                },
+                res => {
+                    onFail(res);
+                },
+            );
         } else {
             log(rst.error);
             close();
             onFail();
         }
-    }
+    };
 
     close = () => {
         const { close } = this.props;
         close();
-    }
+    };
 
     render() {
         const { name, couponList = [] } = this.props;
@@ -102,7 +106,9 @@ class Pay extends React.Component {
                 <div className={styles.content}>
                     <div className={styles.title}>
                         <span>商品详情</span>
-                        <span className={styles.close} onClick={this.close}>关闭</span>
+                        <span className={styles.close} onClick={this.close}>
+                            关闭
+                        </span>
                     </div>
                     <div className={styles.item}>
                         <span style={{ float: 'left' }}>
@@ -174,22 +180,26 @@ class Pay extends React.Component {
                             <img src={priceIcon} alt="img" className={styles.icon} />
                             <span className={styles.text}>支付总额</span>
                         </span>
-                        <span className={styles.rightText}>¥{this.getPrice()}</span>
+                        <span className={classNames(styles.rightText, styles.priceText)}>
+                            ¥{this.getPrice()}
+                        </span>
                     </div>
                 </div>
-                <div className={styles.confirm} onClick={this.confirm}>确定支付</div>
+                <div className={styles.confirm} onClick={this.confirm}>
+                    确定支付
+                </div>
             </Modal>
         );
     }
 }
 
 Pay.defaultProps = {
-    onOk: (res) => {
-        log({...res, type: 'onOk' });
+    onOk: res => {
+        log({ ...res, type: 'onOk' });
     },
-    onFail: (res) => {
-        log({...res, type: 'false' });
-    }
+    onFail: res => {
+        log({ ...res, type: 'false' });
+    },
 };
 
 const pay = props => {
@@ -206,7 +216,7 @@ const pay = props => {
         }, 500);
     };
 
-    ReactDOM.render(<Pay {...props} close={close} ref={instance => modal = instance} />, ele);
+    ReactDOM.render(<Pay {...props} close={close} ref={instance => (modal = instance)} />, ele);
 };
 
 export default pay;

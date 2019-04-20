@@ -10,7 +10,7 @@ export default {
         selectedCate: null,
         currentPage: 1,
         courses: [],
-        tabChanged: false
+        tabChanged: true
     },
     reducers: {
         setData(state, { payload }) {

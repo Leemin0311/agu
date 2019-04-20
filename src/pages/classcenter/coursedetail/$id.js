@@ -96,7 +96,7 @@ class CourseDetail extends React.Component {
         const { dispatch } =  this.props;
 
         dispatch({
-            type: 'classdetail/clear'
+            type: 'coursedetail/clear'
         });
     }
 
