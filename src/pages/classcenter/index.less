@@ -1,22 +1,53 @@
 .container {
+    width: 100%;
     height: 100%;
 
     :global {
         .am-pull-to-refresh {
-            height: calc(~"100%" - 0.46rem);
+            height: 100%;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
     }
 
     .tabBar {
-        position: sticky;
-        top: 0;
-    }
+        width: 100%;
+        height: 100%;
 
-    .content {
-        overflow: visible;
-        padding: 0.28rem;
-        -webkit-overflow-scrolling: touch;
+        .content {
+            overflow: visible;
+
+            .loading {
+                text-align: center;
+                margin: 0.9rem auto 0.5rem;
+
+                .loadingText {
+                    line-height: 0.44rem;
+                    font-size: 0.26rem;
+                    font-family: PingFangSC-Regular;
+                    font-weight: 400;
+                    color: #999999;
+                }
+            }
+
+            .empty {
+                text-align: center;
+
+                .emptyPageImg {
+                    display: block;
+                    width: 2.16rem;
+                    height: 1.86rem;
+                    margin: 0.9rem auto 0.5rem;
+                }
+
+                .emptyText {
+                    line-height: 0.44rem;
+                    font-size: 0.26rem;
+                    font-family: PingFangSC-Regular;
+                    font-weight: 400;
+                    color: rgba(153, 153, 153, 1);
+                }
+            }
+        }
     }
 }

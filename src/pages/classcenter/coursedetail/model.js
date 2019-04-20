@@ -9,6 +9,9 @@ export default {
         setData(state, { payload }) {
             return { ...state, ...payload };
         },
+        clear() {
+            return {};
+        }
     },
     effects: {
         *getDetail({payload : { id }}, { put, call, select }) {

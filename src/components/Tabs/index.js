@@ -18,7 +18,7 @@ import styles from './Tabs.less';
 export default class Tabs extends React.Component {
     renderTab = ({ title, tabKey }) => {
         const {
-            page,
+            selectedTabKey,
             color,
             selectedColor,
             underlineColor,
@@ -26,7 +26,7 @@ export default class Tabs extends React.Component {
             selectedStyle,
             underlineStyle,
         } = this.props;
-        const selected = tabKey === page;
+        const selected = tabKey === selectedTabKey;
 
         return (
             <div

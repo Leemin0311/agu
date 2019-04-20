@@ -92,6 +92,12 @@ class CourseDetail extends React.Component {
 
     componentWillUnmount() {
         clearTimeout(this.tipTimer);
+
+        const { dispatch } =  this.props;
+
+        dispatch({
+            type: 'classdetail/clear'
+        });
     }
 
     showTip = () => {
@@ -425,7 +431,7 @@ class CourseDetail extends React.Component {
                         useOnPan
                         onTabClick={this.changeTab}
                         swipeable
-                        page={activeTab}
+                        selectedTabKey={activeTab}
                     />
                 </div>
                 <div className={styles.contentItem} ref={detail => (this.detail = detail)}>
@@ -519,7 +525,7 @@ class CourseDetail extends React.Component {
             activeTab: tabKey,
         });
         const ele = this[tabKey];
-        this.content.scrollTo(0, ele.offsetTop);
+        this.content.scrollTo(0, ele.offsetTop - 80);
     };
 
     scroll = e => {
