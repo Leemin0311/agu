@@ -18,7 +18,7 @@ export default delay({
                     total: 10,
                     page,
                     size: 10,
-                    'content|10': [
+                    'content|0': [
                         {
                             id: '@guid',
                             courseId: '@guid',

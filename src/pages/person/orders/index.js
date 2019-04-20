@@ -136,6 +136,7 @@ class Orders extends Component{
                     {
                         this.tabs.map(item => {
 
+                            if((orders || []).length < 1) return emptyPage({content: '暂时没有发现订单哦~'});
                             return (
                                 <PullToRefresh
                                     onRefresh={() => this.fetchNewPage(item.tabKey)}
@@ -146,60 +147,57 @@ class Orders extends Component{
                                     key={item.tabKey}
                                 >
                                     {
-                                        (orders || []).length < 1 ?  emptyPage({content: '暂时没有发现课程哦~'})
-
-                                            :
-                                            orders.map(order => (
+                                        orders.map(order => (
+                                            <div
+                                                className={classNames({
+                                                    [styles.order]:  true,
+                                                    [styles[order.status]]: true
+                                                })}
+                                                key={order.id}
+                                                onClick={() => this.payment(order)}
+                                            >
                                                 <div
                                                     className={classNames({
-                                                        [styles.order]:  true,
-                                                        [styles[order.status]]: true
+                                                        [styles.snapshot]:  true,
                                                     })}
-                                                    key={order.id}
-                                                    onClick={() => this.payment(order)}
                                                 >
-                                                    <div
-                                                        className={classNames({
-                                                            [styles.snapshot]:  true,
-                                                        })}
-                                                    >
-                                                        <img src={order.snapshot && order.snapshot.icon} className={styles.orderIcon} />
-                                                        <div className={styles.orderInfo}>
-                                                            <div className={styles.orderName}>{order.snapshot && order.snapshot.name}</div>
-                                                            <div className={styles.ortherInfo}>
-                                                                <span className={styles.status}>
-                                                                    {this.status[order.status][0] || ''}
-                                                                </span>
-                                                                <span className={styles.money}>
+                                                    <img src={order.snapshot && order.snapshot.icon} className={styles.orderIcon} />
+                                                    <div className={styles.orderInfo}>
+                                                        <div className={styles.orderName}>{order.snapshot && order.snapshot.name}</div>
+                                                        <div className={styles.ortherInfo}>
+                                                            <span className={styles.status}>
+                                                                {this.status[order.status][0] || ''}
+                                                            </span>
+                                                            <span className={styles.money}>
                                             实付金额：<span style={{color: '#FF5038'}}>¥{Number(order.fee) / 100}</span>
-                                                                </span>
-                                                            </div>
+                                                            </span>
                                                         </div>
                                                     </div>
-                                                    <div className={styles.action}>
-                                                        {
-                                                            order.status === 'Grouping' && order.group && new Date(order.group.expireTime) - moment() >= 0 && (
-                                                                <div className={styles.time}>
+                                                </div>
+                                                <div className={styles.action}>
+                                                    {
+                                                        order.status === 'Grouping' && order.group && new Date(order.group.expireTime) - moment() >= 0 && (
+                                                            <div className={styles.time}>
                                                                 拼团剩余时间: {<Countdown timeCount={(new Date(order.group.expireTime) - moment())} />}
-                                                                </div>
-                                                            )
-                                                        }
-                                                        {
-                                                            order.status === 'Created' && order.expireTime && new Date(order.expireTime) - moment() >= 0 && (
-                                                                <div className={styles.time}>
+                                                            </div>
+                                                        )
+                                                    }
+                                                    {
+                                                        order.status === 'Created' && order.expireTime && new Date(order.expireTime) - moment() >= 0 && (
+                                                            <div className={styles.time}>
                                                                 订单剩余时间: {<Countdown timeCount={(new Date(order.expireTime) - moment())} />}
-                                                                </div>
-                                                            )
-                                                        }
-                                                        {
-                                                            this.status[order.status][1] &&
+                                                            </div>
+                                                        )
+                                                    }
+                                                    {
+                                                        this.status[order.status][1] &&
                                                             <Button type='primary' className={styles.buttonPri}>
                                                                 {this.status[order.status][1]}
                                                             </Button>
-                                                        }
-                                                    </div>
+                                                    }
                                                 </div>
-                                            ))
+                                            </div>
+                                        ))
                                     }
 
                                 </PullToRefresh>
