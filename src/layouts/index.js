@@ -19,11 +19,12 @@ class BasicLayout extends React.PureComponent {
         this.getPageTitle = memoizeOne(this.getPageTitle);
     }
 
-    async componentDidMount() {
-        if (sessionStorage.authed) {
+    async componentDidUpdate() {
+        if (sessionStorage.authed && !sessionStorage.jsConfiged) {
             const rst = await jsConfig();
             if (!rst.error) {
                 configWxJs(rst.data, () => {
+                    sessionStorage.jsConfiged = true;
                     configWxShare(
                         '阿古早教',
                         '快乐早教，阿古阿古！',
