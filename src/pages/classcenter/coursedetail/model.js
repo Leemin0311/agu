@@ -20,11 +20,10 @@ export default {
             { put, call, select },
         ) {
             log('get detail');
-            const { user } = yield select(state => state.global);
             const { groupId, groupLeaderId } = yield select(state => state.coursedetail);
 
             try {
-                if (groupId && user.id !== groupLeaderId) {
+                if (groupId) {
                     const rst = yield call(getGroupDetail, groupId, groupLeaderId);
 
                     log({
