@@ -38,6 +38,7 @@ class BasicLayout extends React.PureComponent {
 
     componentWillUnmount() {
         sessionStorage.render = false;
+        sessionStorage.jsConfiged = false;
     }
 
     getPageTitle = pathname => {
