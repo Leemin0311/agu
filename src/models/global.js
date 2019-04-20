@@ -21,7 +21,9 @@ export default {
                 const rst = yield call(auth);
                 const { authUrl } = rst.data;
 
-                log(`userAgent: ${navigator.userAgent}`);
+                log({
+                    authRst: rst
+                });
 
                 if (/MicroMessenger/.test(navigator.userAgent)) {
                     log(`jump to authUrl ${authUrl}`);
