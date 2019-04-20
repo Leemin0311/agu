@@ -127,6 +127,7 @@ class Info extends Component{
                 <div className={styles.inputInfo}>
                     <List>
                         <InputItem
+                            key='name'
                             placeholder="请输入宝宝昵称"
                             onChange={this.handleChangeName}
                             value={name}
@@ -139,6 +140,7 @@ class Info extends Component{
                         宝宝小名
                         </InputItem>
                         <Picker
+                            key='sex'
                             data={this.sex}
                             extra={<span style={{color: '#B9B9B9'}}>请选择宝宝性别</span>}
                             value={sexValue}
@@ -148,6 +150,7 @@ class Info extends Component{
                             <List.Item>宝宝性别</List.Item>
                         </Picker>
                         <DatePicker
+                            key='birth'
                             mode="date"
                             title="宝宝生日"
                             extra={<span style={{color: '#B9B9B9'}}>请选择宝宝生日</span>}
