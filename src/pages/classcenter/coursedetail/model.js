@@ -16,6 +16,7 @@ export default {
     },
     effects: {
         *getDetail({payload : { id }}, { put, call, select }) {
+            log('get detail');
             const { user } = yield select(state => state.global);
             const { groupId, groupLeaderId } = yield select(state => state.coursedetail);
 
@@ -48,6 +49,10 @@ export default {
                     }
                 });
             }
+
+            log({
+                detailRst: rst
+            });
         },
         *getTips(action, { call, put }) {
             const rst = yield call(getTips);
