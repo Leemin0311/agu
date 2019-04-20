@@ -51,7 +51,7 @@ export default delay({
                         birthday: '2019-04-15T07:33:06.780Z',
                         male: true,
                         name: '熊孩子',
-                        photo: '',
+                        photo: 'https://v.aguzaojiao.com/test/coupon1.png',
                     },
                 ],
                 wechatUser: {

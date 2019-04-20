@@ -3,7 +3,6 @@ import {connect} from 'dva';
 import { Icon } from 'antd-mobile';
 import router from 'umi/router';
 
-import { log } from '@utils/tools';
 import defaultAvatar from '@assets/defaultAvatar.svg';
 import person_back from '@assets/person_back.svg';
 import order from '@assets/order.png';
@@ -53,25 +52,35 @@ class Mine extends Component{
         const {user} = this.props;
         const babyInfo = user.babies && user.babies.length > 0 ? user.babies[0] : null;
 
-        log('#---------------babyinfo', babyInfo);
         return (
             <div className={styles.content} style={{backgroundImage:`url(${person_back})`}}>
                 <div className={styles.nickname}>
                     {
                         user.wechatUser && user.wechatUser.nickName
                     }
-                    <span className={styles.member}>还不是会员？</span>
-                    <span
-                        className={styles.beMember}
-                        onClick={() => {
-                            router.push('/vip');
-                        }}
-                    >开通会员&gt;&gt;
-                    </span>
+                    {
+                        !user.membership && (
+                            <span>
+                                <span className={styles.member}>还不是会员？</span>
+                                <span
+                                    className={styles.beMember}
+                                    onClick={() => {
+                                        router.push('/vip');
+                                    }}
+                                >开通会员&gt;&gt;
+                                </span>
+                            </span>
+                        )
+                    }
                 </div>
                 <div className={styles.babyCard}>
                     <div className={styles.babyInfo}>
-                        <img src={babyInfo && babyInfo.photo ? babyInfo.photo : defaultAvatar} className={styles.avatar} />
+                        <div
+                            className={styles.avatar}
+                            style={{
+                                backgroundImage: `url(${babyInfo && babyInfo.photo ? babyInfo.photo : defaultAvatar})`
+                            }}
+                        />
                         <div className={styles.info}>
                             <div className={styles.babyNik}>{babyInfo ? babyInfo.name : '宝宝昵称'}</div>
                             <div className={styles.parameter}>
