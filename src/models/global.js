@@ -21,10 +21,16 @@ export default {
                 const rst = yield call(auth);
                 const { authUrl } = rst.data;
 
-                log(`userAgent: ${navigator.userAgent}`);
+                log({
+                    authRst: rst
+                });
 
-                if (/MicroMessenger/.test(navigator.userAgent)) window.location.href = authUrl;
+                if (/MicroMessenger/.test(navigator.userAgent) && authUrl) {
+                    log(`jump to authUrl ${authUrl}`);
+                    window.location.href = authUrl;
+                }
                 sessionStorage.authed = true;
+                sessionStorage.render = true;
             } else {
                 sessionStorage.render = true;
                 yield put({
@@ -54,7 +60,6 @@ export default {
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
-                log(pathname);
                 dispatch({
                     type: 'auth',
                 });

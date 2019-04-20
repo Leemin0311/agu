@@ -1,3 +1,4 @@
+import { log } from '@utils/tools';
 import { getCourseDetail, getCoupon, getGroupDetail, getTips } from './service';
 
 export default {
@@ -65,6 +66,11 @@ export default {
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
+                log({
+                    pathname,
+                    query
+                });
+
                 if(pathname.startsWith('/classcenter/coursedetail')) {
                     dispatch({
                         type: 'setData',
