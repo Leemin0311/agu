@@ -54,6 +54,7 @@ export default {
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
+                log(pathname);
                 dispatch({
                     type: 'auth',
                 });
