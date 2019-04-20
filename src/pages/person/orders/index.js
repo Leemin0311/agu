@@ -14,11 +14,12 @@ import moment from 'moment';
 import styles from './index.less';
 
 
-@connect(({person_order, global}) => ({
+@connect(({person_order, global, loading}) => ({
     orders: person_order.orders,
     page: person_order.page,
     couponList: person_order.couponList,
-    user: global.user
+    user: global.user,
+    loading: loading.effects['person_order/getOrderList'],
 }))
 class Orders extends Component{
 
@@ -38,12 +39,16 @@ class Orders extends Component{
         {title: '已完成', tabKey: 'Finished'},
     ];
 
+    needLoading = true;
+
     componentDidMount(){
 
         this.getNewData('All');
     }
 
     getNewData = (tabKey) => {
+        this.needLoading = true;
+
         const {dispatch} = this.props;
 
         if(tabKey === 'All'){
@@ -62,10 +67,10 @@ class Orders extends Component{
                 }
             });
         }
-
     };
 
     fetchNewPage = (tabKey, newPage) => {
+        this.needLoading = false;
         const { dispatch, page } = this.props;
 
         if(tabKey === 'All'){
@@ -124,7 +129,9 @@ class Orders extends Component{
     };
 
     render() {
-        const {orders} = this.props;
+        const {orders, loading} = this.props;
+
+        if(this.needLoading && loading) return null;
 
         return (
             <div className={styles.orderContent}>

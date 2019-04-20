@@ -9,9 +9,10 @@ import emptyPage from '@components/EmptyPage';
 import Countdown from '@components/Countdown';
 import styles from './index.less';
 
-@connect(({classroom}) => ({
+@connect(({classroom, loading}) => ({
     page: classroom.page,
-    courses: classroom.courses
+    courses: classroom.courses,
+    loading: loading.effects['classroom/getCourseList'],
 }))
 class ClassRoom extends Component{
     constructor(props){
@@ -86,34 +87,38 @@ class ClassRoom extends Component{
     };
 
     render(){
-        const {courses} = this.props;
+        const {courses, loading} = this.props;
+        if(loading) return null;
         return (
             <div className={styles.container}>
-                <PullToRefresh
-                    onRefresh={this.fetchNewPage}
-                    direction="up"
-                    indicator={{}}
-                    damping={60}
-                    className={styles.refresh}
-                >
-                    {
-                        (courses || []).length > 0 ?
-                            courses.map((item, index) => (
-                                <div className={styles.course} key={index}>
-                                    <img src={item.coverImage} className={styles.img} />
-                                    <div className={styles.info}>
-                                        <div className={styles.title}>
-                                            {item.name}
+                {
+                    (courses || []).length > 0 ?
+                        <PullToRefresh
+                            onRefresh={this.fetchNewPage}
+                            direction="up"
+                            indicator={{}}
+                            damping={60}
+                            className={styles.refresh}
+                        >
+                            {
+                                courses.map((item, index) => (
+                                    <div className={styles.course} key={index}>
+                                        <img src={item.coverImage} className={styles.img} />
+                                        <div className={styles.info}>
+                                            <div className={styles.title}>
+                                                {item.name}
+                                            </div>
+                                            {
+                                                this.getAction(item)
+                                            }
                                         </div>
-                                        {
-                                            this.getAction(item)
-                                        }
                                     </div>
-                                </div>
-                            )) :
-                            emptyPage({content: '暂时没有发现课程哦~'})
-                    }
-                </PullToRefresh>
+                                ))
+                            }
+                        </PullToRefresh> :
+                        emptyPage({content: '暂时没有发现课程哦~'})
+                }
+
             </div>
         );
     }
