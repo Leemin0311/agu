@@ -20,6 +20,7 @@ class BasicLayout extends React.PureComponent {
     }
 
     async componentDidUpdate() {
+        log(`jsConfiged: ${sessionStorage.jsConfiged}`);
         if (sessionStorage.authed && !sessionStorage.jsConfiged) {
             const rst = await jsConfig();
             if (!rst.error) {
