@@ -153,7 +153,6 @@ export default delay({
                     ],
                     userCount: 61273,
                     seq: 1,
-                    purchased: true,
                     progress: 50,
                     order,
                     shareH5: {
