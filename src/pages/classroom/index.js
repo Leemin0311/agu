@@ -42,7 +42,13 @@ class ClassRoom extends Component{
                         <div className={styles.disc}>拼团仅剩</div>
                         <div className={styles.time}>{<Countdown timeCount={(new Date(item.order.group.expireTime) - moment())} />}</div>
                     </div>
-                    <Button type='primary' className={classNames(styles.buttonPri, styles.invitation)}>
+                    <Button
+                        type='primary'
+                        className={classNames(styles.buttonPri, styles.invitation)}
+                        onClick={() => {
+                            router.push(`/classcenter/coursedetail/${item.order.group.courseId}`);
+                        }}
+                    >
                         邀请成团
                     </Button>
                 </div>
@@ -67,7 +73,7 @@ class ClassRoom extends Component{
                         type='primary'
                         className={classNames(styles.buttonPri, styles.study)}
                         onClick={() => {
-                            router.push(`/classroom/classlist/${item.id}`);
+                            router.push(`/classroom/classlist/${item.order.snapshot.courseId}`);
                         }}
                     >
                         继续学习
