@@ -20,12 +20,10 @@ class BasicLayout extends React.PureComponent {
     }
 
     async componentDidUpdate() {
-        log(`jsConfiged: ${sessionStorage.jsConfiged}`);
-        if (sessionStorage.authed && !sessionStorage.jsConfiged) {
+        if (sessionStorage.authed) {
             const rst = await jsConfig();
             if (!rst.error) {
                 configWxJs(rst.data, () => {
-                    sessionStorage.jsConfiged = true;
                     configWxShare(
                         '阿古早教',
                         '快乐早教，阿古阿古！',
@@ -39,7 +37,6 @@ class BasicLayout extends React.PureComponent {
 
     componentWillUnmount() {
         sessionStorage.render = false;
-        sessionStorage.jsConfiged = false;
 
         log('layout unmount');
     }
