@@ -131,8 +131,6 @@ class Orders extends Component{
     render() {
         const {orders, loading} = this.props;
 
-        if(this.needLoading && loading) return null;
-
         return (
             <div className={styles.orderContent}>
                 <Tabs
@@ -142,6 +140,8 @@ class Orders extends Component{
                 >
                     {
                         this.tabs.map(item => {
+
+                            if(this.needLoading && loading) return null;
 
                             if((orders || []).length < 1)
                                 return (
