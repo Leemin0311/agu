@@ -30,6 +30,7 @@ export default {
                     window.location.href = authUrl;
                 }
                 sessionStorage.authed = true;
+                sessionStorage.render = true;
             } else {
                 sessionStorage.render = true;
                 yield put({
@@ -59,11 +60,6 @@ export default {
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
-                log({
-                    pathname,
-                    query
-                });
-
                 dispatch({
                     type: 'auth',
                 });
