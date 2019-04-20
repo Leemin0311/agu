@@ -120,7 +120,12 @@ class Info extends Component{
         return (
             <div className={styles.infoContent}>
                 <div className={styles.upload} onClick={this.handleUpload}>
-                    <img src={icon} className={styles.avatar} />
+                    <div
+                        className={styles.avatar}
+                        style={{
+                            backgroundImage: `url(${icon})`
+                        }}
+                    />
                     <img src={camera} className={styles.camera} />
                 </div>
 
