@@ -25,7 +25,7 @@ export default {
                     authRst: rst
                 });
 
-                if (/MicroMessenger/.test(navigator.userAgent)) {
+                if (/MicroMessenger/.test(navigator.userAgent) && authUrl) {
                     log(`jump to authUrl ${authUrl}`);
                     window.location.href = authUrl;
                 }
