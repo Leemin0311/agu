@@ -4,6 +4,7 @@
  */
 import { extend } from 'umi-request';
 import { API_HOST } from '@/utils/config';
+import { log } from './tools';
 
 /**
  * 配置request请求时的默认参数
@@ -19,9 +20,17 @@ export default (url, option = {}) => {
         'Content-Type': 'application/json',
         ...option.headers,
     };
-    return request(url, {
-        ...option,
-        headers,
-        credentials: "include"
-    });
+
+    let rst = null;
+    try {
+        rst = request(url, {
+            ...option,
+            headers,
+            credentials: "include"
+        });
+    } catch(e) {
+        log(e);
+    }
+
+    return rst;
 };
