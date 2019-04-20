@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'dva';
 import Tabs from '@components/Tabs';
 import { PullToRefresh, Icon } from 'antd-mobile';
-import { log } from '@utils/tools';
 import Empty from '@assets/empty.png';
 import Course from './components/Course';
 import styles from './index.less';
@@ -28,8 +27,6 @@ class ClassCenter extends React.Component {
     changeTab = ({ tabKey }) => {
         const { dispatch } = this.props;
 
-        log({ tabKey });
-
         dispatch({
             type: 'classcenter/setData',
             payload: {
@@ -46,8 +43,6 @@ class ClassCenter extends React.Component {
 
     fetchNewPage = () => {
         const { dispatch, total, courses } = this.props;
-
-        log('fetchNewPage');
 
         if (courses.length < total) {
             dispatch({

@@ -4,6 +4,7 @@ import memoizeOne from 'memoize-one';
 import { connect } from 'dva';
 import { configWxJs, configWxShare } from '@utils/wx';
 import { noFooterPages } from '@utils/config';
+import { log } from '@utils/tools';
 import Footer from './Footer';
 import { jsConfig } from '../services/global';
 import styles from './index.less';
@@ -66,6 +67,10 @@ class BasicLayout extends React.PureComponent {
 
         return '阿古早教';
     };
+
+    componentDidCatch(error, info) {
+        log(info.componentStack);
+    }
 
     render() {
         const {

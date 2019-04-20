@@ -6,7 +6,7 @@ import Countdown from '@components/Countdown';
 import Tabs from '@components/Tabs';
 import pay from '@components/Pay';
 import router from 'umi/router';
-import { formatPrice, log } from '@utils/tools';
+import { formatPrice } from '@utils/tools';
 import moment from 'moment';
 import defaultAvatar from '@assets/defaultAvatar.svg';
 import backTop from '@assets/backTop.svg';
@@ -619,10 +619,6 @@ class CourseDetail extends React.Component {
             },
         });
     };
-
-    componentDidCatch(error, info) {
-        log(info.componentStack);
-    }
 
     render() {
         const { loading, id, order, groupId } = this.props;

@@ -66,6 +66,10 @@ class Pay extends React.Component {
             }),
         });
 
+        log({
+            paymentParams: rst.data.paymentParams
+        });
+
         if (!rst.error) {
             const { timeStamp, ...rest } = rst.data.paymentParams;
             chooseWXPay(
@@ -194,12 +198,8 @@ class Pay extends React.Component {
 }
 
 Pay.defaultProps = {
-    onOk: res => {
-        log({ ...res, type: 'onOk' });
-    },
-    onFail: res => {
-        log({ ...res, type: 'false' });
-    },
+    onOk: res => {},
+    onFail: res => {},
 };
 
 const pay = props => {

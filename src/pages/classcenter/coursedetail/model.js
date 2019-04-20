@@ -1,4 +1,3 @@
-import { log } from '@utils/tools';
 import { getCourseDetail, getCoupon, getGroupDetail, getTips } from './service';
 
 export default {
@@ -19,50 +18,37 @@ export default {
             },
             { put, call, select },
         ) {
-            log('get detail');
             const { groupId, groupLeaderId } = yield select(state => state.coursedetail);
 
-            try {
-                if (groupId) {
-                    const rst = yield call(getGroupDetail, groupId, groupLeaderId);
-
-                    log({
-                        groupRst: rst,
-                    });
-
-                    if (!rst.error) {
-                        const { user, group } = rst.data;
-
-                        yield put({
-                            type: 'setData',
-                            payload: {
-                                groupLeader: user,
-                                groupDetail: group,
-                            },
-                        });
-                    }
-                }
-
-                const rst = yield call(getCourseDetail, id);
-
-                log({
-                    detailRst: rst,
-                });
+            if (groupId) {
+                const rst = yield call(getGroupDetail, groupId, groupLeaderId);
 
                 if (!rst.error) {
-                    const coupon = yield call(getCoupon, id);
+                    const { user, group } = rst.data;
 
                     yield put({
                         type: 'setData',
                         payload: {
-                            ...rst.data,
-                            coupon: coupon.error ? null : coupon.data[0],
-                            couponList: coupon.data,
+                            groupLeader: user,
+                            groupDetail: group,
                         },
                     });
                 }
-            } catch (e) {
-                log(e);
+            }
+
+            const rst = yield call(getCourseDetail, id);
+
+            if (!rst.error) {
+                const coupon = yield call(getCoupon, id);
+
+                yield put({
+                    type: 'setData',
+                    payload: {
+                        ...rst.data,
+                        coupon: coupon.error ? null : coupon.data[0],
+                        couponList: coupon.data,
+                    },
+                });
             }
         },
         *getTips(action, { call, put }) {
@@ -82,11 +68,6 @@ export default {
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
-                log({
-                    pathname,
-                    query,
-                });
-
                 if (pathname.startsWith('/classcenter/coursedetail')) {
                     dispatch({
                         type: 'setData',

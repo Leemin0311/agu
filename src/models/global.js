@@ -1,5 +1,3 @@
-
-import { log } from '@utils/tools';
 import { auth, getUser } from '../services/global';
 
 export default {
@@ -14,19 +12,12 @@ export default {
     },
     effects: {
         *auth({ payload }, { call, put }) {
-            log(`authed: ${sessionStorage.authed}`);
-
             sessionStorage.render = false;
             if (!sessionStorage.authed) {
                 const rst = yield call(auth);
                 const { authUrl } = rst.data;
 
-                log({
-                    authRst: rst
-                });
-
                 if (/MicroMessenger/.test(navigator.userAgent) && authUrl) {
-                    log(`jump to authUrl ${authUrl}`);
                     window.location.href = authUrl;
                 }
                 sessionStorage.authed = true;
