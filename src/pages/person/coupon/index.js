@@ -126,8 +126,8 @@ class Coupon extends Component{
                             >
                                 {
 
-                                    coupons_Valid.map(item => (
-                                        <div className={styles.coupon}>
+                                    coupons_Valid.map((item, index) => (
+                                        <div className={styles.coupon} key={index}>
                                             <img src={item.coupon.image} className={styles.couponImg} />
                                             <div className={styles.others}>
                                                 <span className={styles.time}>
@@ -169,8 +169,8 @@ class Coupon extends Component{
                                 className={styles.refresh}
                             >
                                 {
-                                    coupons_Used.map(item => (
-                                        <div className={styles.coupon}>
+                                    coupons_Used.map((item, index) => (
+                                        <div className={styles.coupon} key={index}>
                                             <img src={item.coupon.image} className={styles.couponImg} />
                                             <div className={styles.others}>
                                                 <span className={styles.time} style={{color: '#B9B9B9'}}>
@@ -196,8 +196,8 @@ class Coupon extends Component{
                                 className={styles.refresh}
                             >
                                 {
-                                    coupons_Expired.map(item => (
-                                        <div className={styles.coupon}>
+                                    coupons_Expired.map((item, index) => (
+                                        <div className={styles.coupon} key={index}>
                                             <img
                                                 src={item.coupon.image}
                                                 className={classNames({
