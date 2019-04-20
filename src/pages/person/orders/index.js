@@ -151,61 +151,63 @@ class Orders extends Component{
                                     damping={60}
                                     className={styles.refresh}
                                     key={item.tabKey}
-                                    animated={false}
                                 >
                                     {
-                                        (orders || []).map(order => (
-                                            <div
-                                                className={classNames({
-                                                    [styles.order]:  true,
-                                                    [styles[order.status]]: true
-                                                })}
-                                                key={order.id}
-                                                onClick={() => this.payment(order)}
-                                            >
+                                        (orders || []).length < 1 ? <div style={{width: '100%', height: '100%'}} />
+                                            :
+                                            orders.map(order => (
                                                 <div
                                                     className={classNames({
-                                                        [styles.snapshot]:  true,
+                                                        [styles.order]:  true,
+                                                        [styles[order.status]]: true
                                                     })}
+                                                    key={order.id}
+                                                    onClick={() => this.payment(order)}
                                                 >
-                                                    <img src={order.snapshot && order.snapshot.icon} className={styles.orderIcon} />
-                                                    <div className={styles.orderInfo}>
-                                                        <div className={styles.orderName}>{order.snapshot && order.snapshot.name}</div>
-                                                        <div className={styles.ortherInfo}>
-                                                            <span className={styles.status}>
-                                                                {this.status[order.status][0] || ''}
-                                                            </span>
-                                                            <span className={styles.money}>
+                                                    <div
+                                                        className={classNames({
+                                                            [styles.snapshot]:  true,
+                                                        })}
+                                                    >
+                                                        <img src={order.snapshot && order.snapshot.icon} className={styles.orderIcon} />
+                                                        <div className={styles.orderInfo}>
+                                                            <div className={styles.orderName}>{order.snapshot && order.snapshot.name}</div>
+                                                            <div className={styles.ortherInfo}>
+                                                                <span className={styles.status}>
+                                                                    {this.status[order.status][0] || ''}
+                                                                </span>
+                                                                <span className={styles.money}>
                                             实付金额：<span style={{color: '#FF5038'}}>¥{Number(order.fee) / 100}</span>
-                                                            </span>
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className={styles.action}>
-                                                    {
-                                                        order.status === 'Grouping' && order.group && new Date(order.group.expireTime) - moment() >= 0 && (
-                                                            <div className={styles.time}>
+                                                    <div className={styles.action}>
+                                                        {
+                                                            order.status === 'Grouping' && order.group && new Date(order.group.expireTime) - moment() >= 0 && (
+                                                                <div className={styles.time}>
                                                                 拼团剩余时间: {<Countdown timeCount={(new Date(order.group.expireTime) - moment())} />}
-                                                            </div>
-                                                        )
-                                                    }
-                                                    {
-                                                        order.status === 'Created' && order.expireTime && new Date(order.expireTime) - moment() >= 0 && (
-                                                            <div className={styles.time}>
+                                                                </div>
+                                                            )
+                                                        }
+                                                        {
+                                                            order.status === 'Created' && order.expireTime && new Date(order.expireTime) - moment() >= 0 && (
+                                                                <div className={styles.time}>
                                                                 订单剩余时间: {<Countdown timeCount={(new Date(order.expireTime) - moment())} />}
-                                                            </div>
-                                                        )
-                                                    }
-                                                    {
-                                                        this.status[order.status][1] &&
-                                                        <Button type='primary' className={styles.buttonPri}>
-                                                            {this.status[order.status][1]}
-                                                        </Button>
-                                                    }
+                                                                </div>
+                                                            )
+                                                        }
+                                                        {
+                                                            this.status[order.status][1] &&
+                                                            <Button type='primary' className={styles.buttonPri}>
+                                                                {this.status[order.status][1]}
+                                                            </Button>
+                                                        }
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))
+                                            ))
                                     }
+
                                 </PullToRefresh>
                             );
                         })
