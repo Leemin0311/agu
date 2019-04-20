@@ -21,14 +21,14 @@ export default (url, option = {}) => {
         ...option.headers,
     };
 
-    let rst = null;
+    let rst = new Promise(resolve => resolve({ error: 'failed' }));
     try {
         rst = request(url, {
             ...option,
             headers,
-            credentials: "include"
+            credentials: 'include',
         });
-    } catch(e) {
+    } catch (e) {
         log(e);
     }
 

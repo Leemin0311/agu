@@ -3,89 +3,99 @@ import { getCourseDetail, getCoupon, getGroupDetail, getTips } from './service';
 
 export default {
     namespace: 'coursedetail',
-    state: {
-
-    },
+    state: {},
     reducers: {
         setData(state, { payload }) {
             return { ...state, ...payload };
         },
         clear() {
             return {};
-        }
+        },
     },
     effects: {
-        *getDetail({payload : { id }}, { put, call, select }) {
+        *getDetail(
+            {
+                payload: { id },
+            },
+            { put, call, select },
+        ) {
             log('get detail');
             const { user } = yield select(state => state.global);
             const { groupId, groupLeaderId } = yield select(state => state.coursedetail);
 
-            if(groupId && user.id !== groupLeaderId) {
+            try {
+                if (groupId && user.id !== groupLeaderId) {
+                    const rst = yield call(getGroupDetail, groupId, groupLeaderId);
+                    if (!rst.error) {
+                        const { user, group } = rst.data;
 
-                const rst = yield call(getGroupDetail, groupId, groupLeaderId);
-                if(!rst.error) {
-                    const { user, group } = rst.data;
+                        yield put({
+                            type: 'setData',
+                            payload: {
+                                groupLeader: user,
+                                groupDetail: group,
+                            },
+                        });
+                    }
+
+                    log({
+                        groupRst: rst,
+                    });
+                }
+
+                const rst = yield call(getCourseDetail, id);
+                if (!rst.error) {
+                    const coupon = yield call(getCoupon, id);
 
                     yield put({
                         type: 'setData',
                         payload: {
-                            groupLeader: user,
-                            groupDetail: group
-                        }
+                            ...rst.data,
+                            coupon: coupon.error ? null : coupon.data[0],
+                            couponList: coupon.data,
+                        },
                     });
                 }
-            }
 
-            const rst = yield call(getCourseDetail, id);
-            if(!rst.error) {
-                const coupon = yield call(getCoupon, id);
-
-                yield put({
-                    type: 'setData',
-                    payload: {
-                        ...rst.data,
-                        coupon: coupon.error ? null : coupon.data[0],
-                        couponList: coupon.data
-                    }
+                log({
+                    detailRst: rst,
                 });
+            } catch (e) {
+                log(e);
             }
-
-            log({
-                detailRst: rst
-            });
         },
         *getTips(action, { call, put }) {
             const rst = yield call(getTips);
-            if(!rst.error) {
+            if (!rst.error) {
                 const { tips } = rst.data;
 
                 yield put({
                     type: 'setData',
                     payload: {
-                        tips
-                    }
+                        tips,
+                    },
                 });
             }
-        }
+        },
     },
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
                 log({
                     pathname,
-                    query
+                    query,
                 });
 
-                if(pathname.startsWith('/classcenter/coursedetail')) {
+                if (pathname.startsWith('/classcenter/coursedetail')) {
                     dispatch({
                         type: 'setData',
                         payload: {
                             groupId: query.groupId,
-                            groupLeaderId: query.userId
-                        }
+                            groupLeaderId: query.userId,
+                        },
                     });
                     dispatch({
-                        type: 'getTips'
+                        type: 'getTips',
                     });
                 }
             });
