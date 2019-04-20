@@ -106,7 +106,9 @@ class Orders extends Component{
                 name: order.snapshot.name,
                 orderId: order.id,
                 couponList: rst.error ? [] : rst.data,
-                onOk: () => {this.fetchNewPage(order.type, 1);}
+                onOk: () => {
+                    router.push(`/classroom/classlist/${order.snapshot.courseId}`);
+                }
             });
         } else if(order.status === 'Finished') {
             if(!this.rendPoster){
