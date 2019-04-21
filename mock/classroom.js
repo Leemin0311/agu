@@ -42,7 +42,27 @@ export default delay({
                             seq: 1,
                             progress: 5012,
                             duration: 10000,
-                            purchased: true
+                            purchased: true,
+                            // order:
+                            //     {
+                            //         courseId :  'string' ,
+                            //         createTime :  "2019-04-21T10:36:20.231Z" ,
+                            //         expireTime :  "2019-04-21T10:36:20.231Z" ,
+                            //         fee : 0,
+                            //         group : {
+                            //             courseId :  "string" ,
+                            //             createTime :  "2019-04-21T10:36:20.231Z",
+                            //             expireTime :  "2019-04-21T10:36:20.231Z" ,
+                            //             id :  "string" ,
+                            //             members : [
+                            //                 {
+                            //                     avatar :  "string" ,
+                            //                     name :  "string" ,
+                            //                     userId :  "string"
+                            //                 }
+                            //             ]
+                            //         },
+                            //     }
                         },
                     ]
                 },

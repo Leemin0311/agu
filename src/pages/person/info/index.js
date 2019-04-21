@@ -62,6 +62,17 @@ class Info extends Component{
                 _this.setState({
                     icon: localId
                 });
+                if(wx.getLocalImgData){
+                    wx.getLocalImgData({
+                        localId: localId, // 图片的localID
+                        success: function (res) {
+                            let localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                            _this.setState({
+                                icon: localData
+                            });
+                        }
+                    });
+                }
                 wx.uploadImage({
                     localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
                     isShowProgressTips: 1, // 默认为1，显示进度提示

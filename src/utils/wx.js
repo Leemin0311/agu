@@ -12,7 +12,8 @@ export function configWxJs(data, onReadyCallback) {
             'updateAppMessageShareData',
             'updateTimelineShareData',
             'chooseImage',
-            'uploadImage'
+            'uploadImage',
+            'getLocalImgData'
         ], // 必填，需要使用的JS接口列表
     });
     wx.ready(function() {
