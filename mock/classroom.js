@@ -65,5 +65,23 @@ export default delay({
                 video: "https://v.aguzaojiao.com/assets/assess_intro.mp4"
             }
         });
+    },
+    'POST /api/course/lessons' : (req, res) => {
+        res.send({
+            data: [
+                {
+                    baseUsers : 0,
+                    courseId :  '' ,
+                    cover :  'https://v.aguzaojiao.com/assets/share1.png' ,
+                    duration : 0,
+                    id :  '123' ,
+                    name :  'dmwkmf' ,
+                    progress : 0,
+                    seq : 0,
+                    userCount : 10000000,
+                    video :  "https://v.aguzaojiao.com/assets/assess_intro.mp4"
+                }
+            ]
+        });
     }
 });

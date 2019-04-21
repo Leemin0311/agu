@@ -21,6 +21,13 @@ class ClassList extends Component{
                 id
             }
         });
+
+        props.dispatch({
+            type: 'classroom_list/getLessons',
+            payload: {
+                id
+            }
+        });
     }
 
     getCount = (count) => {

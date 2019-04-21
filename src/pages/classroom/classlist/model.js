@@ -1,4 +1,4 @@
-import { getCourseDetail, getLearn } from './service';
+import { getCourseDetail, getLearn, getLessons } from './service';
 
 export default {
     namespace: 'classroom_list',
@@ -37,6 +37,18 @@ export default {
                             url: rst.data.video,
                             id: rst.data.id
                         }
+                    }
+                });
+            }
+        },
+        *getLessons({payload: {id}}, {put, call}){
+            const rst = yield call(getLessons, id);
+
+            if(!rst.error) {
+                yield put({
+                    type: 'setData',
+                    payload: {
+                        lessons: rst.data
                     }
                 });
             }

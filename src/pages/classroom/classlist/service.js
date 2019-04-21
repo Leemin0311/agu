@@ -22,3 +22,13 @@ export function getLearn(id) {
         })
     });
 }
+
+export function getLessons(id) {
+    return request('/api/course/lessons', {
+        method: 'POST',
+        body: JSON.stringify({
+            courseId: id,
+            withProgress: true
+        })
+    });
+}
