@@ -30,6 +30,14 @@ class ClassList extends Component{
         });
     }
 
+    componentDidUpdate() {
+        const { isInitial } = this.props;
+
+        if(!isInitial) {
+            this.media.showVideo();
+        }
+    }
+
     getCount = (count) => {
         if(count >= 10000) {
             return `${Math.ceil(count / 1000) / 10}万人学习`;
@@ -60,6 +68,7 @@ class ClassList extends Component{
                     className={styles.img}
                     controls
                     key={playVideo.id}
+                    ref={media => this.media = media}
                 />
                 <div
                     style={{

@@ -19,7 +19,8 @@ export default {
                     type: 'setData',
                     payload: {
                         ...rst.data,
-                        playVideo: {...rst.data.headMedia[0], id: 'headmedia'} || {}
+                        playVideo: {...rst.data.headMedia[0], id: 'headmedia'} || {},
+                        isInitial: true
                     }
                 });
             }
@@ -36,7 +37,8 @@ export default {
                             thumbnail: rst.data.cover,
                             url: rst.data.video,
                             id: rst.data.id
-                        }
+                        },
+                        isInitial: false
                     }
                 });
             }

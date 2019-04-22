@@ -38,13 +38,14 @@ export default class Media extends React.Component {
             controls = true,
             showPlayIcon,
             playIconStyle,
+            autoPlay=true
         } = this.props;
         const { showVideo } = this.state;
 
         return showVideo ? (
             <video
                 className={className}
-                autoPlay
+                autoPlay={autoPlay}
                 playsInline
                 controls={controls}
                 ref={video => (this.video = video)}
