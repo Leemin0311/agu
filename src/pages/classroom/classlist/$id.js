@@ -106,6 +106,7 @@ class ClassList extends Component{
                     onPause={() => {
                         window.clearInterval(this.times);
                     }}
+                    onEnded={() => this.postLearnt(playVideo.id)}
                 />
                 <div
                     style={{
