@@ -92,7 +92,7 @@ class ClassList extends Component{
                         <div className={styles.contentItem}>
                             {
                                 (lessons || []).map((item, index) => (
-                                    <div className={styles.lessonItem} key={index} onClick={() => this.handlePlay(item.courseId)}>
+                                    <div className={styles.lessonItem} key={index} onClick={() => this.handlePlay(item.id)}>
                                         <div className={styles.content}>
                                             <Media
                                                 type='Image'

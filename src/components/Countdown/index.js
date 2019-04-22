@@ -23,7 +23,7 @@ export default class countdown extends React.Component {
     countdown = () => {
         const { timeCount } = this.state;
         const next = timeCount - 1000;
-        if(next >= 1000 ) {
+        if(next >= 0 ) {
             this.setState({
                 timeCount: next,
             });
