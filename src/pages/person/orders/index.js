@@ -3,13 +3,11 @@ import { Button, Icon, PullToRefresh, Tabs } from 'antd-mobile';
 import { connect } from 'dva';
 import router from 'umi/router';
 import get from 'lodash.get';
-
 import emptyPage from '@components/EmptyPage';
 import { renderShare, showPoster } from '@components/Poster';
 import pay from '@components/Pay';
 import Countdown from '@components/Countdown';
 import classNames from 'classnames';
-
 import moment from 'moment';
 import styles from './index.less';
 
@@ -208,7 +206,7 @@ class Orders extends Component {
                                                         {
                                                             <Countdown
                                                                 timeCount={
-                                                                    order.group.expireTime -
+                                                                    get(order, 'group.expireTime') -
                                                                     moment()
                                                                 }
                                                             />
