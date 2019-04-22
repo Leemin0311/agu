@@ -76,7 +76,7 @@ export default {
                         type: 'initialize',
                     });
 
-                    if(sessionStorage.render || !query.notShowCoupon) {
+                    if(sessionStorage.render || query.coupon !== 'hide') {
                         dispatch({
                             type: 'showCoupon'
                         });

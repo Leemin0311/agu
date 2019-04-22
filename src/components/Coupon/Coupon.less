@@ -24,6 +24,10 @@
         .course {
             padding-bottom: 0.24rem;
 
+            &:not(:first-child) {
+                padding-top: 0.24rem;
+            }
+
             &:not(:last-child) {
                 border-bottom: 0.02rem solid #e5e5e5;
             }
@@ -41,6 +45,7 @@
                 height: 1.4rem;
                 margin-left: 0.24rem;
                 vertical-align: top;
+                width: calc(100% - 1.64rem);
 
                 .name {
                     font-size: 0.26rem;

@@ -135,7 +135,7 @@ class Coupon extends Component{
                                                     type='primary'
                                                     className={styles.buttonPri}
                                                     onClick={() => {
-                                                        router.push('/classcenter?notShowCoupon=true');
+                                                        router.push('/classcenter?coupon=hide');
                                                     }}
                                                 >
                                                     去使用
