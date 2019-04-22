@@ -17,7 +17,7 @@ export default {
                 const rst = yield call(auth);
                 const { authUrl } = rst.data;
 
-                if (/MicroMessenger/.test(navigator.userAgent) && authUrl) {
+                if (authUrl) {
                     window.location.href = authUrl;
                 }
                 sessionStorage.authed = true;

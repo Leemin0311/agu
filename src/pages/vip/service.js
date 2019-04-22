@@ -20,7 +20,7 @@ export function getCoupon() {
     return request('/api/user/coupon/match', {
         method: 'post',
         body: JSON.stringify({
-            type: 'Course'
+            type: 'Member'
         })
     });
 }
