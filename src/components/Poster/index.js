@@ -136,7 +136,7 @@ export const renderShare = props => {
     ele.style.top = '100vh';
     document.body.appendChild(ele);
 
-    const { bgImage, onOk } = props;
+    const { bgImage, onOk, onFail } = props;
 
     let image = new Image();
     image.src = bgImage;
@@ -156,6 +156,11 @@ export const renderShare = props => {
             })
             .catch(e => {
                 console.info(e);
+                onFail && onFail();
             });
+    };
+
+    image.onerror = () => {
+        onFail && onFail();
     };
 };

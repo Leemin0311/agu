@@ -38,25 +38,6 @@ class ClassRoom extends Component{
     };
 
     getAction = (item) => {
-        if(item.order && item.order.group && item.order.group.expireTime) {
-            return (
-                <div className={styles.action}>
-                    <div className={styles.timeBlock}>
-                        <div className={styles.disc}>拼团仅剩</div>
-                        <div className={styles.time}>{<Countdown timeCount={(new Date(item.order.group.expireTime) - moment())} />}</div>
-                    </div>
-                    <Button
-                        type='primary'
-                        className={classNames(styles.buttonPri, styles.invitation)}
-                        onClick={() => {
-                            router.push(`/classcenter/coursedetail/${item.order.group.courseId}`);
-                        }}
-                    >
-                        邀请成团
-                    </Button>
-                </div>
-            );
-        }
         if (item.purchased) {
             return (
                 <div className={styles.action}>
@@ -80,6 +61,25 @@ class ClassRoom extends Component{
                         }}
                     >
                         继续学习
+                    </Button>
+                </div>
+            );
+        }
+        if(item.order && item.order.group && item.order.group.expireTime) {
+            return (
+                <div className={styles.action}>
+                    <div className={styles.timeBlock}>
+                        <div className={styles.disc}>拼团仅剩</div>
+                        <div className={styles.time}>{<Countdown timeCount={(new Date(item.order.group.expireTime) - moment())} />}</div>
+                    </div>
+                    <Button
+                        type='primary'
+                        className={classNames(styles.buttonPri, styles.invitation)}
+                        onClick={() => {
+                            router.push(`/classcenter/coursedetail/${item.order.group.courseId}`);
+                        }}
+                    >
+                        邀请成团
                     </Button>
                 </div>
             );

@@ -11,12 +11,29 @@ import request from '@utils/request';
 import styles from './Pay.less';
 
 class Pay extends React.Component {
-    state = { showCoupon: false, selected: null, visible: true };
-
     constructor(props) {
         super(props);
 
         this.hide = this.hide.bind(this);
+
+        const { couponList = [] } = props;
+        let selectedCoupon = null;
+
+        couponList.forEach(coupon => {
+            if (!selectedCoupon) {
+                selectedCoupon = coupon;
+            } else {
+                if (selectedCoupon.coupon.value < coupon.coupon.value) {
+                    selectedCoupon = coupon;
+                }
+            }
+        });
+
+        this.state = {
+            showCoupon: false,
+            selected: selectedCoupon ? selectedCoupon.id : null,
+            visible: true,
+        };
     }
 
     hide = () => {
@@ -67,7 +84,7 @@ class Pay extends React.Component {
         });
 
         log({
-            paymentParams: rst.data.paymentParams
+            paymentParams: rst.data.paymentParams,
         });
 
         if (!rst.error) {

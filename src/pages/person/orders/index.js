@@ -121,7 +121,8 @@ class Orders extends Component{
                     onOk: (dataUrl) => {
                         showPoster(dataUrl, false);
                         _this.rendPoster = false;
-                    }
+                    },
+                    onFail: () => _this.rendPoster = false
                 });
             }
 
