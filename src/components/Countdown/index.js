@@ -8,7 +8,7 @@ export default class countdown extends React.Component {
         super(props);
 
         this.state = {
-            timeCount: props.timeCount,
+            timeCount: props.timeCount || 0,
         };
     }
 
