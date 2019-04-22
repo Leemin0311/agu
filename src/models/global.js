@@ -13,9 +13,9 @@ export default {
     },
     effects: {
         *auth({ payload }, { call, put }) {
+            const rst = yield call(auth);
             sessionStorage.render = false;
             if (!sessionStorage.authed) {
-                const rst = yield call(auth);
                 const { authUrl } = rst.data;
 
                 if (authUrl) {
@@ -30,6 +30,12 @@ export default {
                 sessionStorage.render = true;
                 yield put({
                     type: 'getUser',
+                });
+                yield put({
+                    type: 'setData',
+                    payload: {
+                        shareH5: rst.data.shareH5
+                    }
                 });
             }
         },

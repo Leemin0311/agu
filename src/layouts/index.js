@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import DocumentTitle from 'react-document-title';
 import memoizeOne from 'memoize-one';
 import { connect } from 'dva';
@@ -10,7 +11,7 @@ import { jsConfig } from '../services/global';
 import styles from './index.less';
 
 @connect(({ global, loading }) => ({
-    user: global.user,
+    ...global,
     loading: loading.effects['global/getUser'] || loading.effects['global/auth'],
 }))
 class BasicLayout extends React.PureComponent {
@@ -19,16 +20,21 @@ class BasicLayout extends React.PureComponent {
         this.getPageTitle = memoizeOne(this.getPageTitle);
     }
 
+    componentDidMount() {
+        window.addEventListener('popstate', this.destroyAllModal);
+    }
+
     async componentDidUpdate() {
         if (sessionStorage.authed) {
             const rst = await jsConfig();
             if (!rst.error) {
                 configWxJs(rst.data, () => {
+                    const { shareH5: { shareDesc, shareImage, shareTitle }} = this.props;
                     configWxShare(
-                        '阿古早教',
-                        '快乐早教，阿古阿古！',
+                        shareTitle,
+                        shareDesc,
                         'https://course.aguzaojiao.com/classcenter',
-                        'https://v.aguzaojiao.com/course/logo.png',
+                        shareImage,
                     );
                 });
             }
@@ -39,6 +45,27 @@ class BasicLayout extends React.PureComponent {
         sessionStorage.render = false;
 
         log('layout unmount');
+        window.removeEventListener('popstate', this.destroyAllModal);
+    }
+
+    destroyAllModal = () => {
+        let ele = document.getElementById('pay');
+        if(ele) {
+            ReactDOM.unmountComponentAtNode(ele);
+            document.body.removeChild(ele);
+        }
+
+        ele = document.getElementById('poster');
+        if(ele) {
+            ReactDOM.unmountComponentAtNode(ele);
+            document.body.removeChild(ele);
+        }
+
+        ele = document.getElementById('modal');
+        if(ele) {
+            ReactDOM.unmountComponentAtNode(ele);
+            document.body.removeChild(ele);
+        }
     }
 
     getPageTitle = pathname => {

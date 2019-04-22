@@ -98,6 +98,11 @@ class ClassList extends Component{
                                                 type='Image'
                                                 url={item.cover}
                                                 className={styles.cover}
+                                                showPlayIcon
+                                                playIconStyle={{
+                                                    width: '0.5rem',
+                                                    height: '0.5rem'
+                                                }}
                                             />
                                             <div className={styles.info}>
                                                 <div className={styles.title}>{item.name}</div>

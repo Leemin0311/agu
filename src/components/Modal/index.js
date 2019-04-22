@@ -7,6 +7,7 @@ export const modal = props => {
     const { width, height, content, maskClosable, centered = true, bodyStyle } = props;
 
     const ele = document.createElement('div');
+    ele.id = 'modal';
     document.body.appendChild(ele);
 
     const destroy = () => {

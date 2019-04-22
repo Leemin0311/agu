@@ -18,30 +18,52 @@ export default class Media extends React.Component {
     };
 
     pause = () => {
-        if(this.video && this.video.played) {
+        if (this.video && this.video.played) {
             this.video.pause();
         }
-    }
+    };
 
     play = () => {
-        if(this.video && this.video.paused) {
+        if (this.video && this.video.paused) {
             this.video.play();
         }
-    }
+    };
 
     render() {
-        const { url, videoUrl, className, type, controls = true } = this.props;
+        const {
+            url,
+            videoUrl,
+            className,
+            type,
+            controls = true,
+            showPlayIcon,
+            playIconStyle,
+        } = this.props;
         const { showVideo } = this.state;
 
         return showVideo ? (
-            <video className={className} autoPlay playsInline controls={controls} ref={video => this.video = video}>
+            <video
+                className={className}
+                autoPlay
+                playsInline
+                controls={controls}
+                ref={video => (this.video = video)}
+            >
                 <source src={videoUrl} type="video/mp4" />
                 <track kind="captions" />
             </video>
         ) : (
             <div className={styles.container}>
                 <img className={className} src={url} alt="img" />
-                {type === 'Video' && <img src={play} alt="img" className={styles.play} onClick={this.showVideo} />}
+                {(type === 'Video' || showPlayIcon) && (
+                    <img
+                        src={play}
+                        alt="img"
+                        className={styles.play}
+                        onClick={this.showVideo}
+                        style={playIconStyle}
+                    />
+                )}
             </div>
         );
     }

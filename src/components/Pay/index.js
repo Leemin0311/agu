@@ -221,6 +221,7 @@ Pay.defaultProps = {
 
 const pay = props => {
     const ele = document.createElement('div');
+    ele.id = 'pay';
     document.body.appendChild(ele);
     let modal = null;
 

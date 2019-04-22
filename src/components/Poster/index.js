@@ -130,6 +130,7 @@ export const showPoster = (dataUrl, showHeader = true) => {
  */
 export const renderShare = props => {
     const ele = document.createElement('div');
+    ele.id = 'poster';
     ele.style.position = 'relative';
     ele.style.width = `${window.innerWidth}px`;
     ele.style.height = `${window.innerHeight}px`;
