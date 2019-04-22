@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'dva';
 import {Tabs} from 'antd-mobile';
+import request from "@utils/request";
 
 import Media from '@components/Media';
 
@@ -10,6 +11,9 @@ import styles from './index.less';
     ...classroom_list
 }))
 class ClassList extends Component{
+
+    times = null;
+
     constructor(props) {
         super(props);
 
@@ -39,6 +43,20 @@ class ClassList extends Component{
         }
     }
 
+    componentWillUnmount(){
+        window.clearInterval(this.times);
+    }
+
+    postLearnt = (id) => {
+        request('/api/course/learnt', {
+            method: 'POST',
+            body: JSON.stringify({
+                lessonId: id,
+                progress: this.media && this.media.video ? this.media.video.currentTime : 0
+            })
+        });
+    };
+
     getCount = (count) => {
         if(count >= 10000) {
             return `${Math.ceil(count / 1000) / 10}万人学习`;
@@ -58,6 +76,20 @@ class ClassList extends Component{
         });
     };
 
+    playing = (id) => {
+        if(id === 'headmedia'){
+            window.clearInterval(this.times);
+            return;
+        }
+
+        const _this = this;
+
+        if(this.times) window.clearInterval(this.times);
+        this.times = setInterval(function(){
+            _this.postLearnt(id);
+        },10000);
+    };
+
     render(){
         const {playVideo, detailMedia, lessons} = this.props;
         return (
@@ -70,6 +102,10 @@ class ClassList extends Component{
                     controls
                     key={playVideo.id}
                     ref={media => this.media = media}
+                    onPlay={() => this.playing(playVideo.id)}
+                    onPause={() => {
+                        window.clearInterval(this.times);
+                    }}
                 />
                 <div
                     style={{
