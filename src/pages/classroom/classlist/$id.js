@@ -35,6 +35,7 @@ class ClassList extends Component{
 
         if(!isInitial) {
             this.media.showVideo();
+            setTimeout(() => this.media.play(), 500);
         }
     }
 
