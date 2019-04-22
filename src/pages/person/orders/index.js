@@ -199,20 +199,19 @@ class Orders extends Component {
                                             </div>
                                         </div>
                                         <div className={styles.action}>
-                                            {order.status === 'Grouping' &&
-                                                order.group(
-                                                    <div className={styles.time}>
-                                                        拼团剩余时间:{' '}
-                                                        {
-                                                            <Countdown
-                                                                timeCount={
-                                                                    get(order, 'group.expireTime') -
-                                                                    moment()
-                                                                }
-                                                            />
-                                                        }
-                                                    </div>,
-                                                )}
+                                            {order.status === 'Grouping' && (
+                                                <div className={styles.time}>
+                                                    拼团剩余时间:{' '}
+                                                    {
+                                                        <Countdown
+                                                            timeCount={
+                                                                get(order, 'group.expireTime') -
+                                                                moment()
+                                                            }
+                                                        />
+                                                    }
+                                                </div>
+                                            )}
                                             {order.status === 'Created' && order.expireTime && (
                                                 <div className={styles.time}>
                                                     订单剩余时间:{' '}
