@@ -14,7 +14,7 @@ module.exports = {
         page: true,
     },
     rules: {
-        'jsx-a11y/alt-text': 0,
+        'jsx-a11y/alt-text': [0],
         'react/jsx-filename-extension': [1, { extensions: ['.js'] }],
         'react/jsx-wrap-multilines': 0,
         'react/no-array-index-key': 0,

@@ -1,3 +1,4 @@
+import router from 'umi/router';
 import { auth, getUser } from '../services/global';
 
 export default {
@@ -54,6 +55,10 @@ export default {
     subscriptions: {
         setup({ history, dispatch }) {
             return history.listen(({ pathname, search, query }) => {
+                if(pathname === '/' ) {
+                    router.push('/classcenter');
+                }
+
                 dispatch({
                     type: 'auth',
                 });
