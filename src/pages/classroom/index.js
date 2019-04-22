@@ -57,7 +57,7 @@ class ClassRoom extends Component{
                         type='primary'
                         className={classNames(styles.buttonPri, styles.study)}
                         onClick={() => {
-                            router.push(`/classroom/classlist/${item.order.snapshot.courseId}`);
+                            router.push(`/classroom/classlist/${item.id}`);
                         }}
                     >
                         继续学习
