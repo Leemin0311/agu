@@ -92,7 +92,8 @@ class Orders extends Component {
         const { nickName, avatarUrl } = get(this.props, 'user.wechatUser');
 
         if (order.status === 'Grouping' || order.status === 'GroupFailed') {
-            if (get(order, 'snapshot.courseId')) router.push(`/classcenter/coursedetail/${order.courseId}`);
+            if (get(order, 'snapshot.courseId'))
+                router.push(`/classcenter/coursedetail/${get(order, 'snapshot.courseId')}`);
         } else if (order.status === 'Created') {
             pay({
                 type: order.type,

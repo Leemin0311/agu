@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { List, InputItem, Picker, DatePicker } from 'antd-mobile';
+import { List, InputItem, Picker, DatePicker, Button } from 'antd-mobile';
 import moment from 'moment';
 import router from 'umi/router';
 import defaultAvatar from '@assets/defaultAvatar.svg';
@@ -179,12 +179,13 @@ class Info extends Component{
                     </List>
                 </div>
 
-                <div
+                <Button
                     className={styles.save}
                     onClick={this.handleSubmit}
+                    disabled={!name || !sexValue || !birth || !icon}
                 >
                     保存
-                </div>
+                </Button>
             </div>
         );
     }
