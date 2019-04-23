@@ -17,6 +17,16 @@ export default {
         setData(state, { payload }) {
             return { ...state, ...payload };
         },
+        reset(state, { payload }) {
+            return {
+                categories: [],
+                tips: [],
+                selectedCate: null,
+                currentPage: 1,
+                courses: [],
+                tabChanged: true
+            };
+        }
     },
     effects: {
         *getCourseList({ payload = { append: false } }, { select, call, put, take }) {

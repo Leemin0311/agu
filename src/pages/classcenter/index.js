@@ -24,6 +24,14 @@ class ClassCenter extends React.Component {
         });
     }
 
+    componentWillUnmount() {
+        const { dispatch } = this.props;
+
+        dispatch({
+            type: 'classcenter/reset',
+        });
+    }
+
     changeTab = ({ tabKey }) => {
         const { dispatch } = this.props;
 
