@@ -20,7 +20,7 @@ export default {
         ) {
             const { groupId, groupLeaderId } = yield select(state => state.coursedetail);
 
-            if (groupId) {
+            if (groupLeaderId) {
                 const rst = yield call(getGroupDetail, groupId, groupLeaderId);
 
                 if (!rst.error) {
