@@ -10,7 +10,7 @@ import styles from './index.less';
 }))
 class Vip extends React.Component {
     payment = () => {
-        const { price, couponList } = this.props;
+        const { price, couponList, dispatch } = this.props;
 
         pay({
             type: 'Member',
@@ -19,6 +19,9 @@ class Vip extends React.Component {
             couponList,
             onOk: () => {
                 router.push('/classroom');
+                dispatch({
+                    type: 'global/getUser'
+                });
             }
         });
     };
