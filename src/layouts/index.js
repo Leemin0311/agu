@@ -22,6 +22,9 @@ class BasicLayout extends React.PureComponent {
 
     componentDidMount() {
         window.addEventListener('popstate', this.destroyAllModal);
+        window.addEventListener('click', (e) => {
+            log({ target: e.target});
+        });
     }
 
     async componentDidUpdate() {
