@@ -55,6 +55,7 @@ export default class Media extends React.Component {
                 onPlay={onPlay}
                 onPause={onPause}
                 onEnded={onEnded}
+                preload="auto"
             >
                 <source src={videoUrl} type="video/mp4" />
                 <track kind="captions" />
