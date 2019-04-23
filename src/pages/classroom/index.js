@@ -37,6 +37,16 @@ class ClassRoom extends Component{
         });
     };
 
+    turnTo = (item) => {
+        if (item.purchased) {
+            router.push(`/classroom/classlist/${item.id}`);
+        }
+
+        if(item.order && item.order.group && item.order.group.expireTime){
+            router.push(`/classcenter/coursedetail/${item.order.group.courseId}`);
+        }
+    };
+
     getAction = (item) => {
         if (item.purchased) {
             return (
@@ -56,9 +66,6 @@ class ClassRoom extends Component{
                     <Button
                         type='primary'
                         className={classNames(styles.buttonPri, styles.study)}
-                        onClick={() => {
-                            router.push(`/classroom/classlist/${item.id}`);
-                        }}
                     >
                         继续学习
                     </Button>
@@ -75,9 +82,6 @@ class ClassRoom extends Component{
                     <Button
                         type='primary'
                         className={classNames(styles.buttonPri, styles.invitation)}
-                        onClick={() => {
-                            router.push(`/classcenter/coursedetail/${item.order.group.courseId}`);
-                        }}
                     >
                         邀请成团
                     </Button>
@@ -102,7 +106,11 @@ class ClassRoom extends Component{
                         >
                             {
                                 courses.map((item, index) => (
-                                    <div className={styles.course} key={index}>
+                                    <div
+                                        className={styles.course}
+                                        key={index}
+                                        onClick={() => this.turnTo(item)}
+                                    >
                                         <img src={item.icon} className={styles.img} style={{width: '2.32rem', height: '2.32rem'}} />
                                         <div className={styles.info}>
                                             <div className={styles.title}>
