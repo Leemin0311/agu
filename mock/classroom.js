@@ -82,7 +82,7 @@ export default delay({
                 progress: 0,
                 seq: 0,
                 userCount: 0,
-                video: "https://v.aguzaojiao.com/assets/assess_intro.mp4"
+                video: "https://drm.aguzaojiao.com/test-course/demo.mp4?r=5caf6247c796e928a70999b4?Expires=1556024116&OSSAccessKeyId=LTAI1U5ObTSYEBRj&Signature=oUVb4QgBS4T8E1GjSroUu3bMB0I%3D"
             }
         });
     },

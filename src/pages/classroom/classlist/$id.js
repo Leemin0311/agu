@@ -1,20 +1,15 @@
 import React, {Component} from 'react';
 import { connect } from 'dva';
 import {Tabs} from 'antd-mobile';
-import request from "@utils/request";
+
 import Media from '@components/Media';
-import { configWxShare } from '@utils/wx';
 
 import styles from './index.less';
 
-@connect(({classroom_list, loading}) => ({
-    ...classroom_list,
-    loading: loading.effects['classroom_list/getDetail'],
+@connect(({classroom_list}) => ({
+    ...classroom_list
 }))
 class ClassList extends Component{
-
-    times = null;
-
     constructor(props) {
         super(props);
 
@@ -36,36 +31,13 @@ class ClassList extends Component{
     }
 
     componentDidUpdate() {
-        const { isInitial, shareH5, loading, id } = this.props;
-        if(!loading && id) {
-            if(!isInitial) {
-                this.media.showVideo();
-                setTimeout(() => this.media.play(), 500);
-            }
+        const { isInitial } = this.props;
 
-            const { shareTitle, shareDesc, shareUrl, shareImage } = shareH5 || {};
-            configWxShare(
-                shareTitle || '课程详情',
-                shareDesc || '我觉得这个课程超棒，推荐给你！',
-                shareUrl || 'www.aguzaojiao.com/classcenter',
-                shareImage,
-            );
+        if(!isInitial) {
+            this.media.showVideo();
+            setTimeout(() => this.media.play(), 500);
         }
     }
-
-    componentWillUnmount(){
-        window.clearInterval(this.times);
-    }
-
-    postLearnt = (id) => {
-        request('/api/course/learnt', {
-            method: 'POST',
-            body: JSON.stringify({
-                lessonId: id,
-                progress: this.media && this.media.video ? this.media.video.currentTime : 0
-            })
-        });
-    };
 
     getCount = (count) => {
         if(count >= 10000) {
@@ -86,24 +58,8 @@ class ClassList extends Component{
         });
     };
 
-    playing = (id) => {
-        if(id === 'headmedia'){
-            window.clearInterval(this.times);
-            return;
-        }
-
-        const _this = this;
-
-        if(this.times) window.clearInterval(this.times);
-        this.times = setInterval(function(){
-            _this.postLearnt(id);
-        },10000);
-    };
-
     render(){
-        const {playVideo, detailMedia, lessons, loading, id} = this.props;
-        if (loading || !id) return null;
-
+        const {playVideo, detailMedia, lessons} = this.props;
         return (
             <div className={styles.container}>
                 <Media
@@ -114,11 +70,6 @@ class ClassList extends Component{
                     controls
                     key={playVideo.id}
                     ref={media => this.media = media}
-                    onPlay={() => this.playing(playVideo.id)}
-                    onPause={() => {
-                        window.clearInterval(this.times);
-                    }}
-                    onEnded={() => this.postLearnt(playVideo.id)}
                 />
                 <div
                     style={{
