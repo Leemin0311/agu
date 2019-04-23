@@ -53,7 +53,9 @@ const renderShareDom = ({
                 </span>
             </div>
             <img
-                src={`https://course.aguzaojiao.com/api/rdt/qrcode?text=${encodeURIComponent(callbackUrl)}`}
+                src={`https://course.aguzaojiao.com/api/rdt/qrcode?text=${encodeURIComponent(
+                    callbackUrl,
+                )}`}
                 alt=""
                 style={{
                     position: 'absolute',
@@ -71,9 +73,25 @@ const renderShareDom = ({
 export const showPoster = (dataUrl, showHeader = true) => {
     const opers = modal({
         width: '4.98rem',
-        height: '8.86rem',
+        height: showHeader ? '10.62rem' : '8.86rem',
         content: (
-            <div style={{ width: '4.98rem', height: '8.86rem', position: 'relative' }}>
+            <div style={{ width: '4.98rem', height: showHeader ? '10.62rem' : '8.86rem', position: 'relative' }}>
+                {showHeader && (
+                    <div
+                        style={{
+                            fontSize: '0.34rem',
+                            color: '#fff',
+                            lineHeight: '0.48rem',
+                            textAlign: 'center',
+                            whiteSpace: 'nowrap',
+                            marginBottom: '0.32rem'
+                        }}
+                    >
+                        <div>96%的家长转发后拼团成功</div>
+                        <div>长按保存图片</div>
+                        <div>转发给好友即可拼团</div>
+                    </div>
+                )}
                 <Icon
                     type="cross-circle"
                     color="#FFF"
@@ -81,7 +99,7 @@ export const showPoster = (dataUrl, showHeader = true) => {
                     style={{
                         position: 'absolute',
                         left: '4.98rem',
-                        top: '-0.4rem',
+                        top: showHeader ? '1.3rem' : '-0.4rem',
                     }}
                     onClick={() => opers.destroy()}
                 />
@@ -91,25 +109,6 @@ export const showPoster = (dataUrl, showHeader = true) => {
                     style={{ width: '4.98rem', height: '8.86rem' }}
                     onTouchStart={e => e.preventDefault()}
                 />
-                {showHeader && (
-                    <div
-                        style={{
-                            position: 'absolute',
-                            left: '50%',
-                            bottom: '9.28rem',
-                            fontSize: '0.34rem',
-                            color: '#fff',
-                            lineHeight: '0.48rem',
-                            textAlign: 'center',
-                            whiteSpace: 'nowrap',
-                            transform: 'translateX(-50%)',
-                        }}
-                    >
-                        <div>96%的家长转发后拼团成功</div>
-                        <div>长按保存图片</div>
-                        <div>转发给好友即可拼团</div>
-                    </div>
-                )}
             </div>
         ),
         maskClosable: true,
