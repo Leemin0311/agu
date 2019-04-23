@@ -96,7 +96,7 @@ class ClassList extends Component{
     };
 
     render(){
-        const {playVideo, detailMedia, lessons, loading, id, isInitial} = this.props;
+        const {playVideo, detailMedia, lessons, loading, id} = this.props;
         if (loading || !id) return null;
 
         return (
@@ -104,7 +104,7 @@ class ClassList extends Component{
                 <Media
                     type={playVideo.type}
                     url={playVideo.thumbnail || playVideo.url}
-                    videoUrl={'https://v.aguzaojiao.com/assets/assess_intro.mp4' || playVideo.url}
+                    videoUrl={playVideo.url}
                     className={styles.img}
                     controls
                     key={playVideo.id}
@@ -114,7 +114,6 @@ class ClassList extends Component{
                         window.clearInterval(this.times);
                     }}
                     onEnded={() => this.postLearnt(playVideo.id)}
-                    showVideo={!isInitial}
                 />
                 <div
                     style={{
