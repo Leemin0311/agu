@@ -290,7 +290,7 @@ class CourseDetail extends React.Component {
      * 拼团详情，自己发起
      */
     renderGroup = () => {
-        const { order, user, purchased, groupDetail } = this.props;
+        const { order, user, purchased, groupDetail={} } = this.props;
 
         if (
             purchased ||
