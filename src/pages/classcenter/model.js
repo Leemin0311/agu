@@ -1,5 +1,4 @@
 import showCoupon from '@components/Coupon';
-import { log } from '@utils/tools';
 import get from 'lodash.get';
 import { getCourseList, getCategories, getCouponList } from './service';
 
@@ -32,9 +31,7 @@ export default {
         *getCourseList({ payload = { append: false } }, { select, call, put, take }) {
             const { selectedCate, currentPage, courses } = yield select(state => state.classcenter);
 
-            log('get course list');
             const rst = yield call(getCourseList, selectedCate, currentPage);
-            log('course list: ' + JSON.stringify(rst));
 
             if (!rst.error) {
                 const { content, total } = rst.data;

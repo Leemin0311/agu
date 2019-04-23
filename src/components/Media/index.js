@@ -11,6 +11,14 @@ export default class Media extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.play();
+    }
+
+    componentDidUpdate() {
+        this.play();
+    }
+
     showVideo = () => {
         const { type } = this.props;
 
