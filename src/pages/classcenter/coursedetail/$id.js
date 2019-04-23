@@ -167,7 +167,7 @@ class CourseDetail extends React.Component {
         const {
             groupId,
             groupLeader = {},
-            groupDetail,
+            groupDetail: { members = [], expireTime = +moment() } = {},
             shareH5 = {},
             price,
             groupPrice,
@@ -176,11 +176,16 @@ class CourseDetail extends React.Component {
             purchased,
         } = this.props;
 
-        if (purchased || !groupId || groupLeaderId === user.id) return null;
+        if (
+            purchased ||
+            !groupId ||
+            groupLeaderId === user.id ||
+            members.find(mem => mem.userId === user.id)
+        )
+            return null;
 
         const { avatarUrl, nickName } = groupLeader.wechatUser || {};
         const { shareImage, shareTitle } = shareH5;
-        const { members, expireTime } = groupDetail;
 
         const memberToRender = [...members];
         for (let i = 0; i + members.length < 3; i++) {
