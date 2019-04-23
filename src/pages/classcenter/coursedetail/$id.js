@@ -176,50 +176,24 @@ class CourseDetail extends React.Component {
             purchased,
         } = this.props;
 
-        if (
-            purchased ||
-            !groupId ||
-            groupLeaderId === user.id ||
-            members.find(mem => mem.userId === user.id)
-        )
+        if (!groupLeaderId || groupLeaderId === user.id) {
             return null;
+        }
 
         const { avatarUrl, nickName } = groupLeader.wechatUser || {};
         const { shareImage, shareTitle } = shareH5;
 
-        const memberToRender = [...members];
-        for (let i = 0; i + members.length < 3; i++) {
-            memberToRender.push({
-                avatar: defaultAvatar,
-            });
-        }
+        const joinGroup = () => {
+            if (purchased || !groupId || members.find(mem => mem.userId === user.id)) return null;
 
-        return (
-            <div className={styles.joinGroup}>
-                <div className={styles.groupTitle}>
-                    <img src={avatarUrl} alt="" className={styles.groupLeaderAvatar} />
-                    <span style={{ float: 'left', marginLeft: '0.2rem' }}>
-                        <div className={styles.groupLeaderName}>{nickName}</div>
-                        <div className={styles.groupLeaderTip}>我发现一个超棒的课程！推荐给你</div>
-                    </span>
-                </div>
-                <div className={styles.groupBrief}>
-                    <img src={shareImage} alt="" className={styles.groupShareImage} />
-                    <span
-                        style={{
-                            float: 'left',
-                            marginLeft: '0.2rem',
-                            width: 'calc(100% - 1.8rem)',
-                            lineHeight: '0.42rem',
-                        }}
-                    >
-                        <div className={styles.groupShareTitle}>{shareTitle}</div>
-                        <div className={styles.groupOldPrice}>¥{formatPrice(price)}</div>
-                        <div className={styles.groupNewPrice}>
-                            三人团 ¥{formatPrice(groupPrice)}
-                        </div>
-                    </span>
-                </div>
+            const memberToRender = [...members];
+            for (let i = 0; i + members.length < 3; i++) {
+                memberToRender.push({
+                    avatar: defaultAvatar,
+                });
+            }
+
+            return (
                 <div className={styles.group} ref={group => (this.group = group)}>
                     <div className={styles.groupTip}>
                         仅差<span style={{ color: '#FF4E00' }}>{3 - members.length}</span>
@@ -282,6 +256,36 @@ class CourseDetail extends React.Component {
                         一键参团
                     </div>
                 </div>
+            );
+        };
+
+        return (
+            <div className={styles.joinGroup}>
+                <div className={styles.groupTitle}>
+                    <img src={avatarUrl} alt="" className={styles.groupLeaderAvatar} />
+                    <span style={{ float: 'left', marginLeft: '0.2rem' }}>
+                        <div className={styles.groupLeaderName}>{nickName}</div>
+                        <div className={styles.groupLeaderTip}>我发现一个超棒的课程！推荐给你</div>
+                    </span>
+                </div>
+                <div className={styles.groupBrief}>
+                    <img src={shareImage} alt="" className={styles.groupShareImage} />
+                    <span
+                        style={{
+                            float: 'left',
+                            marginLeft: '0.2rem',
+                            width: 'calc(100% - 1.8rem)',
+                            lineHeight: '0.42rem',
+                        }}
+                    >
+                        <div className={styles.groupShareTitle}>{shareTitle}</div>
+                        <div className={styles.groupOldPrice}>¥{formatPrice(price)}</div>
+                        <div className={styles.groupNewPrice}>
+                            三人团 ¥{formatPrice(groupPrice)}
+                        </div>
+                    </span>
+                </div>
+                {joinGroup()}
             </div>
         );
     };
@@ -295,7 +299,8 @@ class CourseDetail extends React.Component {
         if (
             purchased ||
             (!order || !order.group) ||
-            (groupDetail && !(get(groupDetail, 'members') || []).find(mem => mem.userId === user.id))
+            (groupDetail &&
+                !(get(groupDetail, 'members') || []).find(mem => mem.userId === user.id))
         )
             return null;
 
