@@ -36,8 +36,11 @@ class ClassList extends Component{
     }
 
     componentDidUpdate() {
-        const { shareH5, loading, id } = this.props;
+        const { shareH5, loading, id, isInitial } = this.props;
         if(!loading && id) {
+            if(!isInitial) {
+                this.media.autoPlay();
+            }
             const { shareTitle, shareDesc, shareUrl, shareImage } = shareH5 || {};
             configWxShare(
                 shareTitle || '课程详情',

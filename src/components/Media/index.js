@@ -41,6 +41,14 @@ export default class Media extends React.Component {
         }
     };
 
+    autoPlay = () => {
+        const { showVideo } = this.state;
+
+        if(showVideo || !this.playBtn) return;
+
+        this.playBtn.click();
+    }
+
     render() {
         const {
             url,
@@ -82,6 +90,7 @@ export default class Media extends React.Component {
                         className={styles.play}
                         onClick={this.showVideo}
                         style={playIconStyle}
+                        ref={playBtn => this.playBtn = playBtn}
                     />
                 )}
             </div>
