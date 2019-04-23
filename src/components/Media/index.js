@@ -38,7 +38,10 @@ export default class Media extends React.Component {
             controls = true,
             showPlayIcon,
             playIconStyle,
-            autoPlay=true
+            autoPlay=true,
+            onPlay,
+            onPause,
+            onEnded
         } = this.props;
         const { showVideo } = this.state;
 
@@ -49,17 +52,20 @@ export default class Media extends React.Component {
                 playsInline
                 controls={controls}
                 ref={video => (this.video = video)}
+                onPlay={onPlay}
+                onPause={onPause}
+                onEnded={onEnded}
             >
                 <source src={videoUrl} type="video/mp4" />
                 <track kind="captions" />
             </video>
         ) : (
             <div className={styles.container}>
-                <img className={className} src={url} alt="" />
+                <img className={className} src={url} alt="img" />
                 {(type === 'Video' || showPlayIcon) && (
                     <img
                         src={play}
-                        alt=""
+                        alt="img"
                         className={styles.play}
                         onClick={this.showVideo}
                         style={playIconStyle}
