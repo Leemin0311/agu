@@ -194,68 +194,87 @@ class CourseDetail extends React.Component {
             }
 
             return (
-                <div className={styles.group} ref={group => (this.group = group)}>
-                    <div className={styles.groupTip}>
-                        仅差<span style={{ color: '#FF4E00' }}>{3 - members.length}</span>
-                        人，拼团成功
-                    </div>
-                    <div className={styles.avatars}>
-                        {memberToRender.map(({ avatar, name, userId }, index) => (
-                            <div className={styles.member} key={index}>
-                                <img
-                                    className={styles.memberAvatar}
-                                    style={{
-                                        borderColor: name ? '#429EFD' : '#D3D3D3',
-                                    }}
-                                    alt=""
-                                    src={avatar || defaultAvatar}
-                                />
-                                {userId === groupLeader.id && (
-                                    <div className={styles.memberName}>团长</div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                    <div className={styles.lessTime}>
+                <>
+                    <div className={styles.groupBrief}>
+                        <img src={shareImage} alt="" className={styles.groupShareImage} />
                         <span
                             style={{
-                                fontSize: '0.32rem',
-                                fontFamily: 'PingFangSC-Medium',
-                                fontWeight: 500,
-                                color: 'rgba(255,80,56,1)',
+                                float: 'left',
+                                marginLeft: '0.2rem',
+                                width: 'calc(100% - 1.8rem)',
+                                lineHeight: '0.42rem',
                             }}
                         >
-                            <Countdown timeCount={+moment(expireTime) - +moment()} />
+                            <div className={styles.groupShareTitle}>{shareTitle}</div>
+                            <div className={styles.groupOldPrice}>¥{formatPrice(price)}</div>
+                            <div className={styles.groupNewPrice}>
+                                三人团 ¥{formatPrice(groupPrice)}
+                            </div>
                         </span>
-                        后结束
                     </div>
-                    <div
-                        className={styles.inviteBtn}
-                        onClick={() => this.payment('CourseGroup', groupPrice)}
-                        style={{
-                            background:
-                                'linear-gradient(90deg,rgba(255,138,28,1) 0%,rgba(247,77,57,1) 100%)',
-                            color: '#fff',
-                        }}
-                    >
-                        一键参团
+                    <div className={styles.group} ref={group => (this.group = group)}>
+                        <div className={styles.groupTip}>
+                            仅差<span style={{ color: '#FF4E00' }}>{3 - members.length}</span>
+                            人，拼团成功
+                        </div>
+                        <div className={styles.avatars}>
+                            {memberToRender.map(({ avatar, name, userId }, index) => (
+                                <div className={styles.member} key={index}>
+                                    <img
+                                        className={styles.memberAvatar}
+                                        style={{
+                                            borderColor: name ? '#429EFD' : '#D3D3D3',
+                                        }}
+                                        alt=""
+                                        src={avatar || defaultAvatar}
+                                    />
+                                    {userId === groupLeader.id && (
+                                        <div className={styles.memberName}>团长</div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                        <div className={styles.lessTime}>
+                            <span
+                                style={{
+                                    fontSize: '0.32rem',
+                                    fontFamily: 'PingFangSC-Medium',
+                                    fontWeight: 500,
+                                    color: 'rgba(255,80,56,1)',
+                                }}
+                            >
+                                <Countdown timeCount={+moment(expireTime) - +moment()} />
+                            </span>
+                            后结束
+                        </div>
+                        <div
+                            className={styles.inviteBtn}
+                            onClick={() => this.payment('CourseGroup', groupPrice)}
+                            style={{
+                                background:
+                                    'linear-gradient(90deg,rgba(255,138,28,1) 0%,rgba(247,77,57,1) 100%)',
+                                color: '#fff',
+                            }}
+                        >
+                            一键参团
+                        </div>
+                        <div
+                            ref={btn => (this.inviteBtn = btn)}
+                            className={styles.inviteBtn}
+                            onClick={() => this.payment('CourseGroup', groupPrice)}
+                            style={{
+                                background:
+                                    'linear-gradient(90deg,rgba(255,138,28,1) 0%,rgba(247,77,57,1) 100%)',
+                                color: '#fff',
+                                position: 'fixed',
+                                display: 'none',
+                                transform: 'translateX(-50%)',
+                            }}
+                        >
+                            一键参团
+                        </div>
                     </div>
-                    <div
-                        ref={btn => (this.inviteBtn = btn)}
-                        className={styles.inviteBtn}
-                        onClick={() => this.payment('CourseGroup', groupPrice)}
-                        style={{
-                            background:
-                                'linear-gradient(90deg,rgba(255,138,28,1) 0%,rgba(247,77,57,1) 100%)',
-                            color: '#fff',
-                            position: 'fixed',
-                            display: 'none',
-                            transform: 'translateX(-50%)',
-                        }}
-                    >
-                        一键参团
-                    </div>
-                </div>
+                </>
             );
         };
 
@@ -266,23 +285,6 @@ class CourseDetail extends React.Component {
                     <span style={{ float: 'left', marginLeft: '0.2rem' }}>
                         <div className={styles.groupLeaderName}>{nickName}</div>
                         <div className={styles.groupLeaderTip}>我发现一个超棒的课程！推荐给你</div>
-                    </span>
-                </div>
-                <div className={styles.groupBrief}>
-                    <img src={shareImage} alt="" className={styles.groupShareImage} />
-                    <span
-                        style={{
-                            float: 'left',
-                            marginLeft: '0.2rem',
-                            width: 'calc(100% - 1.8rem)',
-                            lineHeight: '0.42rem',
-                        }}
-                    >
-                        <div className={styles.groupShareTitle}>{shareTitle}</div>
-                        <div className={styles.groupOldPrice}>¥{formatPrice(price)}</div>
-                        <div className={styles.groupNewPrice}>
-                            三人团 ¥{formatPrice(groupPrice)}
-                        </div>
                     </span>
                 </div>
                 {joinGroup()}
@@ -316,7 +318,11 @@ class CourseDetail extends React.Component {
         }
 
         return (
-            <div className={styles.group} ref={group => (this.group = group)} style={{paddingBottom: '0.28rem'}}>
+            <div
+                className={styles.group}
+                ref={group => (this.group = group)}
+                style={{ paddingBottom: '0.28rem' }}
+            >
                 <div className={styles.groupTip}>
                     仅差<span style={{ color: '#FF4E00' }}>{3 - members.length}</span>人，拼团成功
                 </div>
