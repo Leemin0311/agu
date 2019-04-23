@@ -103,7 +103,7 @@ class ClassRoom extends Component{
                             {
                                 courses.map((item, index) => (
                                     <div className={styles.course} key={index}>
-                                        <img src={item.coverImage} className={styles.img} />
+                                        <img src={item.icon} className={styles.img} style={{width: '2.32rem', height: '2.32rem'}} />
                                         <div className={styles.info}>
                                             <div className={styles.title}>
                                                 {item.name}
