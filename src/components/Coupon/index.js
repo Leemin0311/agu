@@ -5,6 +5,14 @@ import { modal } from '../Modal';
 import styles from './Coupon.less';
 
 class Coupon extends React.Component {
+    componentDidMount() {
+        const { position } = this.props;
+
+        if(position === 'classcenter') {
+            sessionStorage.showCoupon = true;
+        }
+    }
+
     close = () => {
         const { close } = this.props;
 
@@ -58,12 +66,13 @@ class Coupon extends React.Component {
     }
 }
 
-const showCoupon = props => {
+const showCoupon = (props, position) => {
+    if(sessionStorage.showCoupon) return;
     const opers = modal({
         width: '5.74rem',
         height: '8.8rem',
         maskClosable: false,
-        content: <Coupon {...props} close={() => opers.destroy()} />,
+        content: <Coupon {...props} position={position} close={() => opers.destroy()} />,
     });
 };
 

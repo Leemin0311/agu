@@ -54,7 +54,7 @@ export default {
                 const coupon = get(rst, 'data.content').find(cou => cou.coupon.type === 'Course');
 
                 if(coupon) {
-                    showCoupon(coupon);
+                    showCoupon(coupon, 'classcenter');
                 }
             }
         },
