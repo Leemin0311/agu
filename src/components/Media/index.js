@@ -26,7 +26,7 @@ export default class Media extends React.Component {
 
     play = () => {
         log({
-            video: this.video,
+            video: this.video ? 'hasvalue': 'null',
             paused: this.video ? this.video.paused : 'undefined'
         });
 
