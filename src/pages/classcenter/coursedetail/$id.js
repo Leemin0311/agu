@@ -290,12 +290,12 @@ class CourseDetail extends React.Component {
      * 拼团详情，自己发起
      */
     renderGroup = () => {
-        const { order, user, purchased, groupDetail={} } = this.props;
+        const { order, user, purchased, groupDetail } = this.props;
 
         if (
             purchased ||
-            ((!order || !order.group || groupDetail) &&
-                !(groupDetail.members || []).find(mem => mem.userId === user.id))
+            (!order || !order.group) ||
+            (groupDetail && !(get(groupDetail, 'members') || []).find(mem => mem.userId === user.id))
         )
             return null;
 
