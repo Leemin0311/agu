@@ -61,11 +61,11 @@ export default class Media extends React.Component {
             </video>
         ) : (
             <div className={styles.container}>
-                <img className={className} src={url} alt="img" />
+                <img className={className} src={url} alt="" />
                 {(type === 'Video' || showPlayIcon) && (
                     <img
                         src={play}
-                        alt="img"
+                        alt=""
                         className={styles.play}
                         onClick={this.showVideo}
                         style={playIconStyle}
