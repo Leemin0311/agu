@@ -18,7 +18,7 @@ class Classes extends Component{
         return (
             <div className={styles.container}>
                 {
-                    classImage ?  <img src={classImage} className={styles.img} /> : ''
+                    classImage ?  <img src={classImage} className={styles.img} onTouchStart={e => e.preventDefault()} /> : ''
                 }
             </div>
         );
