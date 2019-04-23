@@ -23,7 +23,7 @@ class BasicLayout extends React.PureComponent {
     componentDidMount() {
         window.addEventListener('popstate', this.destroyAllModal);
         window.addEventListener('click', (e) => {
-            log({ target: e.target});
+            log({ target: e.target.className});
         });
     }
 
@@ -32,12 +32,12 @@ class BasicLayout extends React.PureComponent {
             const rst = await jsConfig();
             if (!rst.error) {
                 configWxJs(rst.data, () => {
-                    const { shareH5: { shareDesc, shareImage, shareTitle }} = this.props;
+                    const { shareH5: { shareDesc, shareImage, shareTitle } = {}} = this.props;
                     configWxShare(
-                        shareTitle,
-                        shareDesc,
+                        shareTitle || '阿古早教',
+                        shareDesc || '快乐早教，阿古阿古！',
                         'https://course.aguzaojiao.com/classcenter',
-                        shareImage,
+                        shareImage || 'https://v.aguzaojiao.com/course/logo.png',
                     );
                 });
             }
