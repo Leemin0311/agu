@@ -104,7 +104,7 @@ class ClassList extends Component{
                 <Media
                     type={playVideo.type}
                     url={playVideo.thumbnail || playVideo.url}
-                    videoUrl={playVideo.url}
+                    videoUrl={'https://v.aguzaojiao.com/assets/assess_intro.mp4' || playVideo.url}
                     className={styles.img}
                     controls
                     key={playVideo.id}
