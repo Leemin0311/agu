@@ -1,12 +1,15 @@
 import React from 'react';
 import play from '@assets/play.svg';
-import { log } from '@utils/tools';
 import styles from './Media.less';
 
 export default class Media extends React.Component {
-    state = {
-        showVideo: false,
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showVideo: props.showVideo,
+        };
+    }
 
     showVideo = () => {
         const { type } = this.props;
@@ -25,15 +28,8 @@ export default class Media extends React.Component {
     };
 
     play = () => {
-        log({
-            video: this.video ? 'hasvalue': 'null',
-            paused: this.video ? this.video.paused : 'undefined'
-        });
-
         if (this.video && this.video.paused) {
             this.video.play();
-
-            log('played');
         }
     };
 

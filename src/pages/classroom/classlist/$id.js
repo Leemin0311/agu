@@ -36,13 +36,8 @@ class ClassList extends Component{
     }
 
     componentDidUpdate() {
-        const { isInitial, shareH5, loading, id } = this.props;
+        const { shareH5, loading, id } = this.props;
         if(!loading && id) {
-            if(!isInitial) {
-                this.media.showVideo();
-                setTimeout(() => this.media.play(), 500);
-            }
-
             const { shareTitle, shareDesc, shareUrl, shareImage } = shareH5 || {};
             configWxShare(
                 shareTitle || '课程详情',
@@ -101,7 +96,7 @@ class ClassList extends Component{
     };
 
     render(){
-        const {playVideo, detailMedia, lessons, loading, id} = this.props;
+        const {playVideo, detailMedia, lessons, loading, id, isInitial} = this.props;
         if (loading || !id) return null;
 
         return (
@@ -119,6 +114,7 @@ class ClassList extends Component{
                         window.clearInterval(this.times);
                     }}
                     onEnded={() => this.postLearnt(playVideo.id)}
+                    showVideo={!isInitial}
                 />
                 <div
                     style={{
