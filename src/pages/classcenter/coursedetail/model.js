@@ -1,4 +1,3 @@
-import { log } from '@utils/tools';
 import { getCourseDetail, getCoupon, getGroupDetail, getTips } from './service';
 
 export default {
@@ -37,9 +36,7 @@ export default {
                 }
             }
 
-            log('get course detail');
             const rst = yield call(getCourseDetail, id);
-            log('course detail rst: ' + JSON.stringify(rst));
 
             if (!rst.error) {
                 const coupon = yield call(getCoupon, id);
