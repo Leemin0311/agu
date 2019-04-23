@@ -316,7 +316,7 @@ class CourseDetail extends React.Component {
         }
 
         return (
-            <div className={styles.group} ref={group => (this.group = group)}>
+            <div className={styles.group} ref={group => (this.group = group)} style={{paddingBottom: '0.28rem'}}>
                 <div className={styles.groupTip}>
                     仅差<span style={{ color: '#FF4E00' }}>{3 - members.length}</span>人，拼团成功
                 </div>
