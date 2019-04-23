@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import { connect } from 'dva';
 import {Tabs} from 'antd-mobile';
 import request from "@utils/request";
-
 import Media from '@components/Media';
+import { configWxShare } from '@utils/wx';
 
 import styles from './index.less';
 
-@connect(({classroom_list}) => ({
-    ...classroom_list
+@connect(({classroom_list, loading}) => ({
+    ...classroom_list,
+    loading: loading.effects['classroom_list/getDetail'],
 }))
 class ClassList extends Component{
 
@@ -35,11 +36,20 @@ class ClassList extends Component{
     }
 
     componentDidUpdate() {
-        const { isInitial } = this.props;
+        const { isInitial, shareH5, loading, id } = this.props;
+        if(!loading && id) {
+            if(!isInitial) {
+                this.media.showVideo();
+                setTimeout(() => this.media.play(), 500);
+            }
 
-        if(!isInitial) {
-            this.media.showVideo();
-            setTimeout(() => this.media.play(), 500);
+            const { shareTitle, shareDesc, shareUrl, shareImage } = shareH5 || {};
+            configWxShare(
+                shareTitle || '课程详情',
+                shareDesc || '我觉得这个课程超棒，推荐给你！',
+                shareUrl || 'www.aguzaojiao.com/classcenter',
+                shareImage,
+            );
         }
     }
 
@@ -91,7 +101,9 @@ class ClassList extends Component{
     };
 
     render(){
-        const {playVideo, detailMedia, lessons} = this.props;
+        const {playVideo, detailMedia, lessons, loading, id} = this.props;
+        if (loading || !id) return null;
+
         return (
             <div className={styles.container}>
                 <Media
