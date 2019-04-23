@@ -197,14 +197,14 @@ class CourseDetail extends React.Component {
         return (
             <div className={styles.joinGroup}>
                 <div className={styles.groupTitle}>
-                    <img src={avatarUrl} alt="img" className={styles.groupLeaderAvatar} />
+                    <img src={avatarUrl} alt="" className={styles.groupLeaderAvatar} />
                     <span style={{ float: 'left', marginLeft: '0.2rem' }}>
                         <div className={styles.groupLeaderName}>{nickName}</div>
                         <div className={styles.groupLeaderTip}>我发现一个超棒的课程！推荐给你</div>
                     </span>
                 </div>
                 <div className={styles.groupBrief}>
-                    <img src={shareImage} alt="img" className={styles.groupShareImage} />
+                    <img src={shareImage} alt="" className={styles.groupShareImage} />
                     <span
                         style={{
                             float: 'left',
@@ -233,7 +233,7 @@ class CourseDetail extends React.Component {
                                     style={{
                                         borderColor: name ? '#429EFD' : '#D3D3D3',
                                     }}
-                                    alt="img"
+                                    alt=""
                                     src={avatar || defaultAvatar}
                                 />
                                 {userId === groupLeader.id && (
@@ -329,7 +329,7 @@ class CourseDetail extends React.Component {
                                 style={{
                                     borderColor: name ? '#429EFD' : '#D3D3D3',
                                 }}
-                                alt="img"
+                                alt=""
                                 src={avatar || defaultAvatar}
                             />
                             {index === 0 && <div className={styles.memberName}>团长</div>}
@@ -645,7 +645,7 @@ class CourseDetail extends React.Component {
                 >
                     <img
                         src={arrow}
-                        alt="img"
+                        alt=""
                         style={{
                             position: 'absolute',
                             top: '-1.45rem',
@@ -692,7 +692,7 @@ class CourseDetail extends React.Component {
                     <img
                         src={backTop}
                         className={styles.backTop}
-                        alt="img"
+                        alt=""
                         ref={backTop => (this.backTop = backTop)}
                         onClick={this.backToTop}
                     />

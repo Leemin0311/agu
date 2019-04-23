@@ -15,7 +15,7 @@ const renderShareDom = ({
         <>
             <img
                 src={bgImage}
-                alt="img"
+                alt=""
                 style={{
                     position: 'absolute',
                     top: 0,
@@ -28,7 +28,7 @@ const renderShareDom = ({
             <div style={{ position: 'absolute', top: '0.22rem', left: '0.32rem', zIndex: 1 }}>
                 <img
                     src={avatarUrl}
-                    alt="img"
+                    alt=""
                     style={{
                         width: '0.56rem',
                         height: '0.56rem',
@@ -54,7 +54,7 @@ const renderShareDom = ({
             </div>
             <img
                 src={`https://course.aguzaojiao.com/api/rdt/qrcode?text=${encodeURIComponent(callbackUrl)}`}
-                alt="img"
+                alt=""
                 style={{
                     position: 'absolute',
                     right: '0.32rem',
@@ -87,7 +87,7 @@ export const showPoster = (dataUrl, showHeader = true) => {
                 />
                 <img
                     src={dataUrl}
-                    alt="img"
+                    alt=""
                     style={{ width: '4.98rem', height: '8.86rem' }}
                     onTouchStart={e => e.preventDefault()}
                 />
@@ -147,7 +147,7 @@ export const renderShare = props => {
         html2canvas(ele, {
             useCORS: true,
             logging: false,
-            proxy: 'https://www.aguzaojiao.com/api/rdt/img',
+            proxy: 'https://course.aguzaojiao.com/api/rdt/img',
         })
             .then(canvas => {
                 const dataUrl = canvas.toDataURL('image/png');

@@ -133,7 +133,7 @@ class Pay extends React.Component {
                     </div>
                     <div className={styles.item}>
                         <span style={{ float: 'left' }}>
-                            <img src={prod} alt="img" className={styles.icon} />
+                            <img src={prod} alt="" className={styles.icon} />
                             <span className={styles.text}>商品名</span>
                         </span>
                         <span className={styles.rightText}>{name}</span>
@@ -142,7 +142,7 @@ class Pay extends React.Component {
                         <div className={styles.item}>
                             <div onClick={this.toggleCoupon} style={{ height: '0.48rem' }}>
                                 <span style={{ float: 'left' }}>
-                                    <img src={couponIcon} alt="img" className={styles.icon} />
+                                    <img src={couponIcon} alt="" className={styles.icon} />
                                     <span className={styles.text}>优惠券抵扣</span>
                                 </span>
                                 <span className={styles.rightText}>
@@ -198,7 +198,7 @@ class Pay extends React.Component {
                     )}
                     <div className={styles.item}>
                         <span style={{ float: 'left' }}>
-                            <img src={priceIcon} alt="img" className={styles.icon} />
+                            <img src={priceIcon} alt="" className={styles.icon} />
                             <span className={styles.text}>支付总额</span>
                         </span>
                         <span className={classNames(styles.rightText, styles.priceText)}>

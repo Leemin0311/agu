@@ -43,7 +43,7 @@ class Coupon extends React.Component {
                 <div className={styles.content}>
                     {courses.map(({ id, name, icon }) => (
                         <div className={styles.course} key={id}>
-                            <img src={icon} alt="img" className={styles.icon} />
+                            <img src={icon} alt="" className={styles.icon} />
                             <span className={styles.detail}>
                                 <div className={styles.name}>{name}</div>
                                 <div className={styles.btn} onClick={() => this.junpToCource(id)}>
