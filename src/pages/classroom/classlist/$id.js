@@ -130,7 +130,7 @@ class ClassList extends Component{
                             { title: '课程详情', tabKey: 'detail' },
                             { title: '课程目录', tabKey: 'outline' },
                         ]}
-                        initialPage={0}
+                        initialPage={1}
                         animated={false}
                         useOnPan
                         onTabClick={this.changeTab}
