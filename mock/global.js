@@ -1,6 +1,7 @@
 import { delay } from 'roadhog-api-doc';
 import axios from 'axios';
 import fs from 'fs';
+import moment from 'moment';
 
 export default delay({
     'POST /api/config/h5': (req, res) => {
@@ -102,7 +103,7 @@ export default delay({
         });
 
         try {
-            fs.appendFile('/opt/agu-fe/agu/log/log.txt', JSON.stringify(req.body) + '\n\n', 'utf8', function(err){
+            fs.appendFile('/opt/agu-fe/agu/log/log.txt', moment() + ' ' + JSON.stringify(req.body) + '\n\n', 'utf8', function(err){
                 if(err) console.info(err);
             });
         } catch(e) {

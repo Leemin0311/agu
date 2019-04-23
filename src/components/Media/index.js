@@ -1,5 +1,6 @@
 import React from 'react';
 import play from '@assets/play.svg';
+import { log } from '@utils/tools';
 import styles from './Media.less';
 
 export default class Media extends React.Component {
@@ -24,8 +25,15 @@ export default class Media extends React.Component {
     };
 
     play = () => {
+        log({
+            video: this.video,
+            paused: this.video ? this.video.paused : 'undefined'
+        });
+
         if (this.video && this.video.paused) {
             this.video.play();
+
+            log('played');
         }
     };
 
